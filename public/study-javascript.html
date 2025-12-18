@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Recursos de Estudio | CertiWebs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            color: #333;
+        }
+        header {
+            background: #003366;
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #ff6b35;
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .btn-login, .btn-register {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .btn-login:hover {
+            background: #fff;
+            color: #003366;
+        }
+        .btn-register {
+            background: #ff6b35;
+            border-color: #ff6b35;
+            color: #fff;
+        }
+        .btn-register:hover {
+            background: #e55a2b;
+            border-color: #e55a2b;
+        }
+        .hero {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            color: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .section {
+            margin-bottom: 3rem;
+        }
+        .section h2 {
+            color: #003366;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            border-bottom: 3px solid #ff6b35;
+            padding-bottom: 0.5rem;
+        }
+        .section h3 {
+            color: #003366;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .content-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #ff6b35;
+        }
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .resource-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #ff6b35;
+        }
+        .resource-card h4 {
+            color: #003366;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .resource-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .resource-link {
+            display: inline-block;
+            background: #003366;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+        }
+        .resource-link:hover {
+            background: #ff6b35;
+            transform: translateY(-2px);
+        }
+        .topic-list {
+            list-style: none;
+            padding: 0;
+        }
+        .topic-list li {
+            background: #f8f9fa;
+            margin-bottom: 0.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #003366;
+            transition: all 0.3s ease;
+        }
+        .topic-list li:hover {
+            border-left-color: #ff6b35;
+            transform: translateX(4px);
+        }
+        .btn-exam {
+            background: #ff6b35;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-exam:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+            color: #fff;
+        }
+        footer {
+            background: #003366;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">CertiWebs</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="study-html-css.html">HTML & CSS</a></li>
+                <li><a href="study-javascript.html">JavaScript</a></li>
+                <li><a href="study-networks.html">Redes</a></li>
+                <li><a href="study-systems.html">Sistemas</a></li>
+                <li><a href="exams.html">Exámenes</a></li>
+                <li><a href="contact.html">Contacto</a></li>
+                <li class="auth-buttons">
+                    <button class="btn-login" onclick="showLoginModal()">Iniciar sesión</button>
+                    <button class="btn-register" onclick="showRegisterModal()">Registrarse</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>JavaScript - Guía de Estudio</h1>
+            <p>Aprende programación web dinámica con JavaScript, el lenguaje más popular del mundo</p>
+        </section>
+
+        <div class="container">
+            <section class="section">
+                <h2>¿Qué es JavaScript?</h2>
+                <div class="content-card">
+                    <p><strong>JavaScript</strong> es un lenguaje de programación interpretado que permite crear contenido web dinámico e interactivo. Es el lenguaje principal del lado del cliente en los navegadores web y también se puede usar en el servidor con Node.js.</p>
+                    
+                    <h3>Características Principales</h3>
+                    <ul class="topic-list">
+                        <li><strong>Lenguaje interpretado:</strong> No necesita compilación</li>
+                        <li><strong>Dinámico:</strong> Tipos de datos flexibles</li>
+                        <li><strong>Multi-paradigma:</strong> Soporta POO, funcional y procedural</li>
+                        <li><strong>Event-driven:</strong> Responde a eventos del usuario</li>
+                        <li><strong>Asincrónico:</strong> Manejo de operaciones no bloqueantes</li>
+                        <li><strong>Universal:</strong> Corre en navegadores y servidores</li>
+                    </ul>
+
+                    <h3>Ejemplo de Código</h3>
+                    <div class="code-example">
+// Variables y constantes<br>
+const nombre = "Juan";<br>
+let edad = 25;<br>
+var esEstudiante = true;<br>
+<br>
+// Funciones<br>
+function saludar(nombre) {<br>
+&nbsp;&nbsp;return `¡Hola, ${nombre}!`;<br>
+}<br>
+<br>
+// Arrow function<br>
+const sumar = (a, b) => a + b;<br>
+<br>
+// Objetos<br>
+const persona = {<br>
+&nbsp;&nbsp;nombre: "Ana",<br>
+&nbsp;&nbsp;edad: 30,<br>
+&nbsp;&nbsp;saludar() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return `Hola, soy ${this.nombre}`;<br>
+&nbsp;&nbsp;}<br>
+};<br>
+<br>
+// Arrays<br>
+const numeros = [1, 2, 3, 4, 5];<br>
+const duplicados = numeros.map(n => n * 2);<br>
+<br>
+// DOM manipulation<br>
+document.getElementById('boton').addEventListener('click', () => {<br>
+&nbsp;&nbsp;alert('¡Botón clickeado!');<br>
+});
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Conceptos Fundamentales</h2>
+                <div class="content-card">
+                    <h3>Variables y Tipos de Datos</h3>
+                    <ul class="topic-list">
+                        <li><strong>var, let, const:</strong> Diferencias y uso</li>
+                        <li><strong>Tipos primitivos:</strong> string, number, boolean, null, undefined</li>
+                        <li><strong>Tipos complejos:</strong> object, array, function</li>
+                        <li><strong>Type coercion:</strong> Conversión automática de tipos</li>
+                        <li><strong>Template literals:</strong> Strings con interpolación</li>
+                    </ul>
+
+                    <h3>Funciones</h3>
+                    <ul class="topic-list">
+                        <li><strong>Declaración de funciones:</strong> function nombre() {}</li>
+                        <li><strong>Arrow functions:</strong> () => {}</li>
+                        <li><strong>Parámetros y argumentos:</strong> Parámetros por defecto</li>
+                        <li><strong>Scope:</strong> Ámbito de variables</li>
+                        <li><strong>Closures:</strong> Funciones que recuerdan su entorno</li>
+                    </ul>
+
+                    <h3>Objetos y Arrays</h3>
+                    <ul class="topic-list">
+                        <li><strong>Notación literal:</strong> {} y []</li>
+                        <li><strong>Propiedades y métodos:</strong> Acceso y modificación</li>
+                        <li><strong>Métodos de array:</strong> map, filter, reduce, forEach</li>
+                        <li><strong>Destructuring:</strong> Extracción de valores</li>
+                        <li><strong>Spread operator:</strong> ... para copiar y combinar</li>
+                    </ul>
+
+                    <h3>Control de Flujo</h3>
+                    <ul class="topic-list">
+                        <li><strong>Condicionales:</strong> if/else, switch</li>
+                        <li><strong>Bucles:</strong> for, while, do-while</li>
+                        <li><strong>Iteración:</strong> for...in, for...of</li>
+                        <li><strong>Operadores ternarios:</strong> condición ? valor1 : valor2</li>
+                        <li><strong>Short-circuit:</strong> && y || para condicionales</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>JavaScript Moderno (ES6+)</h2>
+                <div class="content-card">
+                    <h3>ES6 y Características Modernas</h3>
+                    <ul class="topic-list">
+                        <li><strong>let y const:</strong> Block scope y variables inmutables</li>
+                        <li><strong>Arrow functions:</strong> Sintaxis concisa y this léxico</li>
+                        <li><strong>Template literals:</strong> Strings con expresiones</li>
+                        <li><strong>Destructuring:</strong> Extracción de datos</li>
+                        <li><strong>Default parameters:</strong> Parámetros por defecto</li>
+                        <li><strong>Rest/Spread:</strong> Operadores ...</li>
+                        <li><strong>Classes:</strong> Sintaxis para POO</li>
+                        <li><strong>Promises:</strong> Manejo de asincronía</li>
+                        <li><strong>Async/await:</strong> Azúcar sintáctico para promises</li>
+                        <li><strong>Modules:</strong> import/export</li>
+                    </ul>
+
+                    <h3>Ejemplo de Código Moderno</h3>
+                    <div class="code-example">
+// Async/Await<br>
+const obtenerDatos = async () => {<br>
+&nbsp;&nbsp;try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const response = await fetch('/api/datos');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;const datos = await response.json();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return datos;<br>
+&nbsp;&nbsp;} catch (error) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.error('Error:', error);<br>
+&nbsp;&nbsp;}<br>
+};<br>
+<br>
+// Classes<br>
+class Usuario {<br>
+&nbsp;&nbsp;constructor(nombre, email) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;this.nombre = nombre;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;this.email = email;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<br>
+&nbsp;&nbsp;saludar() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return `Hola, soy ${this.nombre}`;<br>
+&nbsp;&nbsp;}<br>
+}<br>
+<br>
+// Destructuring<br>
+const { nombre, email } = usuario;<br>
+const [primero, segundo] = array;<br>
+<br>
+// Spread operator<br>
+const nuevoArray = [...array1, ...array2];<br>
+const nuevoObjeto = { ...obj1, ...obj2 };
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>DOM Manipulación</h2>
+                <div class="content-card">
+                    <h3>Selección de Elementos</h3>
+                    <ul class="topic-list">
+                        <li><strong>getElementById:</strong> Selección por ID</li>
+                        <li><strong>querySelector/querySelectorAll:</strong> Selectores CSS</li>
+                        <li><strong>getElementsByClassName/TagName:</strong> Selección múltiple</li>
+                        <li><strong>Traversal:</strong> Navegación por el DOM</li>
+                    </ul>
+
+                    <h3>Manipulación de Elementos</h3>
+                    <ul class="topic-list">
+                        <li><strong>textContent/innerHTML:</strong> Modificar contenido</li>
+                        <li><strong>style:</strong> Modificar estilos CSS</li>
+                        <li><strong>classList:</strong> Añadir/eliminar clases</li>
+                        <li><strong>setAttribute/getAttribute:</strong> Atributos</li>
+                        <li><strong>createElement/appendChild:</strong> Crear elementos</li>
+                    </ul>
+
+                    <h3>Eventos</h3>
+                    <ul class="topic-list">
+                        <li><strong>addEventListener:</strong> Manejo de eventos</li>
+                        <li><strong>Event types:</strong> click, submit, keydown, mouseover</li>
+                        <li><strong>Event object:</strong> Información del evento</li>
+                        <li><strong>Event propagation:</strong> Bubbling y capturing</li>
+                        <li><strong>Event delegation:</strong> Delegación de eventos</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Recursos de Estudio</h2>
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <h4>Documentación Oficial</h4>
+                        <p>Recursos oficiales y referencias completas</p>
+                        <div class="resource-links">
+                            <a href="https://developer.mozilla.org/es/docs/Web/JavaScript" target="_blank" class="resource-link">MDN JavaScript</a>
+                            <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference" target="_blank" class="resource-link">Referencia MDN</a>
+                            <a href="https://tc39.es/ecma262/" target="_blank" class="resource-link">ECMAScript Specification</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Tutoriales Interactivos</h4>
+                        <p>Aprende practicando con ejercicios</p>
+                        <div class="resource-links">
+                            <a href="https://javascript.info/" target="_blank" class="resource-link">JavaScript.info</a>
+                            <a href="https://www.freecodecamp.org/espanol/learn/javascript-algorithms-and-data-structures/" target="_blank" class="resource-link">freeCodeCamp JS</a>
+                            <a href="https://www.codewars.com/" target="_blank" class="resource-link">Codewars - Challenges</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Cursos en Video</h4>
+                        <p>Aprende con tutoriales en español</p>
+                        <div class="resource-links">
+                            <a href="https://www.youtube.com/playlist?list=PLEtcGQaTksvvByU1d2pQbV_9w4xX5Zb3" target="_blank" class="resource-link">Curso JS YouTube</a>
+                            <a href="https://www.youtube.com/c/midudev" target="_blank" class="resource-link">miduDev - YouTube</a>
+                            <a href="https://www.youtube.com/c/pildorasinformaticas" target="_blank" class="resource-link">Píldoras Informáticas</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Ejercicios Prácticos</h4>
+                        <p>Practica lo aprendido con proyectos</p>
+                        <div class="resource-links">
+                            <a href="https://www.theodinproject.com/" target="_blank" class="resource-link">The Odin Project</a>
+                            <a href="https://github.com/florinpop17/app-ideas" target="_blank" class="resource-link">App Ideas</a>
+                            <a href="https://javascript30.com/" target="_blank" class="resource-link">JavaScript30</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Herramientas y Frameworks</h4>
+                        <p>Recursos para desarrollo profesional</p>
+                        <div class="resource-links">
+                            <a href="https://nodejs.org/" target="_blank" class="resource-link">Node.js</a>
+                            <a href="https://reactjs.org/" target="_blank" class="resource-link">React</a>
+                            <a href="https://vuejs.org/" target="_blank" class="resource-link">Vue.js</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Comunidad y Soporte</h4>
+                        <p>Únete a comunidades de desarrolladores</p>
+                        <div class="resource-links">
+                            <a href="https://stackoverflow.com/questions/tagged/javascript" target="_blank" class="resource-link">Stack Overflow JS</a>
+                            <a href="https://www.reddit.com/r/learnjavascript/" target="_blank" class="resource-link">r/learnjavascript</a>
+                            <a href="https://discord.com/" target="_blank" class="resource-link">Discord - JS Servers</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Plan de Estudio Recomendado</h2>
+                <div class="content-card">
+                    <h3>Fase 1: Fundamentos (2-3 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Sintaxis básica y estructura</li>
+                        <li>Variables y tipos de datos</li>
+                        <li>Operadores y expresiones</li>
+                        <li>Control de flujo</li>
+                        <li>Funciones básicas</li>
+                    </ul>
+
+                    <h3>Fase 2: Estructuras de Datos (2-3 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Arrays y métodos de array</li>
+                        <li>Objetos y propiedades</li>
+                        <li>Manipulación de strings</li>
+                        <li>JSON y parseo de datos</li>
+                        <li>Algoritmos básicos</li>
+                    </ul>
+
+                    <h3>Fase 3: DOM y Eventos (2-3 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Selección de elementos</li>
+                        <li>Manipulación del DOM</li>
+                        <li>Manejo de eventos</li>
+                        <li>Formularios y validación</li>
+                        <li>Animaciones básicas</li>
+                    </ul>
+
+                    <h3>Fase 4: JavaScript Moderno (3-4 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>ES6+ features</li>
+                        <li>Promises y async/await</li>
+                        <li>Fetch API y AJAX</li>
+                        <li>Modules y organización de código</li>
+                        <li>Debugging y herramientas</li>
+                    </ul>
+
+                    <h3>Fase 5: Proyectos Prácticos (4-6 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Calculadora interactiva</li>
+                        <li>Todo list app</li>
+                        <li>Weather app con API</li>
+                        <li>Juego simple en browser</li>
+                        <li>Portfolio personal interactivo</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section text-center">
+                <h2>¡Listo para evaluar tus conocimientos?</h2>
+                <p>Una vez que hayas estudiado los recursos anteriores, es hora de poner a prueba lo aprendido.</p>
+                <a href="exams.html" class="btn-exam">Rendir Examen de JavaScript</a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+        </div>
+    </footer>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h3>Iniciar Sesión</h3>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Usuario" required>
+                <input type="password" id="login-password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar sesión</button>
+            </form>
+            <p class="login-msg"></p>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h3>Registrarse</h3>
+            <form id="register-form">
+                <input type="text" id="register-username" placeholder="Nuevo usuario" required>
+                <input type="email" id="register-email" placeholder="Email" required>
+                <input type="password" id="register-password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <p class="register-msg"></p>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function showRegisterModal() {
+            document.getElementById('registerModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

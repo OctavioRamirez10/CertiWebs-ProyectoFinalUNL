@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin - CertiWebs</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background: #f4f6fb;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+    }
+    header {
+      background: #3949ab;
+      color: #fff;
+      padding: 0.5rem 0 0.5rem 0;
+      box-shadow: 0 2px 8px rgba(57,73,171,0.08);
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-left: 2rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin-right: 2rem;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: #ffb300;
+    }
+    .section {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 2px 16px rgba(57,73,171,0.07);
+      padding: 2rem;
+    }
+    .box {
+      background: #e3eafc;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(57,73,171,0.06);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+    input[type=password] {
+      padding: 8px;
+      width: 300px;
+      border-radius: 8px;
+      border: 1px solid #bfc8e6;
+    }
+    button {
+      padding: 8px 12px;
+      margin-left: 8px;
+      background: #3949ab;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #ffb300;
+    }
+    footer {
+      background: #3949ab;
+      color: #fff;
+      text-align: center;
+      padding: 1.5rem 0 2.5rem 0;
+      margin-top: 3rem;
+      border-radius: 32px 32px 0 0;
+      position: relative;
+    }
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0 0 0;
+    }
+    .footer-social img {
+      width: 40px;
+      height: 40px;
+      filter: drop-shadow(0 2px 6px #3949ab33);
+      transition: transform 0.2s;
+    }
+    .footer-social img:hover {
+      transform: scale(1.15);
+    }
+  </style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:20px;background:#f7f9fc}
+    .box{background:#fff;padding:16px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+    input[type=password]{padding:8px;width:300px}
+    button{padding:8px 12px;margin-left:8px}
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">CertiWebs</div>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="exams.html">Exámenes</a></li>
+        <li><a href="contact.html">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="section">
+    <h1>Panel admin - CertiWebs</h1>
+    <div class="box">
+      <div>
+        <label>Clave admin: <input id="adminKey" type="password" placeholder="Introduce clave admin"></label>
+        <button id="btnLogin">Entrar</button>
+        <span id="status"></span>
+      </div>
+      <div style="margin-top:16px">
+        <button id="loadContacts" disabled>Listar contactos</button>
+        <button id="loadCerts" disabled>Listar certificados</button>
+      </div>
+      <div id="output" style="margin-top:16px"></div>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/octaaviorami/" target="_blank" aria-label="Instagram">
+        <img src="instagram.png" alt="Instagram" />
+      </a>
+      <a href="https://www.youtube.com/@octavioramirez7743" target="_blank" aria-label="YouTube">
+        <img src="youtube.png" alt="YouTube" />
+      </a>
+      <a href="https://wa.me/543424324206?text=Hola%20Octavio%2C%20te%20contacto%20desde%20CertiWebs"
+        target="_blank" aria-label="WhatsApp">
+        <img src="whatsapp.png" alt="WhatsApp" />
+      </a>
+    </div>
+    <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+  </footer>
+  <script src="main.js"></script>
+</body>
+</html>
+<style>
+body {
+  background: linear-gradient(135deg, #e3eafc 0%, #f4f6fb 100%);
+  min-height: 100vh;
+}
+header {
+  background: linear-gradient(90deg, #3949ab 60%, #ffb300 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(57,73,171,0.10);
+  padding-bottom: 0.5rem;
+  border-radius: 0 0 32px 32px;
+}
+.logo {
+  font-size: 2.2rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-left: 2rem;
+  color: #fff;
+  text-shadow: 0 2px 8px #3949ab44;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin-right: 2rem;
+}
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+.nav-links a:hover {
+  color: #ffd54f;
+}
+.section {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 2px 16px rgba(57,73,171,0.07);
+  padding: 2rem;
+}
+.box {
+  background: #e3eafc;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(57,73,171,0.06);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+input[type=password] {
+  padding: 8px;
+  width: 300px;
+  border-radius: 8px;
+  border: 1px solid #bfc8e6;
+}
+button {
+  padding: 8px 12px;
+  margin-left: 8px;
+  background: linear-gradient(90deg, #3949ab 60%, #ffb300 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #ffb300;
+}
+footer {
+  background: linear-gradient(90deg, #3949ab 60%, #ffb300 100%);
+  color: #fff;
+  text-align: center;
+  padding: 2.5rem 0 2.5rem 0;
+  margin-top: 3rem;
+  border-radius: 32px 32px 0 0;
+  position: relative;
+}
+.footer-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+.footer-social img {
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 2px 8px #3949ab44);
+  transition: transform 0.2s;
+}
+.footer-social img:hover {
+  transform: scale(1.18);
+}
+</style>

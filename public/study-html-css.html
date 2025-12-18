@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML & CSS - Recursos de Estudio | CertiWebs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            color: #333;
+        }
+        header {
+            background: #003366;
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #ff6b35;
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .btn-login, .btn-register {
+            background: transparent;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .btn-login:hover {
+            background: #fff;
+            color: #003366;
+        }
+        .btn-register {
+            background: #ff6b35;
+            border-color: #ff6b35;
+            color: #fff;
+        }
+        .btn-register:hover {
+            background: #e55a2b;
+            border-color: #e55a2b;
+        }
+        .hero {
+            background: linear-gradient(135deg, #003366 0%, #004080 100%);
+            color: #fff;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .section {
+            margin-bottom: 3rem;
+        }
+        .section h2 {
+            color: #003366;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            border-bottom: 3px solid #ff6b35;
+            padding-bottom: 0.5rem;
+        }
+        .section h3 {
+            color: #003366;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .content-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #ff6b35;
+        }
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .resource-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #ff6b35;
+        }
+        .resource-card h4 {
+            color: #003366;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .resource-card p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .resource-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .resource-link {
+            display: inline-block;
+            background: #003366;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+        }
+        .resource-link:hover {
+            background: #ff6b35;
+            transform: translateY(-2px);
+        }
+        .topic-list {
+            list-style: none;
+            padding: 0;
+        }
+        .topic-list li {
+            background: #f8f9fa;
+            margin-bottom: 0.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #003366;
+            transition: all 0.3s ease;
+        }
+        .topic-list li:hover {
+            border-left-color: #ff6b35;
+            transform: translateX(4px);
+        }
+        .btn-exam {
+            background: #ff6b35;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-exam:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+            color: #fff;
+        }
+        footer {
+            background: #003366;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">CertiWebs</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="study-html-css.html">HTML & CSS</a></li>
+                <li><a href="study-javascript.html">JavaScript</a></li>
+                <li><a href="study-networks.html">Redes</a></li>
+                <li><a href="study-systems.html">Sistemas</a></li>
+                <li><a href="exams.html">Exámenes</a></li>
+                <li><a href="contact.html">Contacto</a></li>
+                <li class="auth-buttons">
+                    <button class="btn-login" onclick="showLoginModal()">Iniciar sesión</button>
+                    <button class="btn-register" onclick="showRegisterModal()">Registrarse</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>HTML & CSS - Guía de Estudio</h1>
+            <p>Aprende los fundamentos del desarrollo web frontend con HTML y CSS</p>
+        </section>
+
+        <div class="container">
+            <section class="section">
+                <h2>¿Qué es HTML?</h2>
+                <div class="content-card">
+                    <p><strong>HTML (HyperText Markup Language)</strong> es el lenguaje estándar para crear páginas web. Define la estructura y el contenido de los documentos web mediante etiquetas y elementos.</p>
+                    
+                    <h3>Conceptos Fundamentales</h3>
+                    <ul class="topic-list">
+                        <li><strong>Estructura básica:</strong> DOCTYPE, html, head, body</li>
+                        <li><strong>Etiquetas semánticas:</strong> header, nav, main, section, article, footer</li>
+                        <li><strong>Texto y contenido:</strong> h1-h6, p, span, div</li>
+                        <li><strong>Enlaces y medios:</strong> a, img, video, audio</li>
+                        <li><strong>Formularios:</strong> form, input, textarea, select, button</li>
+                        <li><strong>Listas:</strong> ul, ol, li, dl, dt, dd</li>
+                        <li><strong>Tablas:</strong> table, thead, tbody, tr, th, td</li>
+                    </ul>
+
+                    <h3>Ejemplo de Código</h3>
+                    <div class="code-example">
+&lt;!DOCTYPE html&gt;<br>
+&lt;html lang="es"&gt;<br>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+&nbsp;&nbsp;&lt;title&gt;Mi Página&lt;/title&gt;<br>
+&lt;/head&gt;<br>
+&lt;body&gt;<br>
+&nbsp;&nbsp;&lt;header&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Bienvenidos&lt;/h1&gt;<br>
+&nbsp;&nbsp;&lt;/header&gt;<br>
+&nbsp;&nbsp;&lt;main&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Contenido principal&lt;/p&gt;<br>
+&nbsp;&nbsp;&lt;/main&gt;<br>
+&lt;/body&gt;<br>
+&lt;/html&gt;
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>¿Qué es CSS?</h2>
+                <div class="content-card">
+                    <p><strong>CSS (Cascading Style Sheets)</strong> es el lenguaje utilizado para describir la presentación y el estilo de los documentos HTML. Controla el diseño, colores, fuentes y espaciado.</p>
+                    
+                    <h3>Conceptos Fundamentales</h3>
+                    <ul class="topic-list">
+                        <li><strong>Selectores:</strong> por etiqueta, clase, ID, atributo</li>
+                        <li><strong>Modelo de caja:</strong> margin, border, padding, content</li>
+                        <li><strong>Display y posicionamiento:</strong> block, inline, flexbox, grid</li>
+                        <li><strong>Colores y fondos:</strong> color, background, gradients</li>
+                        <li><strong>Tipografía:</strong> font-family, font-size, font-weight</li>
+                        <li><strong>Responsive Design:</strong> media queries, unidades relativas</li>
+                        <li><strong>Animaciones:</strong> transitions, animations, transforms</li>
+                    </ul>
+
+                    <h3>Ejemplo de Código</h3>
+                    <div class="code-example">
+.container {<br>
+&nbsp;&nbsp;display: flex;<br>
+&nbsp;&nbsp;justify-content: center;<br>
+&nbsp;&nbsp;align-items: center;<br>
+&nbsp;&nbsp;padding: 2rem;<br>
+}<br>
+<br>
+.button {<br>
+&nbsp;&nbsp;background: #ff6b35;<br>
+&nbsp;&nbsp;color: white;<br>
+&nbsp;&nbsp;padding: 1rem 2rem;<br>
+&nbsp;&nbsp;border: none;<br>
+&nbsp;&nbsp;border-radius: 8px;<br>
+&nbsp;&nbsp;cursor: pointer;<br>
+&nbsp;&nbsp;transition: all 0.3s ease;<br>
+}<br>
+<br>
+.button:hover {<br>
+&nbsp;&nbsp;background: #e55a2b;<br>
+&nbsp;&nbsp;transform: translateY(-2px);<br>
+}
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Recursos de Estudio</h2>
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <h4>Documentación Oficial</h4>
+                        <p>Recursos oficiales y referencias completas</p>
+                        <div class="resource-links">
+                            <a href="https://developer.mozilla.org/es/docs/Web/HTML" target="_blank" class="resource-link">MDN Web Docs - HTML</a>
+                            <a href="https://developer.mozilla.org/es/docs/Web/CSS" target="_blank" class="resource-link">MDN Web Docs - CSS</a>
+                            <a href="https://www.w3.org/TR/html52/" target="_blank" class="resource-link">W3C HTML5 Specification</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Tutoriales Interactivos</h4>
+                        <p>Aprende practicando con ejercicios</p>
+                        <div class="resource-links">
+                            <a href="https://www.w3schools.com/html/" target="_blank" class="resource-link">W3Schools HTML</a>
+                            <a href="https://www.w3schools.com/css/" target="_blank" class="resource-link">W3Schools CSS</a>
+                            <a href="https://codepen.io/" target="_blank" class="resource-link">CodePen - Editor Online</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Cursos en Video</h4>
+                        <p>Aprende con tutoriales en español</p>
+                        <div class="resource-links">
+                            <a href="https://www.youtube.com/playlist?list=PLU8oAlHdN5BlvrPxjEBzS_a3XdiqSQ_3x" target="_blank" class="resource-link">Curso HTML YouTube</a>
+                            <a href="https://www.youtube.com/playlist?list=PLU8oAlHdN5Bkv-2Y6I9x9Y2F1M1L3Y4N5" target="_blank" class="resource-link">Curso CSS YouTube</a>
+                            <a href="https://www.freecodecamp.org/espanol/learn/" target="_blank" class="resource-link">freeCodeCamp Español</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Ejercicios Prácticos</h4>
+                        <p>Practica lo aprendido con proyectos</p>
+                        <div class="resource-links">
+                            <a href="https://cssbattle.dev/" target="_blank" class="resource-link">CSS Battle</a>
+                            <a href="https://flexboxfroggy.com/" target="_blank" class="resource-link">Flexbox Froggy</a>
+                            <a href="https://cssgridgarden.com/" target="_blank" class="resource-link">CSS Grid Garden</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Herramientas y Frameworks</h4>
+                        <p>Recursos para desarrollo profesional</p>
+                        <div class="resource-links">
+                            <a href="https://getbootstrap.com/" target="_blank" class="resource-link">Bootstrap</a>
+                            <a href="https://tailwindcss.com/" target="_blank" class="resource-link">Tailwind CSS</a>
+                            <a href="https://github.com/" target="_blank" class="resource-link">GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="resource-card">
+                        <h4>Comunidad y Soporte</h4>
+                        <p>Únete a comunidades de desarrolladores</p>
+                        <div class="resource-links">
+                            <a href="https://stackoverflow.com/" target="_blank" class="resource-link">Stack Overflow</a>
+                            <a href="https://dev.to/" target="_blank" class="resource-link">Dev Community</a>
+                            <a href="https://discord.com/" target="_blank" class="resource-link">Discord - Dev Servers</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2>Plan de Estudio Recomendado</h2>
+                <div class="content-card">
+                    <h3>Fase 1: Fundamentos HTML (1-2 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Estructura básica y sintaxis</li>
+                        <li>Etiquetas de texto y semánticas</li>
+                        <li>Enlaces e imágenes</li>
+                        <li>Listas y tablas</li>
+                        <li>Formularios básicos</li>
+                    </ul>
+
+                    <h3>Fase 2: Fundamentos CSS (2-3 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Selectores y sintaxis</li>
+                        <li>Modelo de caja</li>
+                        <li>Tipografía y colores</li>
+                        <li>Posicionamiento y flotación</li>
+                        <li>Responsive Design básico</li>
+                    </ul>
+
+                    <h3>Fase 3: Layout Moderno (2-3 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Flexbox</li>
+                        <li>Grid Layout</li>
+                        <li>Media Queries avanzadas</li>
+                        <li>Animaciones y transiciones</li>
+                        <li>Variables CSS</li>
+                    </ul>
+
+                    <h3>Fase 4: Proyectos Prácticos (3-4 semanas)</h3>
+                    <ul class="topic-list">
+                        <li>Clonar una página web simple</li>
+                        <li>Crear un portfolio personal</li>
+                        <li>Diseñar una landing page</li>
+                        <li>Construir una aplicación pequeña</li>
+                        <li>Optimizar para móviles</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section text-center">
+                <h2>¡Listo para evaluar tus conocimientos?</h2>
+                <p>Una vez que hayas estudiado los recursos anteriores, es hora de poner a prueba lo aprendido.</p>
+                <a href="exams.html" class="btn-exam">Rendir Examen de HTML & CSS</a>
+            </section>
+
+            <section class="section">
+                <h2>Preparación para el Examen</h2>
+                <div class="content-card">
+                    <h3>Temas del Examen</h3>
+                    <ul class="topic-list">
+                        <li><strong>Estructura HTML5:</strong> DOCTYPE, head, body, etiquetas semánticas</li>
+                        <li><strong>Formularios HTML:</strong> input types, validación, atributos</li>
+                        <li><strong>Medios y Multimedia:</strong> img, video, audio, responsive images</li>
+                        <li><strong>Selectores CSS:</strong> por clase, ID, atributo, pseudo-clases</li>
+                        <li><strong>Modelo de Caja:</strong> margin, padding, border, box-sizing</li>
+                        <li><strong>Layout CSS:</strong> display, position, flexbox, grid</li>
+                        <li><strong>Responsive Design:</strong> media queries, unidades relativas</li>
+                        <li><strong>Tipografía y Colores:</strong> font-family, font-size, color, background</li>
+                    </ul>
+
+                    <h3>Ejercicios Prácticos</h3>
+                    <ul class="topic-list">
+                        <li><strong>Ejercicio 1:</strong> Crear una página web con estructura semántica HTML5</li>
+                        <li><strong>Ejercicio 2:</strong> Diseñar un formulario con validación CSS</li>
+                        <li><strong>Ejercicio 3:</strong> Implementar un layout responsive con Flexbox</li>
+                        <li><strong>Ejercicio 4:</strong> Crear animaciones CSS simples</li>
+                        <li><strong>Ejercicio 5:</strong> Optimizar imágenes para diferentes dispositivos</li>
+                    </ul>
+
+                    <h3>Consejos para el Examen</h3>
+                    <ul class="topic-list">
+                        <li>Practica escribiendo código a mano sin autocompletado</li>
+                        <li>Memoriza las propiedades CSS más comunes</li>
+                        <li>Entiende la diferencia entre block, inline e inline-block</li>
+                        <li>Aprende a depurar CSS usando las herramientas del navegador</li>
+                        <li>Practica con proyectos reales pequeños</li>
+                        <li>Revisa las especificaciones oficiales de W3C</li>
+                    </ul>
+
+                    <h3>Simulador de Examen</h3>
+                    <div class="code-example">
+<!-- Pregunta tipo ejemplo --><br>
+¿Cuál es la etiqueta correcta para crear un formulario?<br>
+<br>
+A) &lt;form&gt;<br>
+B) &lt;input&gt;<br>
+C) &lt;table&gt;<br>
+D) &lt;div&gt;<br>
+<br>
+Respuesta: A) &lt;form&gt;<br>
+<br>
+<!-- Explicación --><br>
+La etiqueta &lt;form&gt; se utiliza para crear formularios web<br>
+que permiten a los usuarios enviar datos al servidor.
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+        </div>
+    </footer>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h3>Iniciar Sesión</h3>
+            <form id="login-form">
+                <input type="text" id="login-username" placeholder="Usuario" required>
+                <input type="password" id="login-password" placeholder="Contraseña" required>
+                <button type="submit">Iniciar sesión</button>
+            </form>
+            <p class="login-msg"></p>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h3>Registrarse</h3>
+            <form id="register-form">
+                <input type="text" id="register-username" placeholder="Nuevo usuario" required>
+                <input type="email" id="register-email" placeholder="Email" required>
+                <input type="password" id="register-password" placeholder="Contraseña" required>
+                <button type="submit">Registrarse</button>
+            </form>
+            <p class="register-msg"></p>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        function showLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function showRegisterModal() {
+            document.getElementById('registerModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
