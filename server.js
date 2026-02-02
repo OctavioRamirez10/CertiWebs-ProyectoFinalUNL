@@ -212,6 +212,76 @@ app.get('/api/admin/certificados', adminAuth, (req, res) => {
     });
 });
 
+// Nuevo endpoint para obtener todos los usuarios
+app.get('/api/admin/usuarios', adminAuth, (req, res) => {
+    db.all('SELECT id, username, email, fecha_registro FROM usuarios ORDER BY fecha_registro DESC', [], (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: 'Error al obtener usuarios' });
+            return;
+        }
+        res.json(rows);
+    });
+});
+
+// Nuevo endpoint para obtener todos los exámenes completados
+app.get('/api/admin/examenes', adminAuth, (req, res) => {
+    db.all(`
+        SELECT ec.*, u.username 
+        FROM examenes_completados ec
+        LEFT JOIN usuarios u ON ec.usuario_id = u.id
+        ORDER BY ec.fecha DESC
+    `, [], (err, rows) => {
+        if (err) {
+            res.status(500).json({ error: 'Error al obtener exámenes' });
+            return;
+        }
+        res.json(rows);
+    });
+});
+
+// Nuevo endpoint para obtener estadísticas completas
+app.get('/api/admin/estadisticas', adminAuth, (req, res) => {
+    const stats = {};
+    
+    // Contar usuarios
+    db.get('SELECT COUNT(*) as total FROM usuarios', [], (err, row) => {
+        if (err) {
+            res.status(500).json({ error: 'Error al obtener estadísticas' });
+            return;
+        }
+        stats.totalUsuarios = row.total;
+        
+        // Contar exámenes
+        db.get('SELECT COUNT(*) as total FROM examenes_completados', [], (err, row) => {
+            if (err) {
+                res.status(500).json({ error: 'Error al obtener estadísticas' });
+                return;
+            }
+            stats.totalExamenes = row.total;
+            
+            // Contar certificados
+            db.get('SELECT COUNT(*) as total FROM certificados', [], (err, row) => {
+                if (err) {
+                    res.status(500).json({ error: 'Error al obtener estadísticas' });
+                    return;
+                }
+                stats.totalCertificados = row.total;
+                
+                // Contar contactos
+                db.get('SELECT COUNT(*) as total FROM contactos', [], (err, row) => {
+                    if (err) {
+                        res.status(500).json({ error: 'Error al obtener estadísticas' });
+                        return;
+                    }
+                    stats.totalContactos = row.total;
+                    
+                    res.json(stats);
+                });
+            });
+        });
+    });
+});
+
 // Crear certificado automáticamente
 app.post('/api/certificados', (req, res) => {
     const { usuario_id, examen_id } = req.body;
@@ -268,6 +338,6 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log('Servidor CertiWebs iniciado correctamente');
     console.log('Base de datos inicializada y lista para usar');
 });

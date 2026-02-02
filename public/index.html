@@ -280,10 +280,12 @@
             background-color: #fff;
             margin: 10% auto;
             padding: 2rem;
+            padding-top: 2.5rem;
             border-radius: 16px;
             width: 90%;
             max-width: 400px;
             text-align: center;
+            position: relative;
         }
         .modal-content h3 {
             color: #003366;
@@ -326,14 +328,27 @@
         }
         .close {
             color: #999;
-            float: right;
-            font-size: 32px;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
             font-weight: bold;
             cursor: pointer;
-            transition: color 0.3s;
+            transition: all 0.3s;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            z-index: 10;
         }
         .close:hover {
-            color: #ff6b35;
+            color: #fff;
+            background: #ff6b35;
+            transform: scale(1.1);
         }
         .login-msg.success-message {
             background: #d4edda;
@@ -384,12 +399,9 @@
         <nav>
             <div class="logo">CertiWebs</div>
             <ul class="nav-links">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#info">¿Qué es?</a></li>
-                <li><a href="study-html-css.html">HTML & CSS</a></li>
-                <li><a href="study-javascript.html">JavaScript</a></li>
-                <li><a href="study-networks.html">Redes</a></li>
-                <li><a href="study-systems.html">Sistemas</a></li>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#info">¿Qué es?</a></li>
+                <li><a href="index.html#recursos">Certificaciones</a></li>
                 <li><a href="exams.html">Exámenes</a></li>
                 <li><a href="contact.html">Contacto</a></li>
                 <li class="auth-buttons">
@@ -444,28 +456,28 @@
                     <h3>HTML & CSS</h3>
                     <p>Certificación en desarrollo web frontend. Domina la estructura y el diseño de sitios modernos.</p>
                     <a href="study-html-css.html">Estudiar</a>
-                    <a href="exams.html">Certificarse</a>
+                    <a href="exam.html?exam=html">Certificarse</a>
                 </div>
 
                 <div class="recurso">
                     <h3>JavaScript</h3>
                     <p>Programación dinámica del lado del cliente. Valida tus habilidades en el lenguaje más popular.</p>
                     <a href="study-javascript.html">Estudiar</a>
-                    <a href="exams.html">Certificarse</a>
+                    <a href="exam.html?exam=js">Certificarse</a>
                 </div>
 
                 <div class="recurso">
                     <h3>Redes</h3>
                     <p>Fundamentos de redes y protocolos. Certifica tus conocimientos en infraestructura de comunicaciones.</p>
                     <a href="study-networks.html">Estudiar</a>
-                    <a href="exams.html">Certificarse</a>
+                    <a href="exam.html?exam=redes">Certificarse</a>
                 </div>
 
                 <div class="recurso">
                     <h3>Sistemas Operativos</h3>
                     <p>Administración de sistemas Windows y Linux. Demuestra tu expertise en gestión de entornos.</p>
                     <a href="study-systems.html">Estudiar</a>
-                    <a href="exams.html">Certificarse</a>
+                    <a href="exam.html?exam=so">Certificarse</a>
                 </div>
             </div>
         </section>
@@ -474,6 +486,9 @@
     <footer>
         <div class="container">
             <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+            <p style="font-size: 0.8rem; color: #999;">
+                <a href="admin.html" style="color: #666; text-decoration: none;">Panel Administrativo</a>
+            </p>
         </div>
     </footer>
 
@@ -519,6 +534,20 @@
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                // Cerrar todos los modales abiertos
+                const modals = ['loginModal', 'registerModal'];
+                modals.forEach(modalId => {
+                    const modal = document.getElementById(modalId);
+                    if (modal && modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
 
         // Cerrar modal al hacer clic fuera
         window.onclick = function(event) {

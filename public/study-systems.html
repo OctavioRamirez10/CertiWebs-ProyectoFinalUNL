@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistemas Operativos - Recursos de Estudio | CertiWebs</title>
+    <title>Estudiar Sistemas Operativos - CertiWebs</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
         body {
-            background: #fff;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             color: #333;
@@ -33,7 +32,6 @@
             font-weight: bold;
             letter-spacing: 1px;
             color: #fff;
-            text-decoration: none;
         }
         .nav-links {
             display: flex;
@@ -51,815 +49,296 @@
         .nav-links a:hover {
             color: #ff6b35;
         }
-        .auth-buttons {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        .btn-login, .btn-register {
-            background: transparent;
-            color: #fff;
-            border: 1px solid #fff;
-            border-radius: 20px;
-            padding: 0.4rem 1rem;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        .btn-login:hover {
-            background: #fff;
-            color: #003366;
-        }
-        .btn-register {
-            background: #ff6b35;
-            border-color: #ff6b35;
-            color: #fff;
-        }
-        .btn-register:hover {
-            background: #e55a2b;
-            border-color: #e55a2b;
-        }
-        .hero {
-            background: linear-gradient(135deg, #003366 0%, #004080 100%);
-            color: #fff;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
-        .section {
+        .study-header {
+            text-align: center;
             margin-bottom: 3rem;
         }
-        .section h2 {
+        .study-header h1 {
             color: #003366;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-            border-bottom: 3px solid #ff6b35;
-            padding-bottom: 0.5rem;
-        }
-        .section h3 {
-            color: #003366;
-            font-size: 1.5rem;
+            font-size: 2.5rem;
             margin-bottom: 1rem;
-            font-weight: 600;
         }
-        .content-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-left: 4px solid #ff6b35;
-        }
-        .resource-grid {
+        .study-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-bottom: 3rem;
         }
-        .resource-card {
+        .study-section {
             background: #fff;
+            padding: 2rem;
             border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        .resource-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: #ff6b35;
-        }
-        .resource-card h4 {
+        .study-section h2 {
             color: #003366;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        .resource-card p {
-            color: #666;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-        .resource-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .resource-link {
-            display: inline-block;
-            background: #003366;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-weight: 500;
-        }
-        .resource-link:hover {
-            background: #ff6b35;
-            transform: translateY(-2px);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
         .topic-list {
             list-style: none;
             padding: 0;
         }
         .topic-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        .topic-list li:last-child {
+            border-bottom: none;
+        }
+        .topic-list li::before {
+            content: "💻";
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        .resources-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .resource-card {
             background: #f8f9fa;
-            margin-bottom: 0.5rem;
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: 8px;
-            border-left: 4px solid #003366;
-            transition: all 0.3s ease;
+            border-left: 4px solid #ff6b35;
+            transition: transform 0.2s;
         }
-        .topic-list li:hover {
-            border-left-color: #ff6b35;
-            transform: translateX(4px);
+        .resource-card:hover {
+            transform: translateY(-2px);
         }
-        .btn-exam {
-            background: #ff6b35;
-            color: #fff;
-            font-weight: bold;
-            border: none;
-            border-radius: 30px;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .resource-card h4 {
+            color: #003366;
+            margin-bottom: 0.5rem;
+        }
+        .resource-card a {
+            color: #ff6b35;
             text-decoration: none;
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 500;
         }
-        .btn-exam:hover {
+        .resource-card a:hover {
+            text-decoration: underline;
+        }
+        .exam-btn {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        .exam-btn:hover {
             background: #e55a2b;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255,107,53,0.4);
-            color: #fff;
-        }
-        footer {
-            background: #003366;
-            color: #fff;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 4rem;
+            color: white;
         }
         .code-example {
-            background: #2d3748;
-            color: #e2e8f0;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             padding: 1rem;
-            border-radius: 8px;
+            margin: 1rem 0;
             font-family: 'Courier New', monospace;
-            margin: 1rem 0;
             overflow-x: auto;
-        }
-        .os-comparison {
-            background: #f0f4f8;
-            border: 2px solid #003366;
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 1rem 0;
-        }
-        .os-comparison table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .os-comparison th {
-            background: #003366;
-            color: white;
-            padding: 1rem;
-            text-align: left;
-        }
-        .os-comparison td {
-            padding: 1rem;
-            border-bottom: 1px solid #ddd;
-        }
-        .os-comparison tr:hover {
-            background: #e8f0fe;
         }
     </style>
 </head>
-
 <body>
     <header>
         <nav>
-            <a href="index.html" class="logo">CertiWebs</a>
+            <div class="logo">CertiWebs</div>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="study-html-css.html">HTML & CSS</a></li>
-                <li><a href="study-javascript.html">JavaScript</a></li>
-                <li><a href="study-networks.html">Redes</a></li>
-                <li><a href="study-systems.html">Sistemas</a></li>
+                <li><a href="index.html#info">¿Qué es?</a></li>
+                <li><a href="index.html#recursos">Certificaciones</a></li>
                 <li><a href="exams.html">Exámenes</a></li>
                 <li><a href="contact.html">Contacto</a></li>
-                <li class="auth-buttons">
-                    <button class="btn-login" onclick="showLoginModal()">Iniciar sesión</button>
-                    <button class="btn-register" onclick="showRegisterModal()">Registrarse</button>
-                </li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="hero">
-            <h1>Sistemas Operativos - Guía de Estudio</h1>
-            <p>Aprende los fundamentos de sistemas operativos Windows y Linux</p>
-        </section>
-
         <div class="container">
-            <section class="section">
-                <h2>¿Qué es un Sistema Operativo?</h2>
-                <div class="content-card">
-                    <p><strong>Un Sistema Operativo (SO)</strong> es el software fundamental que gestiona los recursos de hardware y proporciona servicios a los programas de aplicación. Actúa como intermediario entre el usuario y el hardware de la computadora.</p>
-                    
-                    <h3>Funciones Principales</h3>
-                    <ul class="topic-list">
-                        <li><strong>Gestión de procesos:</strong> Creación, ejecución y terminación de programas</li>
-                        <li><strong>Gestión de memoria:</strong> Asignación y liberación de memoria</li>
-                        <li><strong>Gestión de archivos:</strong> Organización y acceso a datos</li>
-                        <li><strong>Gestión de dispositivos:</strong> Control de hardware y periféricos</li>
-                        <li><strong>Interfaz de usuario:</strong> Comunicación con el usuario</li>
-                        <li><strong>Seguridad:</strong> Protección y control de acceso</li>
-                    </ul>
+            <div class="study-header">
+                <h1>Sistemas Operativos - Guía de Estudio</h1>
+                <p>Domina la administración de sistemas Windows y Linux</p>
+            </div>
 
-                    <h3>Tipos de Sistemas Operativos</h3>
+            <div class="study-content">
+                <div class="study-section">
+                    <h2>🪟 Windows Fundamentals</h2>
                     <ul class="topic-list">
-                        <li><strong>Monousuario:</strong> Un usuario a la vez (Windows Home)</li>
-                        <li><strong>Multiusuario:</strong> Múltiples usuarios simultáneos (Linux, Unix)</li>
-                        <li><strong>Monotarea:</strong> Un proceso a la vez</li>
-                        <li><strong>Multitarea:</strong> Múltiples procesos simultáneos</li>
-                        <li><strong>De tiempo real:</strong> Respuesta inmediata</li>
-                        <li><strong>Distribuido:</strong> Múltiples computadoras conectadas</li>
+                        <li>Arquitectura de Windows</li>
+                        <li>Gestión de usuarios y grupos</li>
+                        <li>Sistema de archivos NTFS</li>
+                        <li>Registro de Windows</li>
+                        <li>Servicios y procesos</li>
+                        <li>Gestión de discos y particiones</li>
+                        <li>Active Directory</li>
+                        <li>PowerShell scripting</li>
                     </ul>
                 </div>
-            </section>
 
-            <section class="section">
-                <h2>Windows</h2>
-                <div class="content-card">
-                    <h3>Características de Windows</h3>
+                <div class="study-section">
+                    <h2>🐧 Linux Essentials</h2>
                     <ul class="topic-list">
-                        <li><strong>Interfaz gráfica:</strong> GUI intuitiva y fácil de usar</li>
-                        <li><strong>Compatibilidad:</strong> Amplio soporte de software y hardware</li>
-                        <li><strong>Active Directory:</strong> Gestión centralizada de usuarios</li>
-                        <li><strong>PowerShell:</strong> Interfaz de línea de comandos avanzada</li>
-                        <li><strong>Windows Update:</strong> Sistema de actualizaciones automático</li>
-                        <li><strong>Seguridad:</strong> Windows Defender, Firewall, BitLocker</li>
-                    </ul>
-
-                    <h3>Comandos Básicos de Windows</h3>
-                    <div class="code-example">
-# Comandos básicos CMD<br>
-dir - Listar archivos<br>
-cd - Cambiar directorio<br>
-mkdir - Crear directorio<br>
-del - Eliminar archivos<br>
-copy - Copiar archivos<br>
-move - Mover archivos<br>
-ipconfig - Configuración de red<br>
-ping - Probar conectividad<br>
-tasklist - Listar procesos<br>
-taskkill - Terminar proceso<br>
-<br>
-# Comandos PowerShell<br>
-Get-ChildItem - Listar archivos<br>
-Set-Location - Cambiar directorio<br>
-New-Item - Crear archivo/directorio<br>
-Remove-Item - Eliminar archivo/directorio<br>
-Get-Process - Listar procesos<br>
-Stop-Process - Terminar proceso<br>
-Get-Service - Listar servicios<br>
-Test-Connection - Probar conectividad
-                    </div>
-
-                    <h3>Gestión de Archivos y Permisos</h3>
-                    <ul class="topic-list">
-                        <li><strong>NTFS:</strong> Sistema de archivos con seguridad</li>
-                        <li><strong>ACLs:</strong> Listas de control de acceso</li>
-                        <li><strong>Permisos:</strong> Lectura, escritura, ejecución, modificación</li>
-                        <li><strong>Herencia:</strong> Propagación de permisos</li>
-                        <li><strong>Propietario:</strong> Control de archivos</li>
+                        <li>Distribuciones Linux principales</li>
+                        <li>Sistema de archivos ext4/xfs</li>
+                        <li>Gestión de paquetes (apt, yum, dnf)</li>
+                        <li>Permisos y propietarios</li>
+                        <li>Procesos y servicios</li>
+                        <li>Red y configuración TCP/IP</li>
+                        <li>Shell scripting (Bash)</li>
+                        <li>Seguridad y firewall</li>
                     </ul>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <h2>Linux</h2>
-                <div class="content-card">
-                    <h3>Características de Linux</h3>
-                    <ul class="topic-list">
-                        <li><strong>Open Source:</strong> Código fuente abierto y gratuito</li>
-                        <li><strong>Multiusuario:</strong> Múltiples usuarios simultáneos</li>
-                        <li><strong>Seguridad:</strong> Modelo de permisos robusto</li>
-                        <li><strong>Personalización:</strong> Altamente configurable</li>
-                        <li><strong>Estabilidad:</strong> Sistema muy estable y confiable</li>
-                        <li><strong>Distribuciones:</strong> Ubuntu, CentOS, Debian, Fedora, Arch</li>
-                    </ul>
-
-                    <h3>Comandos Básicos de Linux</h3>
-                    <div class="code-example">
-# Navegación de archivos<br>
-ls - Listar archivos<br>
-cd - Cambiar directorio<br>
-pwd - Directorio actual<br>
-mkdir - Crear directorio<br>
-rmdir - Eliminar directorio vacío<br>
-rm - Eliminar archivos/directorios<br>
-cp - Copiar archivos<br>
-mv - Mover/renombrar archivos<br>
-<br>
-# Gestión de archivos<br>
-cat - Mostrar contenido<br>
-less - Ver archivo página por página<br>
-grep - Buscar texto en archivos<br>
-find - Buscar archivos<br>
-chmod - Cambiar permisos<br>
-chown - Cambiar propietario<br>
-<br>
-# Sistema<br>
-ps - Listar procesos<br>
-top - Monitor de sistema<br>
-kill - Terminar proceso<br>
-df - Espacio en disco<br>
-free - Memoria disponible<br>
-uname - Información del sistema<br>
-whoami - Usuario actual<br>
-sudo - Ejecutar como administrador
-                    </div>
-
-                    <h3>Estructura de Directorios Linux</h3>
-                    <ul class="topic-list">
-                        <li><strong>/ - Root:</strong> Directorio raíz</li>
-                        <li><strong>/home:</strong> Directorios de usuarios</li>
-                        <li><strong>/bin:</strong> Comandos esenciales</li>
-                        <li><strong>/etc:</strong> Configuración del sistema</li>
-                        <li><strong>/var:</strong> Datos variables (logs, caché)</li>
-                        <li><strong>/usr:</strong> Programas de usuario</li>
-                        <li><strong>/tmp:</strong> Archivos temporales</li>
-                        <li><strong>/opt:</strong> Software opcional</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Comparación Windows vs Linux</h2>
-                <div class="os-comparison">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Característica</th>
-                                <th>Windows</th>
-                                <th>Linux</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Costo</strong></td>
-                                <td>Comercial (licencia pagada)</td>
-                                <td>Gratis (open source)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Interfaz</strong></td>
-                                <td>GUI principal</td>
-                                <td>CLI principal, GUI opcional</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Software</strong></td>
-                                <td>Amplia compatibilidad comercial</td>
-                                <td>Software open source</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Seguridad</strong></td>
-                                <td>Vulnerable a malware</td>
-                                <td>Muy seguro</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Personalización</strong></td>
-                                <td>Limitada</td>
-                                <td>Ilimitada</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Actualizaciones</strong></td>
-                                <td>Automáticas, obligatorias</td>
-                                <td>Manuales, opcionales</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Soporte</strong></td>
-                                <td>Soporte técnico oficial</td>
-                                <td>Comunidad y documentación</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Gestión de Procesos</h2>
-                <div class="content-card">
-                    <h3>Conceptos de Procesos</h3>
-                    <ul class="topic-list">
-                        <li><strong>Proceso:</strong> Programa en ejecución</li>
-                        <li><strong>PID:</strong> Identificador único de proceso</li>
-                        <li><strong>Hilos:</strong> Subprocesos dentro de un proceso</li>
-                        <li><strong>Estados:</strong> Nuevo, listo, ejecutando, bloqueado, terminado</li>
-                        <li><strong>Prioridades:</strong> Nivel de importancia del proceso</li>
-                    </ul>
-
-                    <h3>Gestión en Windows</h3>
-                    <div class="code-example">
-# Administrador de tareas (GUI)<br>
-taskmgr.exe<br>
-<br>
-# Línea de comandos<br>
-tasklist - Listar procesos<br>
-tasklist /v - Información detallada<br>
-taskkill /f /im proceso.exe - Forzar cierre<br>
-wmic process get name,processid - Lista con PID<br>
-<br>
-# PowerShell<br>
-Get-Process - Listar procesos<br>
-Stop-Process -Name proceso - Terminar proceso<br>
-Start-Process - Iniciar proceso
-                    </div>
-
-                    <h3>Gestión en Linux</h3>
-                    <div class="code-example">
-# Listar procesos<br>
-ps aux - Todos los procesos<br>
-ps -ef - Formato extendido<br>
-top - Monitor en tiempo real<br>
-htop - Monitor mejorado<br>
-<br>
-# Controlar procesos<br>
-kill PID - Terminar proceso<br>
-killall nombre - Terminar por nombre<br>
-kill -9 PID - Forzar terminación<br>
-nice -n 10 comando - Ejecutar con baja prioridad<br>
-renice -n 5 PID - Cambiar prioridad<br>
-<br>
-# Procesos en background<br>
-comando & - Ejecutar en background<br>
-jobs - Listar trabajos<br>
-fg %1 - Traer al foreground<br>
-bg %1 - Enviar al background
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Gestión de Memoria</h2>
-                <div class="content-card">
-                    <h3>Conceptos de Memoria</h3>
-                    <ul class="topic-list">
-                        <li><strong>Memoria RAM:</strong> Memoria principal volátil</li>
-                        <li><strong>Memoria Virtual:</strong> Extensión en disco</li>
-                        <li><strong>Paginación:</strong> Intercambio de páginas</li>
-                        <li><strong>Segmentación:</strong> División lógica de memoria</li>
-                        <li><strong>Cache:</strong> Memoria intermedia rápida</li>
-                    </ul>
-
-                    <h3>Windows Memory Management</h3>
-                    <div class="code-example">
-# Ver uso de memoria<br>
-wmic OS get TotalVisibleMemorySize,FreePhysicalMemory<br>
-<br>
-# Archivo de paginación<br>
-systempropertiesadvanced.exe - Configuración virtual<br>
-<br>
-# Monitor de rendimiento<br>
-perfmon.msc - Performance Monitor<br>
-<br>
-# PowerShell<br>
-Get-Counter -Counter "\Memory\Available MBytes"<br>
-Get-Process | Sort-Object WorkingSet -Descending | Select-Object -First 10
-                    </div>
-
-                    <h3>Linux Memory Management</h3>
-                    <div class="code-example">
-# Ver uso de memoria<br>
-free -h - Memoria en formato humano<br>
-cat /proc/meminfo - Información detallada<br>
-vmstat - Estadísticas virtuales<br>
-<br>
-# Swap (memoria virtual)<br>
-swapon -s - Ver uso de swap<br>
-swapon /archivo - Activar swap<br>
-swapoff /archivo - Desactivar swap<br>
-<br>
-# Limpiar caché<br>
-echo 3 > /proc/sys/vm/drop_caches<br>
-sync - Sincronizar disco
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Sistema de Archivos</h2>
-                <div class="content-card">
-                    <h3>Sistemas de Archivos Comunes</h3>
-                    <ul class="topic-list">
-                        <li><strong>Windows:</strong> NTFS, FAT32, exFAT</li>
-                        <li><strong>Linux:</strong> ext4, ext3, ext2, XFS, Btrfs</li>
-                        <li><strong>Unix:</strong> UFS, ZFS</li>
-                        <li><strong>Mac:</strong> HFS+, APFS</li>
-                    </ul>
-
-                    <h3>Permisos en Linux</h3>
-                    <div class="code-example">
-# Estructura de permisos<br>
-# rwx rwx rwx<br>
-# dueño grupo otros<br>
-<br>
-# Ver permisos<br>
-ls -la - Listar con permisos<br>
-stat archivo - Información detallada<br>
-<br>
-# Cambiar permisos<br>
-chmod 755 archivo - rwxr-xr-x<br>
-chmod u+x archivo - Añadir ejecutable al dueño<br>
-chmod g-w archivo - Quitar escritura al grupo<br>
-chmod o=r archivo - Solo lectura para otros<br>
-<br>
-# Cambiar propietario<br>
-chown usuario:grupo archivo<br>
-chown -R usuario directorio - Recursivo<br>
-<br>
-# Permisos especiales<br>
-chmod +s archivo - SUID/SGID<br>
-chmod +t directorio - Sticky bit
-                    </div>
-
-                    <h3>Permisos en Windows</h3>
-                    <div class="code-example">
-# GUI - Propiedades del archivo<br>
-# Pestaña Seguridad -> Avanzado<br>
-<br>
-# PowerShell<br>
-Get-Acl archivo - Ver ACL<br>
-Get-Permission archivo - Ver permisos<br>
-<br>
-# CMD<br>
-icacls archivo - Listar permisos<br>
-icacls archivo /grant Usuario:F - Conceder control total<br>
-icacls archivo /deny Usuario:W - Denegar escritura<br>
-takeown /f archivo - Tomar propiedad
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Redes y Conectividad</h2>
-                <div class="content-card">
-                    <h3>Configuración de Red en Windows</h3>
-                    <div class="code-example">
-# Ver configuración<br>
-ipconfig /all - Configuración completa<br>
-ipconfig /release - Liberar IP<br>
-ipconfig /renew - Renovar IP<br>
-<br>
-# Configuración avanzada<br>
-netsh interface ip show config<br>
-netsh interface ip set address "Ethernet" static 192.168.1.100 255.255.255.0 192.168.1.1<br>
-<br>
-# Firewall<br>
-netsh advfirewall show allprofiles<br>
-netsh advfirewall set allprofiles state off<br>
-<br>
-# Conexiones remotas<br>
-mstsc.exe - Escritorio remoto<br>
-ping servidor - Probar conectividad<br>
-tracert servidor - Ruta de paquetes
-                    </div>
-
-                    <h3>Configuración de Red en Linux</h3>
-                    <div class="code-example">
-# Ver configuración<br>
-ip addr show - Interfaces y direcciones<br>
-ip route show - Tabla de rutas<br>
-ss -tuln - Puertos abiertos<br>
-<br>
-# Configurar interfaz<br>
-ip addr add 192.168.1.100/24 dev eth0<br>
-ip link set eth0 up - Activar interfaz<br>
-ip route add default via 192.168.1.1<br>
-<br>
-# Configuración persistente<br>
-/etc/network/interfaces - Debian/Ubuntu<br>
-/etc/sysconfig/network-scripts/ - RHEL/CentOS<br>
-<br>
-# Herramientas de red<br>
-ping -c 4 servidor - Probar conectividad<br>
-traceroute servidor - Ruta de paquetes<br>
-netstat -tuln - Conexiones activas<br>
-ss -tuln - Alternativa moderna<br>
-<br>
-# SSH - Acceso remoto<br>
-ssh usuario@servidor - Conectar<br>
-scp archivo usuario@servidor:/ruta - Copiar archivo
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2>Recursos de Estudio</h2>
+            <div class="resources-section">
+                <h2>📖 Recursos de Estudio</h2>
                 <div class="resource-grid">
                     <div class="resource-card">
                         <h4>Documentación Oficial</h4>
-                        <p>Recursos oficiales y guías</p>
-                        <div class="resource-links">
-                            <a href="https://docs.microsoft.com/es-es/windows/" target="_blank" class="resource-link">Microsoft Docs Windows</a>
-                            <a href="https://www.linux.org/" target="_blank" class="resource-link">Linux Foundation</a>
-                            <a href="https://kernel.org/doc/" target="_blank" class="resource-link">Linux Kernel Docs</a>
-                        </div>
+                        <p>Referencias técnicas y guías</p>
+                        <a href="https://docs.microsoft.com/es-es/windows/" target="_blank">Microsoft Docs</a><br>
+                        <a href="https://www.kernel.org/doc/" target="_blank">Linux Kernel Docs</a>
                     </div>
-
                     <div class="resource-card">
                         <h4>Tutoriales Interactivos</h4>
-                        <p>Aprende practicando con ejercicios</p>
-                        <div class="resource-links">
-                            <a href="https://www.windowscentral.com/how-to" target="_blank" class="resource-link">Windows Central</a>
-                            <a href="https://linuxjourney.com/" target="_blank" class="resource-link">Linux Journey</a>
-                            <a href="https://overthewire.org/wargames/bandit/" target="_blank" class="resource-link">OverTheWire - Linux</a>
-                        </div>
+                        <p>Aprende practicando</p>
+                        <a href="https://www.linuxfoundation.org/" target="_blank">Linux Foundation</a><br>
+                        <a href="https://docs.microsoft.com/es-es/learn/" target="_blank">Microsoft Learn</a>
                     </div>
-
                     <div class="resource-card">
-                        <h4>Cursos en Video</h4>
-                        <p>Aprende con tutoriales en español</p>
-                        <div class="resource-links">
-                            <a href="https://www.youtube.com/playlist?list=PLWtZX2IVivbU2KySaz7JIG8cO9rDx2fg" target="_blank" class="resource-link">Curso Linux YouTube</a>
-                            <a href="https://www.youtube.com/playlist?list=PLWtZX2IVivbUX6fPk1iQs4KBJuO7Bj8s" target="_blank" class="resource-link">Curso Windows YouTube</a>
-                            <a href="https://www.youtube.com/watch?v=0nqvIq8OyCE" target="_blank" class="resource-link">Conceptos S.O.</a>
-                        </div>
+                        <h4>Videos y Cursos</h4>
+                        <p>Contenido audiovisual</p>
+                        <a href="https://www.youtube.com/results?search_query=sistemas+operativos+tutorial" target="_blank">YouTube</a><br>
+                        <a href="https://www.edx.org/" target="_blank">edX Courses</a>
                     </div>
-
                     <div class="resource-card">
-                        <h4>Práctica y Laboratorios</h4>
-                        <p>Entornos para practicar</p>
-                        <div class="resource-links">
-                            <a href="https://www.virtualbox.org/" target="_blank" class="resource-link">VirtualBox</a>
-                            <a href="https://www.vmware.com/" target="_blank" class="resource-link">VMware Workstation</a>
-                            <a href="https://www.linuxfoundation.org/services/training" target="_blank" class="resource-link">Linux Labs</a>
-                        </div>
-                    </div>
-
-                    <div class="resource-card">
-                        <h4>Certificaciones</h4>
-                        <p>Certificaciones profesionales</p>
-                        <div class="resource-links">
-                            <a href="https://www.microsoft.com/es-es/learning/windows-certifications.aspx" target="_blank" class="resource-link">Microsoft Windows</a>
-                            <a href="https://www.lpi.org/" target="_blank" class="resource-link">Linux Professional Institute</a>
-                            <a href="https://www.redhat.com/en/certifications" target="_blank" class="resource-link">Red Hat Certifications</a>
-                        </div>
-                    </div>
-
-                    <div class="resource-card">
-                        <h4>Comunidad y Foros</h4>
-                        <p>Únete a comunidades de sysadmins</p>
-                        <div class="resource-links">
-                            <a href="https://www.reddit.com/r/sysadmin/" target="_blank" class="resource-link">r/sysadmin</a>
-                            <a href="https://www.reddit.com/r/linux4noobs/" target="_blank" class="resource-link">r/linux4noobs</a>
-                            <a href="https://serverfault.com/" target="_blank" class="resource-link">Server Fault</a>
-                        </div>
+                        <h4>Herramientas Online</h4>
+                        <p>Práctica y simulación</p>
+                        <a href="https://www.virtualbox.org/" target="_blank">VirtualBox</a><br>
+                        <a href="https://www.vmware.com/" target="_blank">VMware</a>
                     </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <h2>Plan de Estudio Recomendado</h2>
-                <div class="content-card">
-                    <h3>Fase 1: Fundamentos (2-3 semanas)</h3>
-                    <ul class="topic-list">
-                        <li>Conceptos básicos de sistemas operativos</li>
-                        <li>Componentes y arquitectura</li>
-                        <li>Tipos de SO y características</li>
-                        <li>Historia y evolución</li>
-                        <li>Terminología básica</li>
-                    </ul>
+            <div class="resources-section">
+                <h2>💡 Comandos Esenciales</h2>
+                
+                <h3>Comandos Básicos Linux</h3>
+                <div class="code-example">
+# Navegación y archivos
+ls -la                    # Listar archivos detallados
+cd /home/user             # Cambiar directorio
+pwd                       # Mostrar directorio actual
+mkdir nueva_carpeta       # Crear directorio
+rm archivo.txt            # Eliminar archivo
+cp origen destino         # Copiar archivo
+mv origen destino         # Mover/renombrar
 
-                    <h3>Fase 2: Windows (3-4 semanas)</h3>
-                    <ul class="topic-list">
-                        <li>Instalación y configuración</li>
-                        <li>Interfaz y navegación</li>
-                        <li>Gestión de archivos y carpetas</li>
-                        <li>Configuración de red</li>
-                        <li>Comandos CMD y PowerShell</li>
-                        <li>Gestión de usuarios y permisos</li>
-                    </ul>
+# Gestión de usuarios
+sudo useradd nuevo_user   # Crear usuario
+sudo passwd nuevo_user    # Cambiar contraseña
+sudo userdel nuevo_user   # Eliminar usuario
+groups username           # Mostrar grupos de usuario
 
-                    <h3>Fase 3: Linux (4-5 semanas)</h3>
-                    <ul class="topic-list">
-                        <li>Instalación y distribuciones</li>
-                        <li>Línea de comandos básica</li>
-                        <li>Estructura de directorios</li>
-                        <li>Gestión de archivos y permisos</li>
-                        <li>Configuración de red</li>
-                        <li>Scripting básico (bash)</li>
-                    </ul>
-
-                    <h3>Fase 4: Administración Avanzada (3-4 semanas)</h3>
-                    <ul class="topic-list">
-                        <li>Gestión de procesos</li>
-                        <li>Administración de memoria</li>
-                        <li>Configuración de servicios</li>
-                        <li>Monitorización y logging</li>
-                        <li>Seguridad y firewall</li>
-                        <li>Backup y recuperación</li>
-                    </ul>
-
-                    <h3>Fase 5: Práctica y Proyectos (4-6 semanas)</h3>
-                    <ul class="topic-list">
-                        <li>Configurar servidor web Apache/Nginx</li>
-                        <li>Montar servidor de archivos</li>
-                        <li>Configurar red doméstica</li>
-                        <li>Automatizar tareas con scripts</li>
-                        <li>Resolver problemas prácticos</li>
-                        <li>Preparación para certificaciones</li>
-                    </ul>
+# Permisos
+chmod 755 archivo         # Cambiar permisos
+chown user:group archivo  # Cambiar propietario
+ls -l archivo            # Ver permisos
                 </div>
-            </section>
 
-            <section class="section text-center">
-                <h2>¡Listo para evaluar tus conocimientos?</h2>
-                <p>Una vez que hayas estudiado los recursos anteriores, es hora de poner a prueba lo aprendido.</p>
-                <a href="exams.html" class="btn-exam">Rendir Examen de Sistemas Operativos</a>
-            </section>
+                <h3>Comandos Windows PowerShell</h3>
+                <div class="code-example">
+# Navegación y archivos
+Get-ChildItem             # Listar archivos
+Set-Location C:\Users     # Cambiar directorio
+New-Item -ItemType Directory carpeta  # Crear directorio
+Remove-Item archivo.txt   # Eliminar archivo
+Copy-Item origen destino  # Copiar archivo
+Move-Item origen destino  # Mover archivo
+
+# Gestión de usuarios
+Get-LocalUser             # Listar usuarios
+New-LocalUser -Name "user" -PasswordNeverExpires
+Set-LocalUser -Name "user" -Password (Read-Host -AsSecureString)
+Remove-LocalUser -Name "user"
+
+# Servicios y procesos
+Get-Service               # Listar servicios
+Start-Service serviceName # Iniciar servicio
+Stop-Service serviceName  # Detener servicio
+Get-Process              # Listar procesos
+Stop-Process -Name "process"  # Matar proceso
+                </div>
+
+                <h3>Administración del Sistema</h3>
+                <div class="code-example">
+# Linux - Gestión de procesos
+ps aux                    # Ver procesos
+top                       # Monitor de procesos
+kill -9 PID              # Matar proceso
+systemctl status nginx    # Estado de servicio
+systemctl start nginx     # Iniciar servicio
+systemctl enable nginx    # Habilitar al inicio
+
+# Windows - Monitorización
+tasklist                  # Ver procesos
+taskkill /F /PID 1234    # Matar proceso
+Get-EventLog System       # Ver logs
+perfmon                   # Monitor de rendimiento
+sfc /scannow             # Verificar archivos sistema
+                </div>
+
+                <h3>Configuración de Red</h3>
+                <div class="code-example">
+# Linux
+ip addr show              # Ver interfaces
+ip route show             # Ver tabla rutas
+ping -c 4 google.com      # Prueba conectividad
+ss -tuln                  # Ver puertos abiertos
+ufw status                # Estado firewall
+
+# Windows
+ipconfig /all             # Ver configuración IP
+netstat -an              # Ver conexiones
+ping google.com           # Prueba conectividad
+netsh advfirewall show allprofiles
+nslookup google.com       # Resolución DNS
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <h2>🎯 ¿Listo para certificarte?</h2>
+                <p>Evalúa tus conocimientos y obtén tu certificado</p>
+                <a href="exam.html?exam=so" class="exam-btn">Tomar Examen de Sistemas Operativos</a>
+            </div>
         </div>
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
-        </div>
+        <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+        <p>Todos los derechos reservados</p>
     </footer>
-
-    <!-- Modal de Login -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('loginModal')">&times;</span>
-            <h3>Iniciar Sesión</h3>
-            <form id="login-form">
-                <input type="text" id="login-username" placeholder="Usuario" required>
-                <input type="password" id="login-password" placeholder="Contraseña" required>
-                <button type="submit">Iniciar sesión</button>
-            </form>
-            <p class="login-msg"></p>
-        </div>
-    </div>
-
-    <!-- Modal de Registro -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('registerModal')">&times;</span>
-            <h3>Registrarse</h3>
-            <form id="register-form">
-                <input type="text" id="register-username" placeholder="Nuevo usuario" required>
-                <input type="email" id="register-email" placeholder="Email" required>
-                <input type="password" id="register-password" placeholder="Contraseña" required>
-                <button type="submit">Registrarse</button>
-            </form>
-            <p class="register-msg"></p>
-        </div>
-    </div>
-
-    <script src="main.js"></script>
-    <script>
-        function showLoginModal() {
-            document.getElementById('loginModal').style.display = 'block';
-        }
-
-        function showRegisterModal() {
-            document.getElementById('registerModal').style.display = 'block';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Cerrar modal al hacer clic fuera
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
-        }
-    </script>
 </body>
 </html>

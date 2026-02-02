@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
 const path = require('path');
 
 // Ubicación del fichero DB: en la raíz del proyecto
@@ -46,6 +47,54 @@ db.serialize(() => {
         fecha_preferida DATETIME,
         fecha_envio DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
+
+    // Insertar usuarios predefinidos si no existen
+    const usuariosPredefinidos = [
+        {
+            username: 'octavio',
+            password: 'admin123',
+            email: 'octavio@certiwebs.com'
+        },
+        {
+            username: 'usuario_demo',
+            password: 'demo123',
+            email: 'demo@certiwebs.com'
+        },
+        {
+            username: 'Administrador',
+            password: 'Admin123',
+            email: 'admin@certiwebs.com'
+        }
+    ];
+
+    // Función para insertar usuarios predefinidos
+    async function insertarUsuariosPredefinidos() {
+        for (const usuario of usuariosPredefinidos) {
+            // Verificar si el usuario ya existe
+            db.get('SELECT id FROM usuarios WHERE username = ?', [usuario.username], async (err, row) => {
+                if (!err && !row) {
+                    // Usuario no existe, lo creamos
+                    try {
+                        const hashedPassword = await bcrypt.hash(usuario.password, 10);
+                        db.run('INSERT INTO usuarios (username, password, email) VALUES (?, ?, ?)',
+                            [usuario.username, hashedPassword, usuario.email],
+                            function(err) {
+                                if (!err) {
+                                    console.log(`Usuario predefinido creado: ${usuario.username}`);
+                                }
+                            });
+                    } catch (hashErr) {
+                        console.error('Error hashing password:', hashErr);
+                    }
+                } else if (row) {
+                    console.log(`Usuario predefinido ya existe: ${usuario.username}`);
+                }
+            });
+        }
+    }
+
+    // Insertar usuarios predefinidos después de crear las tablas
+    setTimeout(insertarUsuariosPredefinidos, 1000);
 });
 
 module.exports = db;

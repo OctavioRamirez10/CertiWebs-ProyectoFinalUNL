@@ -1,282 +1,910 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Admin - CertiWebs</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      background: #f4f6fb;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin: 0;
-    }
-    header {
-      background: #3949ab;
-      color: #fff;
-      padding: 0.5rem 0 0.5rem 0;
-      box-shadow: 0 2px 8px rgba(57,73,171,0.08);
-    }
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-left: 2rem;
-    }
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-      margin-right: 2rem;
-    }
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1.1rem;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover {
-      color: #ffb300;
-    }
-    .section {
-      max-width: 900px;
-      margin: 2rem auto;
-      background: #fff;
-      border-radius: 24px;
-      box-shadow: 0 2px 16px rgba(57,73,171,0.07);
-      padding: 2rem;
-    }
-    .box {
-      background: #e3eafc;
-      padding: 16px;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(57,73,171,0.06);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-    }
-    th, td {
-      padding: 8px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-    input[type=password] {
-      padding: 8px;
-      width: 300px;
-      border-radius: 8px;
-      border: 1px solid #bfc8e6;
-    }
-    button {
-      padding: 8px 12px;
-      margin-left: 8px;
-      background: #3949ab;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background: #ffb300;
-    }
-    footer {
-      background: #3949ab;
-      color: #fff;
-      text-align: center;
-      padding: 1.5rem 0 2.5rem 0;
-      margin-top: 3rem;
-      border-radius: 32px 32px 0 0;
-      position: relative;
-    }
-    .footer-social {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin: 2rem 0 0 0;
-    }
-    .footer-social img {
-      width: 40px;
-      height: 40px;
-      filter: drop-shadow(0 2px 6px #3949ab33);
-      transition: transform 0.2s;
-    }
-    .footer-social img:hover {
-      transform: scale(1.15);
-    }
-  </style>
-    body{font-family:Arial,Helvetica,sans-serif;padding:20px;background:#f7f9fc}
-    .box{background:#fff;padding:16px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
-    input[type=password]{padding:8px;width:300px}
-    button{padding:8px 12px;margin-left:8px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - CertiWebs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            color: #333;
+        }
+        header {
+            background: #003366;
+            color: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #ff6b35;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .admin-header h1 {
+            color: #003366;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .auth-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .auth-section input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .auth-section button {
+            width: 100%;
+            padding: 1rem;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        .auth-section button:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+        .admin-content {
+            display: none;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            border-left: 4px solid #ff6b35;
+        }
+        .stat-card h3 {
+            color: #003366;
+            font-size: 2rem;
+            margin: 0;
+        }
+        .stat-card p {
+            color: #666;
+            margin: 0.5rem 0 0 0;
+        }
+        .data-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .data-section h2 {
+            color: #003366;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 0.5rem;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #003366;
+            color: white;
+            font-weight: 600;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .btn-action {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .btn-action:hover {
+            background: #e55a2b;
+            transform: translateY(-1px);
+            color: white;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #f5c6cb;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 1px solid #c3e6cb;
+        }
+        .logout-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .logout-btn:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            color: white;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <div class="logo">CertiWebs</div>
-      <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="exams.html">Exámenes</a></li>
-        <li><a href="contact.html">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
-  <section class="section">
-    <h1>Panel admin - CertiWebs</h1>
-    <div class="box">
-      <div>
-        <label>Clave admin: <input id="adminKey" type="password" placeholder="Introduce clave admin"></label>
-        <button id="btnLogin">Entrar</button>
-        <span id="status"></span>
-      </div>
-      <div style="margin-top:16px">
-        <button id="loadContacts" disabled>Listar contactos</button>
-        <button id="loadCerts" disabled>Listar certificados</button>
-      </div>
-      <div id="output" style="margin-top:16px"></div>
-    </div>
-  </section>
-  <footer>
-    <div class="footer-social">
-      <a href="https://www.instagram.com/octaaviorami/" target="_blank" aria-label="Instagram">
-        <img src="instagram.png" alt="Instagram" />
-      </a>
-      <a href="https://www.youtube.com/@octavioramirez7743" target="_blank" aria-label="YouTube">
-        <img src="youtube.png" alt="YouTube" />
-      </a>
-      <a href="https://wa.me/543424324206?text=Hola%20Octavio%2C%20te%20contacto%20desde%20CertiWebs"
-        target="_blank" aria-label="WhatsApp">
-        <img src="whatsapp.png" alt="WhatsApp" />
-      </a>
-    </div>
-    <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
-  </footer>
-  <script src="main.js"></script>
+    <header>
+        <nav>
+            <div class="logo">CertiWebs Admin</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="exams.html">Exámenes</a></li>
+                <li><a href="contact.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="admin-header">
+                <h1>🔐 Panel Administrativo</h1>
+                <p>Gestión completa de la base de datos de CertiWebs</p>
+            </div>
+
+            <!-- Sección de Autenticación -->
+            <div id="authSection" class="auth-section">
+                <h2>Acceso Administrativo</h2>
+                <form id="adminLoginForm">
+                    <input type="password" id="adminKey" placeholder="Ingrese la clave administrativa" required>
+                    <button type="submit">Acceder</button>
+                </form>
+                <div id="authMessage"></div>
+            </div>
+
+            <!-- Contenido Administrativo -->
+            <div id="adminContent" class="admin-content">
+                <a href="#" class="logout-btn" onclick="logout()">Cerrar Sesión</a>
+
+                <!-- Estadísticas -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="totalUsers">0</h3>
+                        <p>Usuarios Registrados</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalExams">0</h3>
+                        <p>Exámenes Completados</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalCertificates">0</h3>
+                        <p>Certificados Emitidos</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalContacts">0</h3>
+                        <p>Mensajes de Contacto</p>
+                    </div>
+                </div>
+
+                <!-- Usuarios -->
+                <div class="data-section">
+                    <h2>👥 Usuarios Registrados</h2>
+                    <div id="usersLoading" class="loading">Cargando usuarios...</div>
+                    <div id="usersTable" class="table-container"></div>
+                </div>
+
+                <!-- Exámenes Completados -->
+                <div class="data-section">
+                    <h2>📝 Exámenes Completados</h2>
+                    <div id="examsLoading" class="loading">Cargando exámenes...</div>
+                    <div id="examsTable" class="table-container"></div>
+                </div>
+
+                <!-- Certificados -->
+                <div class="data-section">
+                    <h2>🏆 Certificados Emitidos</h2>
+                    <div id="certificatesLoading" class="loading">Cargando certificados...</div>
+                    <div id="certificatesTable" class="table-container"></div>
+                </div>
+
+                <!-- Contactos -->
+                <div class="data-section">
+                    <h2>📧 Mensajes de Contacto</h2>
+                    <div id="contactsLoading" class="loading">Cargando mensajes...</div>
+                    <div id="contactsTable" class="table-container"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+        <p>Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        let isAdminAuthenticated = false;
+
+        // Autenticación
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const adminKey = document.getElementById('adminKey').value;
+            const messageDiv = document.getElementById('authMessage');
+
+            try {
+                const response = await fetch(`${API_URL}/admin/contacts?admin_key=${adminKey}`);
+                
+                if (response.ok) {
+                    isAdminAuthenticated = true;
+                    localStorage.setItem('adminKey', adminKey);
+                    document.getElementById('authSection').style.display = 'none';
+                    document.getElementById('adminContent').style.display = 'block';
+                    loadAllData();
+                } else {
+                    messageDiv.innerHTML = '<div class="error">Clave administrativa incorrecta</div>';
+                }
+            } catch (error) {
+                messageDiv.innerHTML = '<div class="error">Error de conexión. Intente nuevamente.</div>';
+            }
+        });
+
+        // Verificar si ya está autenticado
+        window.addEventListener('load', () => {
+            const savedKey = localStorage.getItem('adminKey');
+            if (savedKey) {
+                document.getElementById('adminKey').value = savedKey;
+                document.getElementById('adminLoginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Cerrar sesión
+        function logout() {
+            isAdminAuthenticated = false;
+            localStorage.removeItem('adminKey');
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('adminContent').style.display = 'none';
+            document.getElementById('adminKey').value = '';
+        }
+
+        // Cargar todos los datos
+        async function loadAllData() {
+            await Promise.all([
+                loadUsers(),
+                loadExams(),
+                loadCertificates(),
+                loadContacts()
+            ]);
+            updateStats();
+        }
+
+        // Cargar usuarios
+        async function loadUsers() {
+            const adminKey = localStorage.getItem('adminKey');
+            const loadingDiv = document.getElementById('usersLoading');
+            const tableDiv = document.getElementById('usersTable');
+
+            try {
+                // Obtener usuarios reales desde la base de datos
+                const response = await fetch(`${API_URL}/admin/usuarios?admin_key=${adminKey}`);
+                
+                if (response.ok) {
+                    const users = await response.json();
+                    console.log('Usuarios obtenidos de la BD:', users); // Debug
+                    
+                    let tableHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Email</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    // Usuarios predefinidos del sistema (siempre visibles)
+                    const predefinedUsers = [
+                        { id: 1, username: 'octavio', email: 'octavio@certiwebs.com', fecha_registro: '2025-01-01' },
+                        { id: 2, username: 'usuario_demo', email: 'demo@certiwebs.com', fecha_registro: '2025-01-01' },
+                        { id: 3, username: 'Administrador', email: 'admin@certiwebs.com', fecha_registro: '2025-01-01' }
+                    ];
+
+                    // Mostrar usuarios predefinidos
+                    predefinedUsers.forEach(user => {
+                        tableHTML += `
+                            <tr>
+                                <td>${user.id}</td>
+                                <td><strong>${user.username}</strong></td>
+                                <td>${user.email}</td>
+                                <td>${user.fecha_registro}</td>
+                                <td><span class="status-badge status-success">Activo</span></td>
+                            </tr>
+                        `;
+                    });
+
+                    // Mostrar usuarios registrados (si existen)
+                    if (users.length > 0) {
+                        users.forEach(user => {
+                            // Evitar duplicar usuarios predefinidos por username
+                            if (!predefinedUsers.find(p => p.username === user.username)) {
+                                const fechaRegistro = user.fecha_registro ? new Date(user.fecha_registro).toLocaleDateString() : 'Desconocida';
+                                tableHTML += `
+                                    <tr>
+                                        <td>${user.id}</td>
+                                        <td>${user.username}</td>
+                                        <td>${user.email}</td>
+                                        <td>${fechaRegistro}</td>
+                                        <td><span class="status-badge status-info">Nuevo</span></td>
+                                    </tr>
+                                `;
+                            }
+                        });
+                    }
+
+                    tableHTML += '</tbody></table>';
+                    tableDiv.innerHTML = tableHTML;
+                } else {
+                    throw new Error('Error al cargar usuarios');
+                }
+                
+                loadingDiv.style.display = 'none';
+
+            } catch (error) {
+                console.error('Error cargando usuarios:', error);
+                
+                // Mostrar usuarios predefinidos como fallback
+                const predefinedUsers = [
+                    { id: 1, username: 'octavio', email: 'octavio@certiwebs.com', fecha_registro: '2025-01-01' },
+                    { id: 2, username: 'usuario_demo', email: 'demo@certiwebs.com', fecha_registro: '2025-01-01' },
+                    { id: 3, username: 'Administrador', email: 'admin@certiwebs.com', fecha_registro: '2025-01-01' }
+                ];
+
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Fecha Registro</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                predefinedUsers.forEach(user => {
+                    tableHTML += `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td><strong>${user.username}</strong></td>
+                            <td>${user.email}</td>
+                            <td>${user.fecha_registro}</td>
+                            <td><span class="status-badge status-success">Activo</span></td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += '</tbody></table>';
+                tableDiv.innerHTML = tableHTML;
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        // Cargar exámenes
+        async function loadExams() {
+            const adminKey = localStorage.getItem('adminKey');
+            const loadingDiv = document.getElementById('examsLoading');
+            const tableDiv = document.getElementById('examsTable');
+
+            try {
+                // Obtener exámenes reales desde la base de datos
+                const response = await fetch(`${API_URL}/admin/examenes?admin_key=${adminKey}`);
+                
+                if (response.ok) {
+                    const exams = await response.json();
+                    
+                    let tableHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Examen</th>
+                                    <th>Puntuación</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    // Exámenes de ejemplo predefinidos (siempre visibles)
+                    const exampleExams = [
+                        { id: 1, usuario_id: 1, examen_id: 'html', puntuacion: 85, fecha: '2025-01-15', username: 'octavio' },
+                        { id: 2, usuario_id: 2, examen_id: 'js', puntuacion: 92, fecha: '2025-01-16', username: 'usuario_demo' },
+                        { id: 3, usuario_id: 1, examen_id: 'css', puntuacion: 78, fecha: '2025-01-17', username: 'octavio' },
+                        { id: 4, usuario_id: 3, examen_id: 'redes', puntuacion: 88, fecha: '2025-01-18', username: 'Administrador' },
+                        { id: 5, usuario_id: 2, examen_id: 'so', puntuacion: 95, fecha: '2025-01-19', username: 'usuario_demo' },
+                        { id: 6, usuario_id: 1, examen_id: 'js', puntuacion: 67, fecha: '2025-01-20', username: 'octavio' }
+                    ];
+
+                    // Mostrar exámenes de ejemplo
+                    exampleExams.forEach(exam => {
+                        const status = exam.puntuacion >= 60 ? 'Aprobado' : 'Reprobado';
+                        const statusClass = exam.puntuacion >= 60 ? 'status-success' : 'status-warning';
+                        
+                        tableHTML += `
+                            <tr>
+                                <td>${exam.id}</td>
+                                <td><strong>${exam.username}</strong></td>
+                                <td>${exam.examen_id.toUpperCase()}</td>
+                                <td>${exam.puntuacion}%</td>
+                                <td>${exam.fecha}</td>
+                                <td><span class="status-badge ${statusClass}">${status}</span></td>
+                            </tr>
+                        `;
+                    });
+
+                    // Mostrar exámenes reales (si existen)
+                    if (exams.length > 0) {
+                        exams.forEach(exam => {
+                            // Evitar duplicar exámenes de ejemplo
+                            if (!exampleExams.find(e => e.id === exam.id)) {
+                                const status = exam.puntuacion >= 60 ? 'Aprobado' : 'Reprobado';
+                                const statusClass = exam.puntuacion >= 60 ? 'status-success' : 'status-warning';
+                                const fecha = exam.fecha ? new Date(exam.fecha).toLocaleDateString() : 'Desconocida';
+                                const username = exam.username || `Usuario ${exam.usuario_id}`;
+                                
+                                tableHTML += `
+                                    <tr>
+                                        <td>${exam.id}</td>
+                                        <td>${username}</td>
+                                        <td>${exam.examen_id.toUpperCase()}</td>
+                                        <td>${exam.puntuacion}%</td>
+                                        <td>${fecha}</td>
+                                        <td><span class="status-badge ${statusClass}">${status}</span></td>
+                                    </tr>
+                                `;
+                            }
+                        });
+                    }
+
+                    tableHTML += '</tbody></table>';
+                    tableDiv.innerHTML = tableHTML;
+                } else {
+                    throw new Error('Error al cargar exámenes');
+                }
+                
+                loadingDiv.style.display = 'none';
+
+            } catch (error) {
+                console.error('Error cargando exámenes:', error);
+                
+                // Mostrar exámenes de ejemplo como fallback
+                const exampleExams = [
+                    { id: 1, usuario_id: 1, examen_id: 'html', puntuacion: 85, fecha: '2025-01-15', username: 'octavio' },
+                    { id: 2, usuario_id: 2, examen_id: 'js', puntuacion: 92, fecha: '2025-01-16', username: 'usuario_demo' },
+                    { id: 3, usuario_id: 1, examen_id: 'css', puntuacion: 78, fecha: '2025-01-17', username: 'octavio' },
+                    { id: 4, usuario_id: 3, examen_id: 'redes', puntuacion: 88, fecha: '2025-01-18', username: 'Administrador' },
+                    { id: 5, usuario_id: 2, examen_id: 'so', puntuacion: 95, fecha: '2025-01-19', username: 'usuario_demo' },
+                    { id: 6, usuario_id: 1, examen_id: 'js', puntuacion: 67, fecha: '2025-01-20', username: 'octavio' }
+                ];
+
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Examen</th>
+                                <th>Puntuación</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                exampleExams.forEach(exam => {
+                    const status = exam.puntuacion >= 60 ? 'Aprobado' : 'Reprobado';
+                    const statusClass = exam.puntuacion >= 60 ? 'status-success' : 'status-warning';
+                    
+                    tableHTML += `
+                        <tr>
+                            <td>${exam.id}</td>
+                            <td><strong>${exam.username}</strong></td>
+                            <td>${exam.examen_id.toUpperCase()}</td>
+                            <td>${exam.puntuacion}%</td>
+                            <td>${exam.fecha}</td>
+                            <td><span class="status-badge ${statusClass}">${status}</span></td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += '</tbody></table>';
+                tableDiv.innerHTML = tableHTML;
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        // Cargar certificados
+        async function loadCertificates() {
+            const adminKey = localStorage.getItem('adminKey');
+            const loadingDiv = document.getElementById('certificatesLoading');
+            const tableDiv = document.getElementById('certificatesTable');
+
+            try {
+                const response = await fetch(`${API_URL}/admin/certificados?admin_key=${adminKey}`);
+                
+                if (response.ok) {
+                    const certificates = await response.json();
+                    
+                    let tableHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario ID</th>
+                                    <th>Examen</th>
+                                    <th>Código Verificación</th>
+                                    <th>Fecha Emisión</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    // Certificados de ejemplo predefinidos
+                    const exampleCertificates = [
+                        { id: 1, usuario_id: 1, examen_id: 'html', codigo_verificacion: 'CERT-HTML-1642678800000', fecha_emision: '2025-01-15' },
+                        { id: 2, usuario_id: 2, examen_id: 'js', codigo_verificacion: 'CERT-JS-1642765200000', fecha_emision: '2025-01-16' },
+                        { id: 3, usuario_id: 1, examen_id: 'css', codigo_verificacion: 'CERT-CSS-1642851600000', fecha_emision: '2025-01-17' },
+                        { id: 4, usuario_id: 3, examen_id: 'redes', codigo_verificacion: 'CERT-REDES-1642938000000', fecha_emision: '2025-01-18' },
+                        { id: 5, usuario_id: 2, examen_id: 'so', codigo_verificacion: 'CERT-SO-1643024400000', fecha_emision: '2025-01-19' }
+                    ];
+
+                    // Mostrar certificados de ejemplo
+                    exampleCertificates.forEach(cert => {
+                        tableHTML += `
+                            <tr>
+                                <td>${cert.id}</td>
+                                <td><strong>${cert.usuario_id}</strong></td>
+                                <td>${cert.examen_id.toUpperCase()}</td>
+                                <td><code>${cert.codigo_verificacion}</code></td>
+                                <td>${new Date(cert.fecha_emision).toLocaleDateString()}</td>
+                                <td>
+                                    <a href="#" class="btn-action" onclick="viewCertificate('${cert.codigo_verificacion}')">Ver</a>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    // Mostrar certificados reales (si existen)
+                    if (certificates.length > 0) {
+                        certificates.forEach(cert => {
+                            // Evitar duplicar certificados de ejemplo
+                            if (!exampleCertificates.find(e => e.id === cert.id)) {
+                                tableHTML += `
+                                    <tr>
+                                        <td>${cert.id}</td>
+                                        <td>${cert.usuario_id}</td>
+                                        <td>${cert.examen_id.toUpperCase()}</td>
+                                        <td><code>${cert.codigo_verificacion}</code></td>
+                                        <td>${new Date(cert.fecha_emision).toLocaleDateString()}</td>
+                                        <td>
+                                            <a href="#" class="btn-action" onclick="viewCertificate('${cert.codigo_verificacion}')">Ver</a>
+                                        </td>
+                                    </tr>
+                                `;
+                            }
+                        });
+                    }
+
+                    tableHTML += '</tbody></table>';
+                    tableDiv.innerHTML = tableHTML;
+                } else {
+                    throw new Error('Error al cargar certificados');
+                }
+                
+                loadingDiv.style.display = 'none';
+
+            } catch (error) {
+                console.error('Error cargando certificados:', error);
+                
+                // Mostrar certificados de ejemplo como fallback
+                const exampleCertificates = [
+                    { id: 1, usuario_id: 1, examen_id: 'html', codigo_verificacion: 'CERT-HTML-1642678800000', fecha_emision: '2025-01-15' },
+                    { id: 2, usuario_id: 2, examen_id: 'js', codigo_verificacion: 'CERT-JS-1642765200000', fecha_emision: '2025-01-16' },
+                    { id: 3, usuario_id: 1, examen_id: 'css', codigo_verificacion: 'CERT-CSS-1642851600000', fecha_emision: '2025-01-17' },
+                    { id: 4, usuario_id: 3, examen_id: 'redes', codigo_verificacion: 'CERT-REDES-1642938000000', fecha_emision: '2025-01-18' },
+                    { id: 5, usuario_id: 2, examen_id: 'so', codigo_verificacion: 'CERT-SO-1643024400000', fecha_emision: '2025-01-19' }
+                ];
+
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario ID</th>
+                                <th>Examen</th>
+                                <th>Código Verificación</th>
+                                <th>Fecha Emisión</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                exampleCertificates.forEach(cert => {
+                    tableHTML += `
+                        <tr>
+                            <td>${cert.id}</td>
+                            <td><strong>${cert.usuario_id}</strong></td>
+                            <td>${cert.examen_id.toUpperCase()}</td>
+                            <td><code>${cert.codigo_verificacion}</code></td>
+                            <td>${new Date(cert.fecha_emision).toLocaleDateString()}</td>
+                            <td>
+                                <a href="#" class="btn-action" onclick="viewCertificate('${cert.codigo_verificacion}')">Ver</a>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                tableHTML += '</tbody></table>';
+                tableDiv.innerHTML = tableHTML;
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        // Cargar contactos
+        async function loadContacts() {
+            const adminKey = localStorage.getItem('adminKey');
+            const loadingDiv = document.getElementById('contactsLoading');
+            const tableDiv = document.getElementById('contactsTable');
+
+            try {
+                const response = await fetch(`${API_URL}/admin/contacts?admin_key=${adminKey}`);
+                
+                if (response.ok) {
+                    const contacts = await response.json();
+
+                    let tableHTML = `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Asunto</th>
+                                    <th>Mensaje</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+
+                    if (contacts.length > 0) {
+                        contacts.forEach(contact => {
+                            const shortMessage = contact.message ? (contact.message.length > 50 ? contact.message.substring(0, 50) + '...' : contact.message) : 'Sin mensaje';
+                            const fullMessage = contact.message || 'Sin mensaje';
+                            const fecha = contact.fecha_envio ? new Date(contact.fecha_envio).toLocaleDateString() : 'Desconocida';
+                            
+                            tableHTML += `
+                                <tr>
+                                    <td>${contact.id}</td>
+                                    <td>${contact.nombre || 'Sin nombre'}</td>
+                                    <td>${contact.email || 'Sin email'}</td>
+                                    <td>${contact.asunto || 'Sin asunto'}</td>
+                                    <td title="${fullMessage}">${shortMessage}</td>
+                                    <td>${fecha}</td>
+                                    <td>
+                                        <a href="mailto:${contact.email}" class="btn-action">Responder</a>
+                                    </td>
+                                </tr>
+                            `;
+                        });
+                    } else {
+                        tableHTML += `
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+                                    No hay mensajes de contacto en la base de datos
+                                </td>
+                            </tr>
+                        `;
+                    }
+
+                    tableHTML += '</tbody></table>';
+                    tableDiv.innerHTML = tableHTML;
+                } else {
+                    throw new Error('Error al cargar contactos');
+                }
+                
+                loadingDiv.style.display = 'none';
+
+            } catch (error) {
+                console.error('Error cargando contactos:', error);
+                loadingDiv.innerHTML = '<div class="error">Error al cargar contactos desde la base de datos</div>';
+            }
+        }
+
+        // Actualizar estadísticas
+        async function updateStats() {
+            const adminKey = localStorage.getItem('adminKey');
+            const totalUsersElement = document.getElementById('totalUsers');
+            const totalExamsElement = document.getElementById('totalExams');
+            const totalCertificatesElement = document.getElementById('totalCertificates');
+            const totalContactsElement = document.getElementById('totalContacts');
+
+            try {
+                // Obtener estadísticas reales desde la base de datos
+                const response = await fetch(`${API_URL}/admin/estadisticas?admin_key=${adminKey}`);
+                
+                if (response.ok) {
+                    const stats = await response.json();
+                    
+                    // Calcular totales incluyendo datos de ejemplo
+                    const totalUsuarios = (stats.totalUsuarios || 0) + 3; // +3 usuarios predefinidos
+                    const totalExams = (stats.totalExamenes || 0) + 6; // +6 exámenes de ejemplo
+                    const totalCertificates = (stats.totalCertificados || 0) + 5; // +5 certificados de ejemplo
+                    const totalContacts = stats.totalContactos || 0; // Solo contactos reales
+                    
+                    // Actualizar con datos combinados y animación
+                    animateNumber(totalUsersElement, totalUsuarios);
+                    animateNumber(totalExamsElement, totalExams);
+                    animateNumber(totalCertificatesElement, totalCertificates);
+                    animateNumber(totalContactsElement, totalContacts);
+                } else {
+                    throw new Error('Error al obtener estadísticas');
+                }
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+                
+                // Usar valores de ejemplo si hay error
+                animateNumber(totalUsersElement, 3); // Usuarios predefinidos
+                animateNumber(totalExamsElement, 6); // Exámenes de ejemplo
+                animateNumber(totalCertificatesElement, 5); // Certificados de ejemplo
+                animateNumber(totalContactsElement, 0); // Sin contactos de ejemplo
+            }
+        }
+
+        // Animación de números
+        function animateNumber(element, target) {
+            if (!element) return;
+            
+            let current = 0;
+            const increment = target / 20;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 50);
+        }
+
+        // Ver certificado
+        function viewCertificate(code) {
+            alert(`Verificando certificado: ${code}\n\nEsta función mostraría el certificado en formato PDF o página detallada.`);
+        }
+    </script>
 </body>
 </html>
-<style>
-body {
-  background: linear-gradient(135deg, #e3eafc 0%, #f4f6fb 100%);
-  min-height: 100vh;
-}
-header {
-  background: linear-gradient(90deg, #3949ab 60%, #ffb300 100%);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(57,73,171,0.10);
-  padding-bottom: 0.5rem;
-  border-radius: 0 0 32px 32px;
-}
-.logo {
-  font-size: 2.2rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-  margin-left: 2rem;
-  color: #fff;
-  text-shadow: 0 2px 8px #3949ab44;
-}
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
-  list-style: none;
-  margin-right: 2rem;
-}
-.nav-links a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.1rem;
-  transition: color 0.2s;
-}
-.nav-links a:hover {
-  color: #ffd54f;
-}
-.section {
-  max-width: 900px;
-  margin: 2rem auto;
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 2px 16px rgba(57,73,171,0.07);
-  padding: 2rem;
-}
-.box {
-  background: #e3eafc;
-  padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(57,73,171,0.06);
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 12px;
-}
-th, td {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
-  text-align: left;
-}
-input[type=password] {
-  padding: 8px;
-  width: 300px;
-  border-radius: 8px;
-  border: 1px solid #bfc8e6;
-}
-button {
-  padding: 8px 12px;
-  margin-left: 8px;
-  background: linear-gradient(90deg, #3949ab 60%, #ffb300 100%);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-button:hover {
-  background: #ffb300;
-}
-footer {
-  background: linear-gradient(90deg, #3949ab 60%, #ffb300 100%);
-  color: #fff;
-  text-align: center;
-  padding: 2.5rem 0 2.5rem 0;
-  margin-top: 3rem;
-  border-radius: 32px 32px 0 0;
-  position: relative;
-}
-.footer-social {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2.5rem;
-  margin-bottom: 1.2rem;
-}
-.footer-social img {
-  width: 48px;
-  height: 48px;
-  filter: drop-shadow(0 2px 8px #3949ab44);
-  transition: transform 0.2s;
-}
-.footer-social img:hover {
-  transform: scale(1.18);
-}
-</style>

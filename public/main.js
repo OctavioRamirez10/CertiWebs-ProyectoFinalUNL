@@ -1,12 +1,5 @@
 // --- Funcionalidad básica para el formulario de contacto (solo si existe) ---
-const contactoForm = document.getElementById('contacto-form');
-if (contactoForm) {
-    contactoForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        alert('¡Gracias por tu mensaje! Nos pondremos en contacto pronto.');
-        this.reset();
-    });
-}
+// Este código será reemplazado por la versión más completa más abajo
 
 // Login/registro manejados más abajo con llamadas al API (evitar lógica simulada)
 
@@ -136,19 +129,20 @@ const utils = {
 
     getUsuarioActual() {
         return {
-            id: sessionStorage.getItem('certiweb_user_id'),
-            username: sessionStorage.getItem('certiweb_username')
+            id: sessionStorage.getItem('userId'),
+            username: sessionStorage.getItem('username')
         };
     },
 
     setUsuarioActual(id, username) {
-        sessionStorage.setItem('certiweb_user_id', id);
-        sessionStorage.setItem('certiweb_username', username);
+        sessionStorage.setItem('userId', id);
+        sessionStorage.setItem('username', username);
     },
 
     cerrarSesion() {
-        sessionStorage.removeItem('certiweb_user_id');
-        sessionStorage.removeItem('certiweb_username');
+        sessionStorage.removeItem('userId');
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('token');
         window.location.href = 'index.html';
     },
 
@@ -226,102 +220,178 @@ document.addEventListener('DOMContentLoaded', () => {
     // Formulario de contacto: enviar a /api/contact
     const contactoForm = document.getElementById('contacto-form');
     if (contactoForm) {
+        console.log('Formulario de contacto encontrado, configurando evento submit');
         contactoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            console.log('Enviando formulario de contacto...');
+            
             const statusEl = document.getElementById('contact-status');
+            const submitBtn = document.getElementById('contact-submit');
+            
             const name = document.getElementById('contact-name').value.trim();
             const email = document.getElementById('contact-email').value.trim();
             const subject = document.getElementById('contact-subject').value.trim();
             const message = document.getElementById('contact-message').value.trim();
-
-            statusEl.textContent = 'Enviando...';
-            statusEl.className = 'status-message';
-            document.getElementById('contact-submit').disabled = true;
-
-            try {
-                const resp = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, subject, message })
-                });
-                const data = await resp.json();
-                if (!resp.ok) throw new Error(data.error || 'Error en el servidor');
-                
-                statusEl.textContent = '¡Mensaje enviado correctamente! Te responderemos a la brevedad.';
-                statusEl.className = 'status-message status-success';
-                contactoForm.reset();
-                
-                // Redirigir después de 3 segundos
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 3000);
-                
-            } catch (err) {
-                console.error('Contacto error:', err);
-                statusEl.textContent = 'Hubo un error al enviar. Por favor, intenta más tarde.';
+            
+            // Validación básica
+            if (!name || !email || !subject || !message) {
+                statusEl.textContent = 'Por favor completa todos los campos obligatorios.';
                 statusEl.className = 'status-message status-error';
-            } finally {
-                document.getElementById('contact-submit').disabled = false;
+                return;
             }
-        });
-    }
-
-    // Formulario de login
-    const loginForm = document.getElementById('login-form');
-    console.log('Formulario login encontrado:', loginForm);
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            console.log('Submit de login activado');
-            e.preventDefault();
             
-            const username = document.getElementById('login-username').value.trim();
-            const password = document.getElementById('login-password').value;
-            const msgElement = loginForm.querySelector('.login-msg');
+            // Deshabilitar botón durante el envío
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
             
-            console.log('Intentando login con usuario:', username);
-            console.log('API URL:', API_URL);
-
             try {
-                const response = await fetch(`${API_URL}/login`, {
+                const response = await fetch(`${API_URL}/contact`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ name, email, subject, message })
                 });
                 
-                console.log('Response status:', response.status);
                 const data = await response.json();
-                console.log('Response data:', data);
                 
-                if (!response.ok) {
-                    throw new Error(data.error || 'Error en el login');
+                if (response.ok) {
+                    statusEl.textContent = '¡Mensaje enviado correctamente! Te responderemos a la brevedad.';
+                    statusEl.className = 'status-message status-success';
+                    contactoForm.reset();
+                    
+                    // Redirigir después de 3 segundos
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 3000);
+                } else {
+                    throw new Error(data.error || 'Error al enviar mensaje');
                 }
-                
-                utils.setUsuarioActual(data.id, data.username);
-                
-                // Mostrar mensaje de éxito
-                if (msgElement) {
-                    msgElement.textContent = `¡Bienvenido ${username}! Iniciando sesión...`;
-                    msgElement.className = 'login-msg success-message';
-                }
-                
-                // Redirigir después de 1.5 segundos
-                setTimeout(() => {
-                    window.location.href = 'exams.html';
-                }, 1500);
-                
             } catch (error) {
-                console.error('Error en login:', error);
-                if (msgElement) {
-                    msgElement.textContent = error.message;
-                    msgElement.className = 'login-msg error-message';
-                }
+                console.error('Error en contacto:', error);
+                statusEl.textContent = 'Error al enviar el mensaje. Por favor intenta nuevamente.';
+                statusEl.className = 'status-message status-error';
+            } finally {
+                // Rehabilitar botón
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar Mensaje';
             }
         });
     } else {
-        console.error('No se encontró el formulario de login');
+        console.log('Formulario de contacto no encontrado');
+    }
+
+    // Función para inicializar el formulario de login cuando se abra el modal
+    function initializeLoginForm() {
+        const loginForm = document.getElementById('login-form');
+        console.log('Formulario login encontrado:', loginForm);
+        
+        if (loginForm && !loginForm.hasAttribute('data-initialized')) {
+            loginForm.addEventListener('submit', async (e) => {
+                console.log('Submit de login activado');
+                e.preventDefault();
+                
+                const username = document.getElementById('login-username').value.trim();
+                const password = document.getElementById('login-password').value;
+                const msgElement = loginForm.querySelector('.login-msg');
+                
+                console.log('Intentando login con usuario:', username);
+                console.log('Password length:', password.length);
+                console.log('API URL:', API_URL);
+
+                try {
+                    const response = await fetch(`${API_URL}/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    const data = await response.json();
+                    console.log('Response data:', data);
+                    
+                    if (response.ok) {
+                        console.log('Login exitoso');
+                        sessionStorage.setItem('token', data.token);
+                        sessionStorage.setItem('username', data.username);
+                        sessionStorage.setItem('userId', data.id);
+                        
+                        // Mostrar mensaje de éxito personalizado
+                        if (msgElement) {
+                            msgElement.innerHTML = `¡Bienvenido/a <strong>${data.username}</strong>! 🎉<br>Sesión iniciada correctamente. Redirigiendo...`;
+                            msgElement.className = 'login-msg success-message';
+                        } else {
+                            alert(`¡Bienvenido/a ${data.username}! 🎉\nSesión iniciada correctamente.`);
+                        }
+                        
+                        // Redirigir inmediatamente
+                        console.log('Redirigiendo a exams.html...');
+                        
+                        // Cerrar modal primero
+                        const loginModal = document.getElementById('loginModal');
+                        if (loginModal) {
+                            loginModal.style.display = 'none';
+                        }
+                        
+                        // Redirigir con más tiempo y usando window.location.replace
+                        setTimeout(() => {
+                            console.log('Ejecutando redirección...');
+                            window.location.replace('exams.html');
+                        }, 1000);
+                    } else {
+                        console.log('Login fallido:', data.error);
+                        if (msgElement) {
+                            msgElement.textContent = data.error || 'Error al iniciar sesión';
+                            msgElement.className = 'login-msg error-message';
+                        } else {
+                            alert(data.error || 'Error al iniciar sesión');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error en login:', error);
+                    if (msgElement) {
+                        msgElement.textContent = 'Error de conexión. Intenta nuevamente.';
+                        msgElement.className = 'login-msg error-message';
+                    } else {
+                        alert('Error de conexión. Intenta nuevamente.');
+                    }
+                }
+            });
+            
+            loginForm.setAttribute('data-initialized', 'true');
+            console.log('Formulario de login inicializado correctamente');
+        } else {
+            console.log('Formulario de login no encontrado o ya inicializado');
+        }
+    }
+
+    // Inicializar formulario cuando se abra el modal de login
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) {
+        // Intentar inicializar inmediatamente
+        initializeLoginForm();
+        
+        // También observar cambios en el modal
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    if (loginModal.style.display === 'block') {
+                        initializeLoginForm();
+                    }
+                }
+            });
+        });
+        observer.observe(loginModal, { attributes: true });
+        
+        // También intentar inicializar cuando se haga clic en el botón de login
+        const loginBtn = document.querySelector('[onclick*="loginModal"]');
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                setTimeout(initializeLoginForm, 100);
+            });
+        }
     }
 
     // Formulario de registro
@@ -335,11 +405,41 @@ document.addEventListener('DOMContentLoaded', () => {
             const msgElement = registerForm.querySelector('.register-msg');
 
             try {
-                await auth.registrar(username, password, email);
-                utils.mostrarMensaje(msgElement, '¡Registro exitoso! Redirigiendo...', 'success');
-                setTimeout(() => window.location.href = 'exams.html', 1500);
+                // Intentar registrar el usuario
+                const data = await utils.fetchAPI('registro', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password, email })
+                });
+                
+                // Si el registro es exitoso, guardar datos de sesión
+                sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('username', data.username);
+                sessionStorage.setItem('userId', data.id);
+                
+                utils.mostrarMensaje(msgElement, '¡Registro exitoso! Iniciando sesión...', 'success');
+                
+                // Redirigir a la página de exámenes después de 1.5 segundos
+                setTimeout(() => {
+                    window.location.href = 'exams.html';
+                }, 1500);
+                
             } catch (error) {
-                utils.mostrarMensaje(msgElement, error.message);
+                // Si el usuario ya existe, mostrar mensaje para que inicie sesión
+                if (error.message.includes('ya existe') || error.message.includes('duplicate')) {
+                    utils.mostrarMensaje(msgElement, 'Este usuario ya está registrado. Por favor inicia sesión.', 'error');
+                    // Cerrar modal de registro y abrir modal de login
+                    setTimeout(() => {
+                        const registerModal = document.getElementById('registerModal');
+                        const loginModal = document.getElementById('loginModal');
+                        if (registerModal) registerModal.style.display = 'none';
+                        if (loginModal) {
+                            loginModal.style.display = 'block';
+                            initializeLoginForm(); // Inicializar formulario de login
+                        }
+                    }, 2000);
+                } else {
+                    utils.mostrarMensaje(msgElement, error.message || 'Error en el registro', 'error');
+                }
             }
         });
     }
@@ -374,13 +474,27 @@ document.addEventListener('DOMContentLoaded', function() {
         // Mostrar nombre de usuario y mensaje de bienvenida
         const usernameDisplay = document.getElementById('username-display');
         if (usernameDisplay) {
-            usernameDisplay.textContent = usuario.username;
+            usernameDisplay.innerHTML = `<i class="fas fa-user-circle"></i> ${usuario.username}`;
         }
 
-        // Mostrar mensaje de bienvenida temporal
+        // Actualizar mensaje de bienvenida en la página de exámenes
+        const welcomePageMessage = document.getElementById('welcome-message');
+        if (welcomePageMessage) {
+            welcomePageMessage.innerHTML = `¡Hola <strong>${usuario.username}</strong>! 🎯<br>Selecciona una certificación para evaluar tus conocimientos técnicos`;
+        }
+
+        // Mostrar mensaje de bienvenida mejorado
         const welcomeMessage = document.createElement('div');
         welcomeMessage.className = 'welcome-message';
-        welcomeMessage.textContent = `¡Bienvenido/a ${usuario.username}!`;
+        welcomeMessage.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="font-size: 2rem;">👋</div>
+                <div>
+                    <h4 style="margin: 0; color: #28a745;">¡Bienvenido/a de vuelta!</h4>
+                    <p style="margin: 0; opacity: 0.9;">Hola <strong>${usuario.username}</strong>, ¿qué examen tomarás hoy?</p>
+                </div>
+            </div>
+        `;
         welcomeMessage.style.cssText = `
             background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
@@ -477,7 +591,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Mostrar nombre de usuario
         const usernameDisplay = document.getElementById('username-display');
         if (usernameDisplay) {
-            usernameDisplay.textContent = usuario.username;
+            usernameDisplay.innerHTML = `<i class="fas fa-user-circle"></i> ${usuario.username}`;
         }
 
         const params = new URLSearchParams(window.location.search);
@@ -519,6 +633,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Iniciar temporizador
         function startTimer() {
             const timerEl = document.getElementById('timer');
+            if (!timerEl) {
+                console.error('Elemento timer no encontrado');
+                return;
+            }
+            
+            console.log('Iniciando temporizador con', timeLeft, 'segundos');
+            
+            // Mostrar tiempo inicial
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
             timerInterval = setInterval(() => {
                 timeLeft--;
                 const minutes = Math.floor(timeLeft / 60);
@@ -531,6 +657,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
+                    console.log('Tiempo agotado, enviando examen automáticamente');
                     submitExam();
                 }
             }, 1000);
@@ -562,6 +689,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Seleccionar opción
         window.selectOption = function(index) {
+            console.log('Seleccionando opción', index, 'para la pregunta', currentQuestion);
             answers[currentQuestion] = index;
             showQuestion();
         };
@@ -580,6 +708,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const nextBtn = document.getElementById('next-btn');
             const submitBtn = document.getElementById('submit-btn');
             
+            if (!prevBtn || !nextBtn || !submitBtn) {
+                console.error('Botones de navegación no encontrados');
+                return;
+            }
+            
             prevBtn.disabled = currentQuestion === 0;
             
             if (currentQuestion === questions.length - 1) {
@@ -596,6 +729,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentQuestion > 0) {
                 currentQuestion--;
                 showQuestion();
+                console.log('Navegando a la pregunta anterior:', currentQuestion + 1);
+            } else {
+                console.log('Ya estás en la primera pregunta');
             }
         };
 
@@ -603,12 +739,31 @@ document.addEventListener('DOMContentLoaded', function() {
             if (currentQuestion < questions.length - 1) {
                 currentQuestion++;
                 showQuestion();
+                console.log('Navegando a la siguiente pregunta:', currentQuestion + 1);
+            } else {
+                console.log('Ya estás en la última pregunta');
             }
         };
 
         // Enviar examen
         window.submitExam = async function() {
+            console.log('Iniciando envío del examen...');
             clearInterval(timerInterval);
+            
+            // Validar que todas las preguntas tengan respuesta
+            let unansweredQuestions = [];
+            questions.forEach((question, index) => {
+                if (answers[index] === undefined || answers[index] === null || answers[index] === '') {
+                    unansweredQuestions.push(index + 1);
+                }
+            });
+            
+            if (unansweredQuestions.length > 0) {
+                const confirmSubmit = confirm(`Tienes preguntas sin responder: ${unansweredQuestions.join(', ')}\n\n¿Deseas enviar el examen de todas formas?`);
+                if (!confirmSubmit) {
+                    return;
+                }
+            }
             
             // Calcular puntuación
             let correct = 0;
@@ -624,6 +779,17 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 // Guardar resultado del examen
                 await examenes.guardarResultado(examId, score);
+                
+                // Guardar resultados en sessionStorage para result.html
+                const resultadoCompleto = {
+                    exam: examId,
+                    score: score,
+                    correct: correct,
+                    total: questions.length,
+                    answers: answers,
+                    questions: questions
+                };
+                sessionStorage.setItem('certiweb_last_result', JSON.stringify(resultadoCompleto));
                 
                 // Si aprobó (60% o más), crear certificado automáticamente
                 if (score >= 60) {
@@ -650,7 +816,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('Iniciando examen...');
         showQuestion();
+        
+        // Iniciar el temporizador
         startTimer();
+        console.log('Temporizador iniciado con', timeLeft, 'segundos');
     }
 });
 
@@ -683,140 +852,17 @@ if (window.location.pathname.endsWith('result.html')) {
         if (aprobado) {
             document.getElementById('descargarPDF').onclick = async function () {
                 const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-
-                // Fondo principal
-                doc.setFillColor(244, 246, 251); // #f4f6fb
-                doc.rect(0, 0, 297, 210, 'F');
-
-                // Borde cuadrado con sombra
-                doc.setDrawColor(57, 73, 171); // azul
-                doc.setLineWidth(3);
-                doc.rect(15, 15, 267, 180, 'S');
-                doc.setDrawColor(255, 179, 0); // amarillo
-                doc.setLineWidth(1.2);
-                doc.rect(20, 20, 257, 170, 'S');
-
-                // Cinta decorativa superior
-                doc.setFillColor(57, 73, 171);
-                doc.roundedRect(15, 15, 267, 28, 8, 8, 'F');
-
-                // Cinta decorativa inferior
-                doc.setFillColor(255, 179, 0);
-                doc.roundedRect(15, 167, 267, 28, 8, 8, 'F');
-
-                // Título
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(32);
-                doc.setTextColor(255, 255, 255);
-                doc.text('Certificado de Aprobación', 148.5, 33, { align: 'center' });
-
-                // Subtítulo
-                doc.setFont('helvetica', 'italic');
-                doc.setFontSize(16);
-                doc.setTextColor(57, 73, 171);
-                doc.text('CertiWebs - Universidad Nacional del Litoral', 148.5, 55, { align: 'center' });
-
-                // Nombre del usuario
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(18);
-                doc.setTextColor(0, 0, 0);
-                doc.text('Otorgado a:', 40, 80);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(24);
-                doc.setTextColor(26, 35, 126);
-                doc.text(usuario.username, 80, 80);
-
-                // Examen aprobado
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(18);
-                doc.setTextColor(0, 0, 0);
-                doc.text('Por aprobar el examen de:', 40, 100);
-
-                // NOMBRE DEL EXAMEN DESTACADO
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(28); // más grande
-                doc.setTextColor(255, 179, 0); // amarillo institucional
-                doc.text(result.exam.toUpperCase(), 148.5, 112, { align: 'center' }); // centrado y más abajo
-
-                // Puntaje
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(18);
-                doc.setTextColor(0, 0, 0);
-                doc.text('Puntaje obtenido:', 40, 120);
-                doc.setFont('helvetica', 'bold');
+                const doc = new jsPDF();
                 doc.setFontSize(20);
-                doc.setTextColor(57, 73, 171);
-                doc.text(`${result.score}%`, 90, 120);
-
-                // Fecha
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(16);
-                doc.setTextColor(0, 0, 0);
-                doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 40, 140);
-
-                // Mensaje de felicitación
-                doc.setFont('helvetica', 'bolditalic');
-                doc.setFontSize(22);
-                doc.setTextColor(255, 87, 34);
-                doc.text('¡Felicitaciones por tu logro académico!', 148.5, 160, { align: 'center' });
-
-                // Firma digital
-                doc.setFont('courier', 'bolditalic');
-                doc.setFontSize(18);
-                doc.setTextColor(26, 35, 126);
-                doc.text('Octavio Ramírez', 210, 185);
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(12);
-                doc.setTextColor(0, 0, 0);
-                doc.text('Director de CertiWebs', 210, 192);
-
-                // Logo (opcional)
-                try {
-                    const logo = await fetch('unl-logo.png').then(r => r.blob()).then(blob => new Promise(res => {
-                        const reader = new FileReader();
-                        reader.onload = () => res(reader.result);
-                        reader.readAsDataURL(blob);
-                    }));
-                    doc.addImage(logo, 'PNG', 230, 25, 45, 45);
-                } catch (e) {
-                    // Si no hay logo, no pasa nada
-                }
-
-                doc.save(`Certificado_${result.exam}_${usuario.username}.pdf`);
+                doc.text('Certificado de Aprobación', 105, 50, { align: 'center' });
+                doc.setFontSize(14);
+                doc.text(`Examen: ${examId.toUpperCase()}`, 105, 70, { align: 'center' });
+                doc.text(`Puntaje: ${result.score}%`, 105, 85, { align: 'center' });
+                doc.text(`Usuario: ${usuario.username}`, 105, 100, { align: 'center' });
+                doc.save(`certificado_${examId}_${usuario.username}.pdf`);
             };
         }
-    }
+    };
 }
 
-// --- Historial de exámenes y ranking ---
-if (window.location.pathname.endsWith('exams.html')) {
-    const usuario = sessionStorage.getItem('certiweb_username');
-    if (usuario) {
-        // Mostrar historial del usuario (si existe en localStorage antiguo)
-        const hist = JSON.parse(localStorage.getItem('certiweb_hist') || '{}');
-        const userHist = hist[usuario] || [];
-        if (userHist.length > 0) {
-            const histDiv = document.createElement('div');
-            histDiv.className = 'mt-4';
-            histDiv.innerHTML = `<h4>Historial de exámenes rendidos</h4><ul class='list-group mb-3'>${userHist.map(h => `<li class='list-group-item'>${h.exam.toUpperCase()} - Puntaje: ${h.score}% - ${h.date}</li>`).join('')}</ul>`;
-            document.querySelector('.section').appendChild(histDiv);
-        }
-        // Ranking simple (top 5 puntajes)
-        let allScores = [];
-        Object.keys(hist).forEach(u => {
-            hist[u].forEach(h => {
-                allScores.push({ user: u, exam: h.exam, score: h.score, date: h.date });
-            });
-        });
-        if (allScores.length > 0) {
-            allScores.sort((a, b) => b.score - a.score);
-            const top = allScores.slice(0, 5);
-            const rankDiv = document.createElement('div');
-            rankDiv.className = 'mt-4';
-            rankDiv.innerHTML = `<h4>Ranking de puntajes destacados</h4><ol class='list-group mb-3'>${top.map(r => `<li class='list-group-item'>${r.user} - ${r.exam.toUpperCase()} - ${r.score}%</li>`).join('')}</ol>`;
-            document.querySelector('.section').appendChild(rankDiv);
-        }
-    }
-}
 
