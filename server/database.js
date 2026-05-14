@@ -52,17 +52,17 @@ db.serialize(() => {
     const usuariosPredefinidos = [
         {
             username: 'octavio',
-            password: 'admin123',
+            password: 'Admin_123!',
             email: 'octavio@certiwebs.com'
         },
         {
             username: 'usuario_demo',
-            password: 'demo123',
+            password: 'Demo_123!',
             email: 'demo@certiwebs.com'
         },
         {
             username: 'Administrador',
-            password: 'Admin123',
+            password: 'Admin_1234!',
             email: 'admin@certiwebs.com'
         }
     ];

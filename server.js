@@ -3,37 +3,52 @@ const bodyParser = require('body-parser');
 const db = require('./server/database');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 const path = require('path');
 
 const app = express();
 
-// Clave estática para panel admin (puedes cambiarla en .env)
+const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key_change_me';
 const ADMIN_KEY = process.env.ADMIN_KEY || 'admin1234';
 
-function adminAuth(req, res, next) {
-    const key = req.headers['x-admin-key'] || req.query.admin_key || req.body && req.body.admin_key;
-    if (!key || key !== ADMIN_KEY) {
-        res.status(401).json({ error: 'Unauthorized' });
-        return;
+
+
+function verificarToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(401).json({ error: 'Acceso denegado. Token no proporcionado.' });
     }
-    next();
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ error: 'Acceso denegado. Formato de token inválido.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.usuario = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Token inválido o expirado.' });
+    }
 }
 
 // Middleware
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
-// Servir contenidos estáticos desde /public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Habilitar CORS
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
     next();
 });
 
-// Transporter de nodemailer (config via .env)
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined,
@@ -44,20 +59,27 @@ const transporter = nodemailer.createTransport({
     } : undefined
 });
 
-// Registro de usuario
-app.post('/api/registro', async (req, res) => {
-    const { username, password, email } = req.body;
-    if (!username || !password || !email) {
-        res.status(400).json({ error: 'Faltan campos obligatorios' });
-        return;
+const manejarErroresValidacion = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: 'Errores de validación', detalles: errors.array() });
     }
+    next();
+};
+
+app.post('/api/registro', [
+    body('username').trim().isLength({ min: 3, max: 50 }).withMessage('El usuario debe tener entre 3 y 50 caracteres').matches(/^[a-zA-Z0-9_ ]+$/).withMessage('El usuario solo puede contener letras, números, guiones bajos y espacios').escape(),
+    body('email').trim().isEmail().withMessage('Debe ser un email válido').normalizeEmail(),
+    body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
+    manejarErroresValidacion
+], async (req, res) => {
+    const { username, password, email } = req.body;
     try {
         const hashed = await bcrypt.hash(password, 10);
         db.run('INSERT INTO usuarios (username, password, email) VALUES (?, ?, ?)',
             [username, hashed, email],
             function (err) {
                 if (err) {
-                    console.error('DB registro error:', err);
                     if (err.code === 'SQLITE_CONSTRAINT') {
                         res.status(409).json({ error: 'El usuario o email ya existe' });
                     } else {
@@ -65,43 +87,34 @@ app.post('/api/registro', async (req, res) => {
                     }
                     return;
                 }
-                res.json({ id: this.lastID, username, email });
+                const token = jwt.sign({ id: this.lastID, username }, JWT_SECRET, { expiresIn: '24h' });
+                res.json({ id: this.lastID, username, email, token });
             });
     } catch (e) {
-        console.error('Hash error:', e);
-        res.status(500).json({ error: 'Error interno' });
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 
-// Login
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-        res.status(400).json({ error: 'Faltan campos' });
-        return;
-    }
-    db.get('SELECT id, username, password FROM usuarios WHERE username = ?', [username], (err, row) => {
+app.post('/api/login', [
+    body('email').trim().isEmail().withMessage('El email es requerido').normalizeEmail(),
+    body('password').notEmpty().withMessage('La contraseña es requerida'),
+    manejarErroresValidacion
+], (req, res) => {
+    const { email, password } = req.body;
+    db.get('SELECT id, username, password FROM usuarios WHERE email = ?', [email], (err, row) => {
         if (err) {
-            console.error('DB login error:', err);
-            res.status(500).json({ error: 'Error en la autenticación' });
-            return;
+            return res.status(500).json({ error: 'Error en la base de datos' });
         }
         if (!row) {
-            res.status(401).json({ error: 'Credenciales inválidas' });
-            return;
+            return res.status(401).json({ error: 'Credenciales inválidas' });
         }
         bcrypt.compare(password, row.password, (bcryptErr, same) => {
             if (bcryptErr) {
-                console.error('bcrypt error:', bcryptErr);
-                res.status(500).json({ error: 'Error en la autenticación' });
-                return;
+                return res.status(500).json({ error: 'Error en la autenticación' });
             }
             if (same) {
-                res.json({ 
-                    id: row.id, 
-                    username: row.username,
-                    token: Buffer.from(`${row.id}:${Date.now()}`).toString('base64')
-                });
+                const token = jwt.sign({ id: row.id, username: row.username }, JWT_SECRET, { expiresIn: '24h' });
+                res.json({ id: row.id, username: row.username, token });
             } else {
                 res.status(401).json({ error: 'Credenciales inválidas' });
             }
@@ -109,235 +122,134 @@ app.post('/api/login', (req, res) => {
     });
 });
 
-// Guardar resultado de examen
-app.post('/api/examenes', (req, res) => {
+app.post('/api/examenes', verificarToken, [
+    body('usuario_id').isInt().withMessage('ID de usuario inválido'),
+    body('examen_id').trim().notEmpty().withMessage('ID de examen requerido').escape(),
+    body('puntuacion').isInt({ min: 0, max: 100 }).withMessage('Puntuación inválida'),
+    manejarErroresValidacion
+], (req, res) => {
     const { usuario_id, examen_id, puntuacion } = req.body;
-    
-    if (!usuario_id || !examen_id || puntuacion === undefined) {
-        res.status(400).json({ error: 'Faltan campos obligatorios' });
-        return;
+    const userIdNum = parseInt(usuario_id, 10);
+
+    // Check if the token's user is the same as the body's user_id
+    if (req.usuario.id !== userIdNum) {
+        return res.status(403).json({ error: 'No tienes permiso para guardar este examen' });
     }
-    
-    if (typeof puntuacion !== 'number' || puntuacion < 0 || puntuacion > 100) {
-        res.status(400).json({ error: 'La puntuación debe ser un número entre 0 y 100' });
-        return;
-    }
-    
+
     db.run('INSERT INTO examenes_completados (usuario_id, examen_id, puntuacion) VALUES (?, ?, ?)',
-        [usuario_id, examen_id, puntuacion],
+        [userIdNum, examen_id, puntuacion],
         function (err) {
             if (err) {
-                console.error('Error guardando examen:', err);
-                res.status(400).json({ error: 'Error al guardar resultado' });
-                return;
+                return res.status(400).json({ error: 'Error al guardar resultado' });
             }
             res.json({ id: this.lastID, mensaje: 'Resultado guardado exitosamente' });
         });
 });
 
-// Endpoint para contacto: guarda en DB y envía correo
-app.post('/api/contact', (req, res) => {
+app.post('/api/contact', [
+    body('name').trim().notEmpty().withMessage('Nombre es requerido').escape(),
+    body('email').trim().isEmail().withMessage('Email inválido').normalizeEmail(),
+    body('subject').optional().trim().escape(),
+    body('message').trim().notEmpty().withMessage('Mensaje es requerido').escape(),
+    manejarErroresValidacion
+], (req, res) => {
     const { name, email, subject, message } = req.body;
-    if (!name || !email || !message) {
-        return res.status(400).json({ error: 'Faltan campos requeridos' });
-    }
+    const cleanSubject = subject || 'Sin asunto';
 
-    // Guardar en SQLite
     db.run('INSERT INTO contactos (nombre, email, asunto, mensaje, fecha_envio) VALUES (?, ?, ?, ?, datetime("now"))',
-        [name, email, subject || 'Sin asunto', message],
-        function(err) {
+        [name, email, cleanSubject, message],
+        function (err) {
             if (err) {
-                console.error('DB error saving contact:', err);
-                res.status(500).json({ error: 'Error al guardar contacto' });
-                return;
+                return res.status(500).json({ error: 'Error al guardar contacto' });
             }
-
-            // Enviar correo (si está configurado)
             const mailOptions = {
                 from: process.env.SMTP_FROM || 'no-reply@certiwebs.local',
                 to: process.env.CONTACT_RECIPIENT || 'octaarami@gmail.com',
-                subject: `Nuevo mensaje de contacto - ${subject || 'Sin asunto'}`,
-                text: `Has recibido un nuevo mensaje de contacto:\n\nNombre: ${name}\nEmail: ${email}\nAsunto: ${subject || 'Sin asunto'}\n\nMensaje:\n${message}`
+                subject: `Nuevo mensaje de contacto - ${cleanSubject}`,
+                text: `Has recibido un nuevo mensaje de contacto:\n\nNombre: ${name}\nEmail: ${email}\nAsunto: ${cleanSubject}\n\nMensaje:\n${message}`
             };
 
             if (process.env.SMTP_HOST && process.env.SMTP_USER) {
                 transporter.sendMail(mailOptions, (mailErr, info) => {
                     if (mailErr) {
-                        console.error('Error enviando correo:', mailErr);
-                        // No fallamos la petición por el correo; respondemos OK pero con aviso
-                        res.json({ id: this.lastID, warning: 'Contacto guardado, fallo al enviar correo' });
-                        return;
+                        return res.json({ id: this.lastID, warning: 'Contacto guardado, fallo al enviar correo' });
                     }
                     res.json({ id: this.lastID });
                 });
             } else {
-                // Si no está configurado SMTP, responder OK y dejar registro en DB
                 res.json({ id: this.lastID, info: 'Contacto guardado. SMTP no configurado, no se envió correo.' });
             }
         });
 });
 
-// Obtener certificados de usuario
-app.get('/api/certificados/:usuario_id', (req, res) => {
-    const { usuario_id } = req.params;
+app.get('/api/certificados/:usuario_id', verificarToken, (req, res) => {
+    const usuario_id = parseInt(req.params.usuario_id);
+    if (req.usuario.id !== usuario_id) {
+        return res.status(403).json({ error: 'No autorizado' });
+    }
     db.all('SELECT * FROM certificados WHERE usuario_id = ?',
         [usuario_id],
         (err, rows) => {
             if (err) {
-                res.status(400).json({ error: 'Error al obtener certificados' });
-                return;
+                return res.status(400).json({ error: 'Error al obtener certificados' });
             }
             res.json(rows);
         });
 });
 
-// Rutas admin protegidas por ADMIN_KEY
-app.get('/api/admin/contacts', adminAuth, (req, res) => {
-    db.all('SELECT * FROM contactos ORDER BY fecha_envio DESC', [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: 'Error al obtener contactos' });
-            return;
-        }
-        res.json(rows);
-    });
-});
-
-app.get('/api/admin/certificados', adminAuth, (req, res) => {
-    db.all('SELECT * FROM certificados ORDER BY fecha_emision DESC', [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: 'Error al obtener certificados' });
-            return;
-        }
-        res.json(rows);
-    });
-});
-
-// Nuevo endpoint para obtener todos los usuarios
-app.get('/api/admin/usuarios', adminAuth, (req, res) => {
-    db.all('SELECT id, username, email, fecha_registro FROM usuarios ORDER BY fecha_registro DESC', [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: 'Error al obtener usuarios' });
-            return;
-        }
-        res.json(rows);
-    });
-});
-
-// Nuevo endpoint para obtener todos los exámenes completados
-app.get('/api/admin/examenes', adminAuth, (req, res) => {
-    db.all(`
-        SELECT ec.*, u.username 
-        FROM examenes_completados ec
-        LEFT JOIN usuarios u ON ec.usuario_id = u.id
-        ORDER BY ec.fecha DESC
-    `, [], (err, rows) => {
-        if (err) {
-            res.status(500).json({ error: 'Error al obtener exámenes' });
-            return;
-        }
-        res.json(rows);
-    });
-});
-
-// Nuevo endpoint para obtener estadísticas completas
-app.get('/api/admin/estadisticas', adminAuth, (req, res) => {
-    const stats = {};
-    
-    // Contar usuarios
-    db.get('SELECT COUNT(*) as total FROM usuarios', [], (err, row) => {
-        if (err) {
-            res.status(500).json({ error: 'Error al obtener estadísticas' });
-            return;
-        }
-        stats.totalUsuarios = row.total;
-        
-        // Contar exámenes
-        db.get('SELECT COUNT(*) as total FROM examenes_completados', [], (err, row) => {
-            if (err) {
-                res.status(500).json({ error: 'Error al obtener estadísticas' });
-                return;
-            }
-            stats.totalExamenes = row.total;
-            
-            // Contar certificados
-            db.get('SELECT COUNT(*) as total FROM certificados', [], (err, row) => {
-                if (err) {
-                    res.status(500).json({ error: 'Error al obtener estadísticas' });
-                    return;
-                }
-                stats.totalCertificados = row.total;
-                
-                // Contar contactos
-                db.get('SELECT COUNT(*) as total FROM contactos', [], (err, row) => {
-                    if (err) {
-                        res.status(500).json({ error: 'Error al obtener estadísticas' });
-                        return;
-                    }
-                    stats.totalContactos = row.total;
-                    
-                    res.json(stats);
-                });
-            });
-        });
-    });
-});
-
-// Crear certificado automáticamente
-app.post('/api/certificados', (req, res) => {
-    const { usuario_id, examen_id } = req.body;
-    
-    if (!usuario_id || !examen_id) {
-        res.status(400).json({ error: 'Faltan campos obligatorios' });
-        return;
+app.get('/api/examenes/:usuario_id', verificarToken, (req, res) => {
+    const usuario_id = parseInt(req.params.usuario_id);
+    if (req.usuario.id !== usuario_id) {
+        return res.status(403).json({ error: 'No autorizado' });
     }
-    
-    // Generar código de verificación único
-    const codigo = `CERT-${examen_id.toUpperCase()}-${Date.now()}`;
-    
-    db.run('INSERT INTO certificados (usuario_id, examen_id, codigo_verificacion) VALUES (?, ?, ?)',
-        [usuario_id, examen_id, codigo],
-        function (err) {
-            if (err) {
-                console.error('Error creando certificado:', err);
-                res.status(400).json({ error: 'Error al crear certificado' });
-                return;
-            }
-            res.json({ 
-                id: this.lastID, 
-                codigo_verificacion: codigo,
-                mensaje: 'Certificado creado exitosamente' 
-            });
-        });
-});
-
-// Agregar ruta para obtener historial de exámenes
-app.get('/api/examenes/:usuario_id', (req, res) => {
-    const { usuario_id } = req.params;
     db.all('SELECT * FROM examenes_completados WHERE usuario_id = ? ORDER BY fecha DESC',
         [usuario_id],
         (err, rows) => {
             if (err) {
-                res.status(400).json({ error: 'Error al obtener historial' });
-                return;
+                return res.status(400).json({ error: 'Error al obtener historial' });
             }
             res.json(rows);
         });
 });
 
-const PORT = process.env.PORT || 3000;
+app.post('/api/certificados', verificarToken, [
+    body('usuario_id').isInt().withMessage('ID de usuario inválido'),
+    body('examen_id').trim().notEmpty().withMessage('ID de examen requerido').escape(),
+    manejarErroresValidacion
+], (req, res) => {
+    const { usuario_id, examen_id } = req.body;
 
-// Middleware de manejo de errores global
-app.use((err, req, res, next) => {
-    console.error('Error global:', err);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    if (req.usuario.id !== usuario_id) {
+        return res.status(403).json({ error: 'No autorizado' });
+    }
+
+    const codigo = `CERT-${examen_id.toUpperCase()}-${Date.now()}`;
+    db.run('INSERT INTO certificados (usuario_id, examen_id, codigo_verificacion) VALUES (?, ?, ?)',
+        [usuario_id, examen_id, codigo],
+        function (err) {
+            if (err) {
+                return res.status(400).json({ error: 'Error al crear certificado' });
+            }
+            res.json({ id: this.lastID, codigo_verificacion: codigo, mensaje: 'Certificado creado exitosamente' });
+        });
 });
 
-// Middleware para rutas no encontradas
+
+
+app.use((err, req, res, next) => {
+    console.error('Error global:', err);
+    if (process.env.NODE_ENV === 'production') {
+        res.status(500).json({ error: 'Error interno del servidor' });
+    } else {
+        res.status(500).json({ error: 'Error interno del servidor', details: err.message });
+    }
+});
+
 app.use((req, res) => {
     res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log('Servidor CertiWebs iniciado correctamente');
-    console.log('Base de datos inicializada y lista para usar');
+    console.log('Servidor CertiWebs iniciado correctamente en el puerto ' + PORT);
 });

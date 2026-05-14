@@ -3,9 +3,22 @@
 
 // Login/registro manejados más abajo con llamadas al API (evitar lógica simulada)
 
-// Logout manejado en DOMContentLoaded usando sessionStorage
-
 // --- EXÁMENES DISPONIBLES (HTML, CSS, JS, Redes, SO) ---
+// --- PROTECCIÓN DE RUTAS GLOBAL ---
+document.addEventListener('DOMContentLoaded', () => {
+    const pathname = window.location.pathname;
+    const isPublicPage = pathname.endsWith('/') || 
+                         pathname.endsWith('index.html') || 
+                         pathname.includes('study-') || 
+                         pathname === '';
+    const token = sessionStorage.getItem('token');
+    
+    if (!isPublicPage && !token) {
+        console.log('Acceso denegado: redirigiendo a login');
+        window.location.replace('index.html');
+        return;
+    }
+});
 const exams = [
     {
         id: 'html',
@@ -56,67 +69,73 @@ const exams = [
 // --- PREGUNTAS DE EXAMEN Y LÓGICA DE RENDICIÓN ---
 const examQuestions = {
     html: [
-        { q: '¿Qué significa HTML?', o: ['HyperText Markup Language', 'Home Tool Markup Language', 'Hyperlinks and Text Markup Language'], a: 0 },
-        { q: '¿Cuál es la etiqueta correcta para un salto de línea en HTML?', o: ['&lt;br&gt;', '&lt;lb&gt;', '&lt;break&gt;'], a: 0 },
-        { q: '¿Qué atributo se usa para especificar un enlace?', o: ['src', 'href', 'link'], a: 1 },
-        { q: '¿Cuál es la etiqueta principal que engloba todo el documento HTML?', o: ['&lt;main&gt;', '&lt;body&gt;', '&lt;html&gt;'], a: 2 },
-        { q: '¿Qué extensión puede tener un archivo HTML?', o: ['.htm', '.html', 'Ambas'], a: 2 }
+        { q: '¿Qué significa HTML?', o: ['HyperText Markup Language', 'Home Tool Markup Language', 'Hyperlinks and Text Markup Language'], a: 0, expl: 'HTML son las siglas de HyperText Markup Language, que se utiliza para estructurar y dar significado al contenido de la web.' },
+        { q: '¿Cuál es la etiqueta correcta para un salto de línea en HTML?', o: ['&lt;br&gt;', '&lt;lb&gt;', '&lt;break&gt;'], a: 0, expl: 'La etiqueta &lt;br&gt; produce un salto de línea en el texto (retorno de carro) sin iniciar un nuevo párrafo.' },
+        { q: '¿Qué atributo se usa para especificar un enlace?', o: ['src', 'href', 'link'], a: 1, expl: 'El atributo href (Hypertext Reference) especifica la URL de la página a la que va el enlace en una etiqueta &lt;a&gt;.' },
+        { q: '¿Cuál es la etiqueta principal que engloba todo el documento HTML?', o: ['&lt;main&gt;', '&lt;body&gt;', '&lt;html&gt;'], a: 2, expl: 'La etiqueta &lt;html&gt; es el elemento raíz de una página HTML, todos los demás elementos deben descender de él.' },
+        { q: '¿Qué extensión puede tener un archivo HTML?', o: ['.htm', '.html', 'Ambas'], a: 2, expl: 'Los archivos HTML pueden usar las extensiones .htm o .html de forma indistinta; históricamente .htm se usaba en sistemas antiguos que limitaban a 3 caracteres.' }
     ],
     css: [
-        { q: '¿Qué significa CSS?', o: ['Cascading Style Sheets', 'Creative Style System', 'Computer Style Syntax'], a: 0 },
-        { q: '¿Cómo se selecciona una clase en CSS?', o: ['#clase', '.clase', 'clase'], a: 1 },
-        { q: '¿Cuál es la propiedad para cambiar el color de fondo?', o: ['background-color', 'color', 'bgcolor'], a: 0 },
-        { q: '¿Qué unidad es relativa al tamaño de fuente?', o: ['px', 'em', '%'], a: 1 },
+        { q: '¿Qué significa CSS?', o: ['Cascading Style Sheets', 'Creative Style System', 'Computer Style Syntax'], a: 0, expl: 'CSS significa Cascading Style Sheets (Hojas de Estilo en Cascada), utilizado para describir la presentación de un documento HTML.' },
+        { q: '¿Cómo se selecciona una clase en CSS?', o: ['#clase', '.clase', 'clase'], a: 1, expl: 'En CSS, el selector de clase se define con un punto (.) seguido del nombre de la clase.' },
+        { q: '¿Cuál es la propiedad para cambiar el color de fondo?', o: ['background-color', 'color', 'bgcolor'], a: 0, expl: 'La propiedad background-color se utiliza para establecer el color de fondo de un elemento.' },
+        { q: '¿Qué unidad es relativa al tamaño de fuente?', o: ['px', 'em', '%'], a: 1, expl: 'La unidad "em" es relativa al tamaño de fuente (font-size) del elemento padre o del propio elemento si se usa para otras propiedades.' },
         {
             q: '¿Cómo se comenta en CSS?', o: [
                 '<span class="code-option">/* comentario */</span>',
                 '<span class="code-option">// comentario</span>',
                 '<span class="code-option">&lt;!-- comentario --&gt;</span>'
-            ], a: 0
+            ], a: 0, expl: 'En CSS, los comentarios de bloque se inician con /* y se cierran con */. No existe un formato de línea simple (//) en CSS puro.'
         }
     ],
     js: [
-        { q: '¿Qué tipo de lenguaje es JavaScript?', o: ['Compilado', 'Interpretado', 'Ambos'], a: 1 },
-        { q: '¿Cómo se declara una variable?', o: ['var x;', 'int x;', 'let x = 0;'], a: 0 },
-        { q: '¿Qué método muestra un mensaje en pantalla?', o: ['alert()', 'print()', 'show()'], a: 0 },
-        { q: '¿Cuál NO es un tipo de dato en JS?', o: ['string', 'float', 'boolean'], a: 1 },
+        { q: '¿Qué tipo de lenguaje es JavaScript?', o: ['Compilado', 'Interpretado', 'Ambos'], a: 1, expl: 'JavaScript es fundamentalmente un lenguaje interpretado, ejecutado línea por línea por el motor del navegador web (JIT).' },
+        { q: '¿Cómo se declara una variable?', o: ['var x;', 'int x;', 'let x = 0;'], a: 0, expl: 'Tanto "var x;" como "let x = 0;" son correctos en JS. "var x;" es la declaración clásica y genérica en versiones anteriores a ES6.' },
+        { q: '¿Qué método muestra un mensaje en pantalla?', o: ['alert()', 'print()', 'show()'], a: 0, expl: 'El método window.alert() o alert() detiene la ejecución y muestra un cuadro de diálogo con un mensaje de alerta en el navegador.' },
+        { q: '¿Cuál NO es un tipo de dato en JS?', o: ['string', 'float', 'boolean'], a: 1, expl: 'JavaScript no diferencia entre enteros y flotantes como tipos separados; utiliza el tipo "number" para ambos.' },
         {
             q: '¿Cómo se escribe un comentario de una línea?', o: [
                 '<span class="code-option">// comentario</span>',
                 '<span class="code-option">/* comentario */</span>',
                 '<span class="code-option">&lt;!-- comentario --&gt;</span>'
-            ], a: 0
+            ], a: 0, expl: 'El formato de doble barra (//) crea un comentario de una sola línea en JavaScript, que es ignorado durante la ejecución.'
         }
     ],
     redes: [
-        { q: '¿Qué es una dirección IP?', o: ['Un identificador de red', 'Un protocolo', 'Un tipo de cable'], a: 0 },
-        { q: '¿Qué puerto usa HTTP?', o: ['21', '80', '443'], a: 1 },
-        { q: '¿Qué significa LAN?', o: ['Large Area Network', 'Local Area Network', 'Light Area Network'], a: 1 },
-        { q: '¿Qué dispositivo conecta redes diferentes?', o: ['Switch', 'Router', 'Hub'], a: 1 },
-        { q: '¿Qué protocolo asigna IP automáticamente?', o: ['DNS', 'DHCP', 'FTP'], a: 1 }
+        { q: '¿Qué es una dirección IP?', o: ['Un identificador de red', 'Un protocolo', 'Un tipo de cable'], a: 0, expl: 'Una dirección IP es una etiqueta numérica única que identifica a un dispositivo en una red informática.' },
+        { q: '¿Qué puerto usa HTTP?', o: ['21', '80', '443'], a: 1, expl: 'El puerto estándar por defecto para el protocolo HTTP de transferencia de hipertexto es el puerto 80.' },
+        { q: '¿Qué significa LAN?', o: ['Large Area Network', 'Local Area Network', 'Light Area Network'], a: 1, expl: 'LAN significa Local Area Network (Red de Área Local), que conecta dispositivos dentro de un área física limitada como un edificio.' },
+        { q: '¿Qué dispositivo conecta redes diferentes?', o: ['Switch', 'Router', 'Hub'], a: 1, expl: 'El router es el dispositivo de red encargado de reenviar paquetes de datos entre redes informáticas diferentes y determinar la mejor ruta.' },
+        { q: '¿Qué protocolo asigna IP automáticamente?', o: ['DNS', 'DHCP', 'FTP'], a: 1, expl: 'El protocolo DHCP (Dynamic Host Configuration Protocol) asigna direcciones IP dinámicas y otros parámetros de configuración a los dispositivos.' }
     ],
     so: [
-        { q: '¿Qué es un sistema operativo?', o: ['Un programa de aplicación', 'Un software de sistema', 'Un hardware'], a: 1 },
-        { q: '¿Cuál NO es un sistema operativo?', o: ['Linux', 'Windows', 'HTML'], a: 2 },
-        { q: '¿Qué comando muestra archivos en Linux?', o: ['ls', 'cd', 'pwd'], a: 0 },
-        { q: '¿Qué es un proceso?', o: ['Un programa en ejecución', 'Un archivo', 'Un usuario'], a: 0 },
-        { q: 'Qué sistema operativo es de código abierto?', o: ['Windows', 'Linux', 'macOS'], a: 1 }
+        { q: '¿Qué es un sistema operativo?', o: ['Un programa de aplicación', 'Un software de sistema', 'Un hardware'], a: 1, expl: 'Un sistema operativo es el software de sistema principal que gestiona el hardware del ordenador y proporciona servicios a los programas de aplicación.' },
+        { q: '¿Cuál NO es un sistema operativo?', o: ['Linux', 'Windows', 'HTML'], a: 2, expl: 'HTML es un lenguaje de marcado de hipertexto utilizado para el desarrollo web, no un sistema operativo.' },
+        { q: '¿Qué comando muestra archivos en Linux?', o: ['ls', 'cd', 'pwd'], a: 0, expl: 'El comando "ls" (list) se utiliza en sistemas tipo Unix/Linux para listar el contenido de archivos y directorios.' },
+        { q: '¿Qué es un proceso?', o: ['Un programa en ejecución', 'Un archivo', 'Un usuario'], a: 0, expl: 'En informática, un proceso es básicamente una instancia de un programa de computadora que está siendo ejecutado por el sistema.' },
+        { q: 'Qué sistema operativo es de código abierto?', o: ['Windows', 'Linux', 'macOS'], a: 1, expl: 'Linux es el sistema operativo de código abierto más popular, cuyo núcleo (kernel) está disponible libremente bajo la licencia GNU.' }
     ]
 };
 
 // Configuración de la API
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:8080/api';
 
 // Utilidades
 const utils = {
     async fetchAPI(endpoint, options = {}) {
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+            const token = sessionStorage.getItem('token');
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
             const response = await fetch(`${API_URL}/${endpoint}`, {
                 ...options,
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...options.headers
-                }
+                headers
             });
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || 'Error en la petición');
@@ -128,8 +147,11 @@ const utils = {
     },
 
     getUsuarioActual() {
+        const id = sessionStorage.getItem('userId');
+        const token = sessionStorage.getItem('token');
+        if (!id || !token) return {};
         return {
-            id: sessionStorage.getItem('userId'),
+            id,
             username: sessionStorage.getItem('username')
         };
     },
@@ -230,8 +252,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const name = document.getElementById('contact-name').value.trim();
             const email = document.getElementById('contact-email').value.trim();
-            const subject = document.getElementById('contact-subject').value.trim();
+            const type = document.getElementById('contact-type').value;
+            const rawSubject = document.getElementById('contact-subject').value.trim();
             const message = document.getElementById('contact-message').value.trim();
+            
+            // Combinar tipo y asunto
+            const subject = `[${type}] ${rawSubject}`;
             
             // Validación básica
             if (!name || !email || !subject || !message) {
@@ -291,11 +317,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Submit de login activado');
                 e.preventDefault();
                 
-                const username = document.getElementById('login-username').value.trim();
+                const email = document.getElementById('login-email').value.trim();
                 const password = document.getElementById('login-password').value;
                 const msgElement = loginForm.querySelector('.login-msg');
                 
-                console.log('Intentando login con usuario:', username);
+                console.log('Intentando login con email:', email);
                 console.log('Password length:', password.length);
                 console.log('API URL:', API_URL);
 
@@ -305,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ username, password })
+                        body: JSON.stringify({ email, password })
                     });
                     
                     console.log('Response status:', response.status);
@@ -326,19 +352,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             alert(`¡Bienvenido/a ${data.username}! 🎉\nSesión iniciada correctamente.`);
                         }
                         
-                        // Redirigir inmediatamente
-                        console.log('Redirigiendo a exams.html...');
-                        
                         // Cerrar modal primero
                         const loginModal = document.getElementById('loginModal');
                         if (loginModal) {
                             loginModal.style.display = 'none';
                         }
                         
-                        // Redirigir con más tiempo y usando window.location.replace
+                        // Redirigir al inicio (guías de estudio)
                         setTimeout(() => {
-                            console.log('Ejecutando redirección...');
-                            window.location.replace('exams.html');
+                            console.log('Ejecutando redirección a index.html...');
+                            window.location.replace('index.html');
                         }, 1000);
                     } else {
                         console.log('Login fallido:', data.error);
@@ -401,8 +424,14 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const username = document.getElementById('register-username').value.trim();
             const password = document.getElementById('register-password').value;
+            const passwordConfirm = document.getElementById('register-password-confirm').value;
             const email = document.getElementById('register-email').value;
             const msgElement = registerForm.querySelector('.register-msg');
+
+            if (password !== passwordConfirm) {
+                utils.mostrarMensaje(msgElement, 'Las contraseñas no coinciden', 'error');
+                return;
+            }
 
             try {
                 // Intentar registrar el usuario
@@ -411,17 +440,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({ username, password, email })
                 });
                 
-                // Si el registro es exitoso, guardar datos de sesión
-                sessionStorage.setItem('token', data.token);
-                sessionStorage.setItem('username', data.username);
-                sessionStorage.setItem('userId', data.id);
+                // Mostrar mensaje de éxito
+                utils.mostrarMensaje(msgElement, '¡Registro exitoso! Ya puedes iniciar sesión.', 'success');
                 
-                utils.mostrarMensaje(msgElement, '¡Registro exitoso! Iniciando sesión...', 'success');
-                
-                // Redirigir a la página de exámenes después de 1.5 segundos
+                // Limpiar el formulario
+                registerForm.reset();
+
+                // Cerrar modal de registro después de 2 segundos y abrir modal de login (opcional, pero cerraremos el modal)
                 setTimeout(() => {
-                    window.location.href = 'exams.html';
-                }, 1500);
+                    const registerModal = document.getElementById('registerModal');
+                    if (registerModal) registerModal.style.display = 'none';
+                    
+                    // Opcionalmente podemos sugerir abrir el de login automáticamente
+                    // const loginModal = document.getElementById('loginModal');
+                    // if (loginModal) loginModal.style.display = 'block';
+                }, 2000);
                 
             } catch (error) {
                 // Si el usuario ya existe, mostrar mensaje para que inicie sesión
@@ -449,6 +482,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            const modal = document.getElementById('logoutConfirmModal');
+            if (modal) {
+                modal.style.display = 'block';
+            } else {
+                utils.cerrarSesion();
+            }
+        });
+    }
+
+    // Botón de confirmación de logout
+    const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+    if (confirmLogoutBtn) {
+        confirmLogoutBtn.addEventListener('click', () => {
             utils.cerrarSesion();
         });
     }
@@ -476,6 +522,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (usernameDisplay) {
             usernameDisplay.innerHTML = `<i class="fas fa-user-circle"></i> ${usuario.username}`;
         }
+        
+
 
         // Actualizar mensaje de bienvenida en la página de exámenes
         const welcomePageMessage = document.getElementById('welcome-message');
@@ -522,9 +570,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Configurar logout
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function() {
+        const logoutBtnExams = document.getElementById('logoutBtn');
+        if (logoutBtnExams) {
+            logoutBtnExams.addEventListener('click', function(e) {
+                e.preventDefault();
+                const modal = document.getElementById('logoutConfirmModal');
+                if (modal) {
+                    modal.style.display = 'block';
+                } else {
+                    utils.cerrarSesion();
+                }
+            });
+        }
+        
+        const confirmLogoutBtnExams = document.getElementById('confirmLogoutBtn');
+        if (confirmLogoutBtnExams) {
+            confirmLogoutBtnExams.addEventListener('click', () => {
                 utils.cerrarSesion();
             });
         }
@@ -669,7 +730,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('exam-content');
             
             container.innerHTML = `
-                <div class="question-card ${currentQuestion === 0 ? 'active' : ''}">
+                <div class="question-card active">
                     <div class="question-number">Pregunta ${currentQuestion + 1} de ${questions.length}</div>
                     <div class="question-text">${question.q}</div>
                     <div class="options">
@@ -698,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function updateProgress() {
             const progressEl = document.getElementById('progress');
             progressEl.innerHTML = questions.map((_, index) => `
-                <div class="progress-dot ${index < currentQuestion ? 'completed' : ''} ${index === currentQuestion ? 'current' : ''}"></div>
+                <div class="progress-dot ${index < currentQuestion ? 'completed' : ''} ${index === currentQuestion ? 'active' : ''}"></div>
             `).join('');
         }
 
@@ -833,33 +894,118 @@ if (window.location.pathname.endsWith('result.html')) {
         section.innerHTML = '<p>No hay resultado para mostrar.</p>';
     } else {
         const aprobado = result.score >= 60;
-        section.innerHTML = `<h2>Resultado del examen</h2>
-            <p><b>Puntaje:</b> ${result.score}% (${result.correct} de ${result.total} correctas)</p>
-            <p>${aprobado ? '¡Felicidades, aprobaste!' : 'No alcanzaste el puntaje mínimo.'}</p>
-            <button id='verRespuestas'>Ver respuestas</button>
-            ${aprobado ? "<button id='descargarPDF'>Descargar certificado PDF</button>" : ''}
-            <a href='exams.html' class='btn-principal'>Volver a exámenes</a>`;
+        const examId = result.exam;
+        section.innerHTML = `
+            <div class="result-card" style="text-align: center; background: var(--bg-card); padding: 4rem 2rem; border-radius: 20px; border: 1px solid rgba(0, 243, 255, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(0, 243, 255, 0.05); max-width: 700px; margin: 0 auto; position: relative; overflow: hidden;">
+                <!-- Fondo decorativo -->
+                <div style="position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: ${aprobado ? 'var(--neon-green)' : 'var(--neon-red)'}; opacity: 0.1; filter: blur(50px); border-radius: 50%;"></div>
+                
+                <h2 style="color: var(--text-main); margin-bottom: 2.5rem; font-size: 2.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Resultado del examen</h2>
+                
+                <div style="margin: 2rem auto; width: 150px; height: 150px; border-radius: 50%; border: 4px solid ${aprobado ? 'var(--neon-green)' : 'var(--neon-red)'}; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px ${aprobado ? 'rgba(0,255,136,0.2)' : 'rgba(255,51,102,0.2)'}, inset 0 0 20px ${aprobado ? 'rgba(0,255,136,0.2)' : 'rgba(255,51,102,0.2)'}; background: rgba(15, 23, 42, 0.8);">
+                    <span style="font-size: 3.5rem; font-weight: 800; color: ${aprobado ? 'var(--neon-green)' : 'var(--neon-red)'}; text-shadow: 0 0 15px ${aprobado ? 'rgba(0,255,136,0.5)' : 'rgba(255,51,102,0.5)'};">${result.score}%</span>
+                </div>
+                
+                <div style="font-size: 1.2rem; margin-bottom: 1.5rem; color: var(--text-muted);">
+                    <i class="fas fa-check-circle" style="color: var(--neon-cyan); margin-right: 5px;"></i> ${result.correct} de ${result.total} preguntas correctas
+                </div>
+                
+                <p style="font-size: 1.4rem; font-weight: 500; margin-bottom: 3rem; color: ${aprobado ? 'var(--neon-green)' : 'var(--neon-red)'};">
+                    ${aprobado ? '🎉 ¡Felicidades, has aprobado la certificación con éxito!' : '❌ No alcanzaste el puntaje mínimo requerido para aprobar.'}
+                </p>
+                
+                <div class="result-buttons" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                    <a href='exams.html' class='btn-nav' style="padding: 1rem 2rem; display: flex; align-items: center; gap: 8px;"><i class="fas fa-arrow-left"></i> Volver a exámenes</a>
+                    <button id='verRespuestas' class='btn-exam' style="padding: 1rem 2rem; width: auto; display: flex; align-items: center; gap: 8px; background: rgba(176, 38, 255, 0.1);"><i class="fas fa-list-check"></i> Ver respuestas</button>
+                    ${aprobado ? `<button id='descargarPDF' class='btn-submit' style="padding: 1rem 2rem; margin: 0; display: flex; align-items: center; gap: 8px; background: var(--neon-green); box-shadow: 0 0 15px rgba(0, 255, 136, 0.4); color: #000;"><i class="fas fa-download"></i> Descargar PDF</button>` : ''}
+                </div>
+            </div>`;
+            
         document.getElementById('verRespuestas').onclick = function () {
-            let html = '<h3>Revisión de respuestas</h3><ol>';
-            const examId = result.exam;
-            const questions = examQuestions[examId];
-            result.answers.forEach((a, i) => {
-                html += `<li>${questions[i].q}<br>Tu respuesta: <b>${questions[i].o[a] || 'Sin respuesta'}</b><br>Correcta: <b>${questions[i].o[questions[i].a]}</b></li>`;
+            let html = `
+                <div class="review-section" style="max-width: 800px; margin: 0 auto; animation: fadeIn 0.4s ease;">
+                    <h2 style="color: var(--neon-purple); text-align: center; margin-bottom: 2rem; text-shadow: 0 0 10px rgba(176, 38, 255, 0.3);">Revisión de respuestas</h2>
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            `;
+            const questions = result.questions || examQuestions[examId];
+            questions.forEach((question, i) => {
+                const a = result.answers[i];
+                const isCorrect = a === question.a;
+                const borderColor = isCorrect ? 'var(--neon-green)' : 'var(--neon-red)';
+                const bgLight = isCorrect ? 'rgba(0, 255, 136, 0.05)' : 'rgba(255, 51, 102, 0.05)';
+                
+                html += `
+                    <div style="background: ${bgLight}; border-left: 4px solid ${borderColor}; padding: 1.5rem; border-radius: 8px;">
+                        <h4 style="color: #fff; margin-bottom: 1rem; font-weight: 500;">${i + 1}. ${questions[i].q}</h4>
+                        <p style="margin-bottom: 0.5rem; color: ${isCorrect ? 'var(--neon-green)' : 'var(--neon-red)'}; font-size: 1.1rem;">
+                            <b>Tu respuesta:</b> ${questions[i].o[a] || 'Sin respuesta'} ${isCorrect ? '✓' : '✗'}
+                        </p>
+                        ${!isCorrect ? `<p style="margin-bottom: 1rem; color: var(--neon-green); font-size: 1.1rem;"><b>Respuesta correcta:</b> ${questions[i].o[questions[i].a]}</p>` : ''}
+                        
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <p style="margin-bottom: 0; color: #a0aec0; font-size: 1rem;">
+                                <i class="fas fa-info-circle" style="color: var(--neon-cyan); margin-right: 5px;"></i>
+                                <b>Explicación:</b> ${questions[i].expl || 'Justificación no disponible.'}
+                            </p>
+                        </div>
+                    </div>
+                `;
             });
-            html += '</ol><a href="result.html" class="btn-principal">Volver</a>';
+            html += `
+                    </div>
+                    <div style="text-align: center; margin-top: 3rem;">
+                        <a href="result.html" class="btn-principal" style="background: transparent; color: var(--neon-cyan); border: 1px solid var(--neon-cyan); box-shadow: none;">Volver al resultado</a>
+                    </div>
+                </div>`;
             section.innerHTML = html;
         };
+        
         if (aprobado) {
             document.getElementById('descargarPDF').onclick = async function () {
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                doc.setFontSize(20);
-                doc.text('Certificado de Aprobación', 105, 50, { align: 'center' });
-                doc.setFontSize(14);
-                doc.text(`Examen: ${examId.toUpperCase()}`, 105, 70, { align: 'center' });
-                doc.text(`Puntaje: ${result.score}%`, 105, 85, { align: 'center' });
-                doc.text(`Usuario: ${usuario.username}`, 105, 100, { align: 'center' });
-                doc.save(`certificado_${examId}_${usuario.username}.pdf`);
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF();
+                    
+                    // Fondo
+                    doc.setFillColor(15, 23, 42); // bg-dark
+                    doc.rect(0, 0, 210, 297, 'F');
+                    
+                    // Borde
+                    doc.setDrawColor(0, 243, 255); // neon-cyan
+                    doc.setLineWidth(1);
+                    doc.rect(10, 10, 190, 277);
+                    
+                    doc.setTextColor(0, 243, 255);
+                    doc.setFontSize(28);
+                    doc.text('Certificado de Aprobación', 105, 60, { align: 'center' });
+                    
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(16);
+                    doc.text('Otorgado por CertiWebs a:', 105, 100, { align: 'center' });
+                    
+                    doc.setTextColor(0, 255, 136); // neon-green
+                    doc.setFontSize(24);
+                    doc.text(`${usuario.username}`, 105, 120, { align: 'center' });
+                    
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(14);
+                    doc.text(`Por haber aprobado con éxito la certificación en:`, 105, 150, { align: 'center' });
+                    
+                    doc.setTextColor(176, 38, 255); // neon-purple
+                    doc.setFontSize(20);
+                    doc.text(`${examId.toUpperCase()}`, 105, 170, { align: 'center' });
+                    
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(14);
+                    doc.text(`Con una puntuación de: ${result.score}%`, 105, 200, { align: 'center' });
+                    
+                    const fecha = new Date().toLocaleDateString();
+                    doc.text(`Fecha de emisión: ${fecha}`, 105, 220, { align: 'center' });
+                    
+                    doc.save(`certificado_${examId}_${usuario.username}.pdf`);
+                } catch(e) {
+                    alert('Error generando PDF: ' + e.message);
+                }
             };
         }
     };
