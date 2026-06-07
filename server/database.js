@@ -1,9 +1,17 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const path = require('path');
+const fs = require('fs');
 
-// Ubicación del fichero DB: en la raíz del proyecto
-const dbPath = path.join(__dirname, '..', 'certiweb.db');
+// Ubicación del fichero DB: en la raíz del proyecto o por variable de entorno
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, '..', 'certiweb.db');
+
+// Asegurar que el directorio de la base de datos existe
+const dbDir = path.dirname(dbPath);
+if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
+}
+
 const db = new sqlite3.Database(dbPath);
 
 // Crear tablas
