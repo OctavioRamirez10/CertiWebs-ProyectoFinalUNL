@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio Sistemas Operativos - CertiWebs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .guide-hero{text-align:center;padding:4rem 2rem 2rem}
+        .guide-hero h1{font-size:2.8rem;background:linear-gradient(135deg,var(--neon-purple),var(--neon-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-transform:uppercase;letter-spacing:3px}
+        .guide-hero p{color:var(--text-muted);font-size:1.15rem;margin-top:1rem}
+        .badge-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+        .badge{background:rgba(176,38,255,0.1);border:1px solid var(--neon-purple);color:var(--neon-purple);border-radius:20px;padding:.4rem 1.1rem;font-size:.88rem;font-weight:600}
+        .guide-grid{display:grid;grid-template-columns:1fr;gap:2rem;max-width:960px;margin:0 auto;padding:0 1.5rem 5rem}
+        .guide-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem}
+        .guide-card.ac{border-left:4px solid var(--neon-cyan)}
+        .guide-card.ag{border-left:4px solid var(--neon-green)}
+        .guide-card.ap{border-left:4px solid var(--neon-purple)}
+        .guide-card.ao{border-left:4px solid var(--neon-orange)}
+        .guide-card h2{font-size:1.5rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.7rem}
+        .guide-card p,.guide-card li{color:#a0aec0;line-height:1.8;font-size:.97rem}
+        .guide-card ul{padding-left:1.2rem;margin-top:.5rem}
+        .guide-card ul li{margin-bottom:.4rem}
+        .code-block{background:#0a0f1e;border:1px solid rgba(176,38,255,.2);border-radius:10px;padding:1.2rem 1.5rem;margin:1.2rem 0;font-family:'Courier New',monospace;font-size:.88rem;color:#7ee787;overflow-x:auto;line-height:1.7}
+        .code-block .kw{color:#ff7b72}
+        .code-block .cm{color:#8b949e;font-style:italic}
+        .code-block .cmd{color:#79c0ff}
+        .res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem}
+        .res-link{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(--neon-purple);font-size:.9rem;font-weight:500;transition:all .3s;text-decoration:none}
+        .res-link:hover{background:rgba(176,38,255,.1);border-color:var(--neon-purple);transform:translateY(-2px);color:var(--neon-purple)}
+        .qa-table{width:100%;border-collapse:collapse;font-size:.9rem}
+        .qa-table th{color:var(--neon-purple);text-align:left;padding:.8rem;background:rgba(176,38,255,.06);font-size:.82rem;letter-spacing:1px;text-transform:uppercase}
+        .qa-table td{padding:.85rem .8rem;border-bottom:1px solid rgba(255,255,255,.05);color:#a0aec0;vertical-align:top}
+        .qa-table tr:last-child td{border-bottom:none}
+        .qa-table .ans{color:var(--neon-green);font-weight:600}
+        .tip-box{background:rgba(176,38,255,.06);border:1px solid rgba(176,38,255,.25);border-radius:10px;padding:1rem 1.3rem;margin:1rem 0;color:#a0aec0;font-size:.92rem}
+        .tip-box strong{color:var(--neon-purple)}
+        .cmd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.7rem;margin-top:1rem}
+        .cmd-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-left:3px solid var(--neon-green);border-radius:8px;padding:.75rem 1rem}
+        .cmd-code{color:var(--neon-green);font-family:'Courier New',monospace;font-size:.9rem;font-weight:700}
+        .cmd-desc{color:#a0aec0;font-size:.83rem;margin-top:.2rem}
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">CertiWebs</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="exams.html">Exámenes</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="guide-hero">
+        <h1><i class="fas fa-server" style="color:var(--neon-purple);"></i> Sistemas Operativos</h1>
+        <p>Arquitectura de software base, gestión de procesos y administración Linux.</p>
+        <div class="badge-row">
+            <span class="badge"><i class="fas fa-microchip"></i> Kernel</span>
+            <span class="badge"><i class="fas fa-tasks"></i> Procesos</span>
+            <span class="badge"><i class="fab fa-linux"></i> Linux CLI</span>
+            <span class="badge"><i class="fas fa-hdd"></i> Memoria</span>
+        </div>
+    </div>
+
+    <div class="guide-grid">
+
+        <!-- ARQUITECTURA DEL SO -->
+        <div class="guide-card ap">
+            <h2 style="color:var(--neon-purple);"><i class="fas fa-microchip"></i> Arquitectura del Sistema Operativo</h2>
+            <p>El SO actúa como intermediario entre el hardware y las aplicaciones de usuario. Sus componentes principales son:</p>
+            <ul>
+                <li><strong style="color:#fff;">Kernel (núcleo)</strong> — Núcleo del SO. Controla hardware, memoria, procesos y sistema de archivos. Tiene acceso privilegiado (modo kernel).</li>
+                <li><strong style="color:#fff;">Modo usuario vs Modo kernel</strong> — Las apps corren en modo usuario con acceso restringido. El kernel corre con acceso total al hardware.</li>
+                <li><strong style="color:#fff;">Kernel monolítico</strong> — Todo en un solo bloque (Linux, Unix). Más rápido pero si falla una parte, falla todo.</li>
+                <li><strong style="color:#fff;">Microkernel</strong> — Solo lo esencial en modo privilegiado (QNX, Minix). Más estable y seguro, algo más lento.</li>
+                <li><strong style="color:#fff;">Kernel híbrido</strong> — Combinación (Windows NT, macOS). Equilibrio entre rendimiento y modularidad.</li>
+                <li><strong style="color:#fff;">Shell</strong> — Interfaz entre usuario y kernel. Puede ser gráfica (GUI) o de línea de comandos (CLI).</li>
+                <li><strong style="color:#fff;">Llamadas al sistema (syscalls)</strong> — API del kernel: read(), write(), fork(), exec().</li>
+            </ul>
+            <div class="tip-box"><strong>💡 Dato:</strong> Linux usa un kernel monolítico modular: tiene módulos (.ko) que se cargan/descargan en tiempo de ejecución, combinando velocidad y flexibilidad.</div>
+        </div>
+
+        <!-- GESTIÓN DE PROCESOS -->
+        <div class="guide-card ao">
+            <h2 style="color:var(--neon-orange);"><i class="fas fa-tasks"></i> Gestión de Procesos y Planificación</h2>
+            <p>Un <strong>proceso</strong> es un programa en ejecución con su propio espacio de memoria. Un <strong>hilo</strong> (thread) es una unidad de ejecución dentro de un proceso.</p>
+            <ul>
+                <li><strong style="color:#fff;">Estados de un proceso:</strong> New, Ready, Running, Waiting, Terminated.</li>
+                <li><strong style="color:#fff;">PCB (Process Control Block)</strong> — Estructura del SO que almacena el estado del proceso (PID, registros, prioridad).</li>
+                <li><strong style="color:#fff;">PID</strong> — Process ID, identificador único de cada proceso.</li>
+                <li><strong style="color:#fff;">fork()</strong> — Crea una copia exacta del proceso actual (proceso hijo).</li>
+                <li><strong style="color:#fff;">exec()</strong> — Reemplaza el proceso actual con un nuevo programa.</li>
+                <li><strong style="color:#fff;">Algoritmos de planificación:</strong></li>
+            </ul>
+            <ul style="margin-left:1rem">
+                <li><strong>FCFS</strong> (First Come First Served) — Simple, puede causar convoy effect.</li>
+                <li><strong>Round Robin</strong> — Quantum de tiempo fijo, equitativo para todos los procesos.</li>
+                <li><strong>Prioridad</strong> — Procesos de mayor prioridad van primero, puede causar inanición.</li>
+                <li><strong>SJF</strong> (Shortest Job First) — Mínimo tiempo promedio de espera.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm"># Ver procesos en Linux</span>
+<span class="cmd">ps aux</span>              <span class="cm"># Todos los procesos</span>
+<span class="cmd">ps aux | grep nginx</span> <span class="cm"># Filtrar por nombre</span>
+<span class="cmd">top</span>                 <span class="cm"># Monitor en tiempo real</span>
+<span class="cmd">htop</span>                <span class="cm"># Monitor interactivo (requiere instalación)</span>
+<span class="cmd">kill -9 1234</span>        <span class="cm"># Terminar proceso con PID 1234</span>
+<span class="cmd">killall nginx</span>       <span class="cm"># Terminar todos los procesos 'nginx'</span>
+<span class="cmd">nice -n 10 cmd</span>     <span class="cm"># Ejecutar con prioridad reducida</span>
+            </div>
+        </div>
+
+        <!-- GESTIÓN DE MEMORIA -->
+        <div class="guide-card ac">
+            <h2 style="color:var(--neon-cyan);"><i class="fas fa-hdd"></i> Gestión de Memoria</h2>
+            <p>El SO administra la memoria RAM distribuyendo espacio entre procesos y el kernel.</p>
+            <ul>
+                <li><strong style="color:#fff;">Memoria virtual</strong> — Permite que procesos usen más memoria de la RAM física disponible, usando espacio en disco (swap).</li>
+                <li><strong style="color:#fff;">Paginación</strong> — Divide la memoria en páginas de tamaño fijo. Elimina fragmentación externa.</li>
+                <li><strong style="color:#fff;">Segmentación</strong> — Divide la memoria en segmentos lógicos (código, datos, pila).</li>
+                <li><strong style="color:#fff;">Swap / Área de intercambio</strong> — Espacio en disco usado como extensión de RAM cuando esta se agota.</li>
+                <li><strong style="color:#fff;">Thrashing</strong> — El SO pasa más tiempo haciendo swap que ejecutando procesos. Degradación severa del rendimiento.</li>
+                <li><strong style="color:#fff;">Algoritmos de reemplazo de páginas:</strong> FIFO, LRU (Least Recently Used), Optimal.</li>
+                <li><strong style="color:#fff;">Heap vs Stack</strong> — Stack: memoria automática de funciones. Heap: memoria dinámica (malloc/free).</li>
+            </ul>
+            <div class="code-block">
+<span class="cm"># Ver uso de memoria en Linux</span>
+<span class="cmd">free -h</span>             <span class="cm"># Memoria RAM y Swap en formato legible</span>
+<span class="cmd">cat /proc/meminfo</span>   <span class="cm"># Info detallada del sistema</span>
+<span class="cmd">vmstat</span>              <span class="cm"># Estadísticas de VM y swap</span>
+            </div>
+        </div>
+
+        <!-- SISTEMA DE ARCHIVOS -->
+        <div class="guide-card ag">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-folder-open"></i> Sistema de Archivos y Permisos Linux</h2>
+            <p>Linux organiza todo en un árbol de directorios. Los permisos controlan quién puede leer, escribir o ejecutar.</p>
+            <ul>
+                <li><strong style="color:#fff;">/</strong> — Raíz del sistema de archivos.</li>
+                <li><strong style="color:#fff;">/etc</strong> — Configuraciones del sistema y servicios.</li>
+                <li><strong style="color:#fff;">/home</strong> — Directorios personales de usuarios.</li>
+                <li><strong style="color:#fff;">/var</strong> — Datos variables: logs, bases de datos, correo.</li>
+                <li><strong style="color:#fff;">/tmp</strong> — Archivos temporales, se borran al reiniciar.</li>
+                <li><strong style="color:#fff;">/bin, /usr/bin</strong> — Ejecutables del sistema y usuarios.</li>
+                <li><strong style="color:#fff;">Permisos:</strong> r (4) = lectura, w (2) = escritura, x (1) = ejecución.</li>
+                <li><strong style="color:#fff;">chmod 755</strong> = rwx(7) para owner, rx(5) para grupo y otros.</li>
+                <li><strong style="color:#fff;">chown usuario:grupo archivo</strong> — Cambiar propietario.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm"># Permisos: [tipo][owner][group][others]</span>
+<span class="cm"># -rwxr-xr-x  = archivo, owner rwx, group r-x, others r-x</span>
+
+<span class="cmd">chmod 755 script.sh</span>   <span class="cm"># rwxr-xr-x</span>
+<span class="cmd">chmod 644 config.txt</span>  <span class="cm"># rw-r--r--</span>
+<span class="cmd">chmod +x script.sh</span>    <span class="cm"># Agregar permiso de ejecución</span>
+<span class="cmd">chown root:root /etc/nginx.conf</span>
+
+<span class="cm"># Tipos de archivos</span>
+<span class="cm"># -  archivo regular</span>
+<span class="cm"># d  directorio</span>
+<span class="cm"># l  enlace simbólico</span>
+<span class="cm"># b  dispositivo de bloque</span>
+            </div>
+        </div>
+
+        <!-- COMANDOS LINUX -->
+        <div class="guide-card ao">
+            <h2 style="color:var(--neon-orange);"><i class="fab fa-linux"></i> Comandos Linux Esenciales</h2>
+            <p>Dominar la línea de comandos es fundamental para administración de sistemas.</p>
+            <div class="cmd-grid">
+                <div class="cmd-item"><div class="cmd-code">ls -la</div><div class="cmd-desc">Listar archivos con permisos y ocultos</div></div>
+                <div class="cmd-item"><div class="cmd-code">cd /ruta</div><div class="cmd-desc">Cambiar directorio</div></div>
+                <div class="cmd-item"><div class="cmd-code">pwd</div><div class="cmd-desc">Mostrar directorio actual</div></div>
+                <div class="cmd-item"><div class="cmd-code">mkdir -p dir</div><div class="cmd-desc">Crear directorio (con padres)</div></div>
+                <div class="cmd-item"><div class="cmd-code">cp -r src dst</div><div class="cmd-desc">Copiar recursivamente</div></div>
+                <div class="cmd-item"><div class="cmd-code">mv src dst</div><div class="cmd-desc">Mover o renombrar</div></div>
+                <div class="cmd-item"><div class="cmd-code">rm -rf dir</div><div class="cmd-desc">Borrar recursivo (¡cuidado!)</div></div>
+                <div class="cmd-item"><div class="cmd-code">grep -r "txt" .</div><div class="cmd-desc">Buscar texto recursivamente</div></div>
+                <div class="cmd-item"><div class="cmd-code">find / -name "*.log"</div><div class="cmd-desc">Buscar archivos por nombre</div></div>
+                <div class="cmd-item"><div class="cmd-code">df -h</div><div class="cmd-desc">Espacio en disco por partición</div></div>
+                <div class="cmd-item"><div class="cmd-code">du -sh dir/</div><div class="cmd-desc">Tamaño de directorio</div></div>
+                <div class="cmd-item"><div class="cmd-code">tail -f /var/log/syslog</div><div class="cmd-desc">Seguir log en tiempo real</div></div>
+                <div class="cmd-item"><div class="cmd-code">systemctl status nginx</div><div class="cmd-desc">Estado de un servicio</div></div>
+                <div class="cmd-item"><div class="cmd-code">sudo apt update</div><div class="cmd-desc">Actualizar lista de paquetes</div></div>
+                <div class="cmd-item"><div class="cmd-code">ssh user@ip</div><div class="cmd-desc">Conexión remota SSH</div></div>
+                <div class="cmd-item"><div class="cmd-code">crontab -e</div><div class="cmd-desc">Editar tareas programadas</div></div>
+            </div>
+        </div>
+
+        <!-- VIRTUALIZACIÓN Y CONTENEDORES -->
+        <div class="guide-card ac">
+            <h2 style="color:var(--neon-cyan);"><i class="fab fa-docker"></i> Virtualización y Contenedores</h2>
+            <p>La virtualización permite ejecutar múltiples SOs en un mismo hardware físico.</p>
+            <ul>
+                <li><strong style="color:#fff;">Máquina Virtual (VM)</strong> — Emula hardware completo. Aislamiento total. Más pesada. Ejemplos: VirtualBox, VMware, Hyper-V.</li>
+                <li><strong style="color:#fff;">Hipervisor Tipo 1</strong> — Corre directamente sobre el hardware (ESXi, Hyper-V en bare-metal). Mayor rendimiento.</li>
+                <li><strong style="color:#fff;">Hipervisor Tipo 2</strong> — Corre sobre un SO anfitrión (VirtualBox, VMware Workstation). Más fácil de usar.</li>
+                <li><strong style="color:#fff;">Contenedor (Docker)</strong> — Comparte el kernel del host. Más liviano que una VM, arranca en segundos.</li>
+                <li><strong style="color:#fff;">Imagen Docker</strong> — Plantilla de solo lectura para crear contenedores (Dockerfile).</li>
+                <li><strong style="color:#fff;">Docker Compose</strong> — Define y ejecuta aplicaciones multi-contenedor con YAML.</li>
+                <li><strong style="color:#fff;">Kubernetes</strong> — Orquestador de contenedores para entornos de producción a escala.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm"># Comandos Docker esenciales</span>
+<span class="cmd">docker pull nginx</span>          <span class="cm"># Descargar imagen</span>
+<span class="cmd">docker run -p 80:80 nginx</span>  <span class="cm"># Ejecutar contenedor</span>
+<span class="cmd">docker ps</span>                  <span class="cm"># Contenedores activos</span>
+<span class="cmd">docker images</span>             <span class="cm"># Imágenes locales</span>
+<span class="cmd">docker stop &lt;id&gt;</span>          <span class="cm"># Detener contenedor</span>
+<span class="cmd">docker rm &lt;id&gt;</span>            <span class="cm"># Eliminar contenedor</span>
+<span class="cmd">docker build -t mi-app .</span>  <span class="cm"># Construir imagen desde Dockerfile</span>
+            </div>
+        </div>
+
+        <!-- RECURSOS -->
+        <div class="guide-card ag">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-book-open"></i> Recursos y Documentación</h2>
+            <div class="res-grid">
+                <a class="res-link" href="https://linuxcommand.org/tlcl.php" target="_blank"><i class="fas fa-external-link-alt"></i> The Linux Command Line (libro)</a>
+                <a class="res-link" href="https://man7.org/linux/man-pages/" target="_blank"><i class="fas fa-external-link-alt"></i> Linux Man Pages</a>
+                <a class="res-link" href="https://docs.docker.com/get-started/" target="_blank"><i class="fas fa-external-link-alt"></i> Docker — Documentación oficial</a>
+                <a class="res-link" href="https://ubuntu.com/tutorials/command-line-for-beginners" target="_blank"><i class="fas fa-external-link-alt"></i> Ubuntu — CLI Tutorial</a>
+                <a class="res-link" href="https://explainshell.com/" target="_blank"><i class="fas fa-terminal"></i> ExplainShell (comandos)</a>
+                <a class="res-link" href="https://www.kernel.org/doc/html/latest/" target="_blank"><i class="fas fa-external-link-alt"></i> Linux Kernel Docs</a>
+            </div>
+        </div>
+
+        <!-- PREGUNTAS -->
+        <div class="guide-card ap">
+            <h2 style="color:var(--neon-purple);"><i class="fas fa-question-circle"></i> Preguntas de Práctica</h2>
+            <div style="overflow-x:auto">
+                <table class="qa-table">
+                    <thead>
+                        <tr><th>#</th><th>Pregunta</th><th>Opciones</th><th class="ans">Respuesta</th><th>Explicación</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>¿Qué hace el comando "ps aux" en Linux?</td><td>Muestra espacio en disco, lista todos los procesos, cambia permisos, instala paquetes</td><td class="ans">Lista todos los procesos</td><td>ps aux muestra todos los procesos del sistema con PID, CPU, memoria y comando.</td></tr>
+                        <tr><td>2</td><td>¿Cuál es la diferencia entre proceso e hilo?</td><td>Son iguales, Los hilos comparten memoria del proceso, Los procesos son más rápidos, Los hilos tienen su propio PID</td><td class="ans">Los hilos comparten memoria del proceso</td><td>Un hilo vive dentro de un proceso y comparte su espacio de direcciones.</td></tr>
+                        <tr><td>3</td><td>¿Qué archivo contiene los usuarios del sistema en Linux?</td><td>/etc/shadow, /etc/group, /etc/passwd, /etc/users</td><td class="ans">/etc/passwd</td><td>/etc/passwd almacena info de cada usuario: nombre, UID, GID, directorio home, shell.</td></tr>
+                        <tr><td>4</td><td>¿Qué hace chmod 755 sobre un archivo?</td><td>Lo borra, rwx para owner, rx para group y others, Lo oculta, Solo root puede leerlo</td><td class="ans">rwx para owner, rx para group y others</td><td>7=rwx, 5=r-x. El propietario puede leer, escribir y ejecutar; los demás solo leer y ejecutar.</td></tr>
+                        <tr><td>5</td><td>¿Cuál herramienta se usa para contenedores ligeros?</td><td>VirtualBox, VMware, Hyper-V, Docker</td><td class="ans">Docker</td><td>Docker crea contenedores que comparten el kernel del host, más livianos que las VMs.</td></tr>
+                        <tr><td>6</td><td>¿Qué tipo de kernel usa Linux?</td><td>Microkernel, Exokernel, Monolítico modular, Híbrido</td><td class="ans">Monolítico modular</td><td>Linux tiene un kernel monolítico pero con módulos cargables dinámicamente.</td></tr>
+                        <tr><td>7</td><td>¿Qué es el swap en Linux?</td><td>Un tipo de RAM, Espacio en disco como extensión de RAM, Un sistema de archivos, Un protocolo de red</td><td class="ans">Espacio en disco como extensión de RAM</td><td>Cuando la RAM se agota, el kernel mueve páginas al swap en disco.</td></tr>
+                        <tr><td>8</td><td>¿Qué hace el comando "kill -9 PID"?</td><td>Pausa el proceso, Reinicia el servicio, Termina forzosamente el proceso, Cambia prioridad</td><td class="ans">Termina forzosamente el proceso</td><td>La señal -9 (SIGKILL) no puede ser ignorada por el proceso; lo termina inmediatamente.</td></tr>
+                        <tr><td>9</td><td>¿Qué es el thrashing?</td><td>Un tipo de virus, Degradación por exceso de swap, Compresión de memoria, Algoritmo de planificación</td><td class="ans">Degradación por exceso de swap</td><td>Ocurre cuando el SO pasa más tiempo moviendo páginas que ejecutando instrucciones útiles.</td></tr>
+                        <tr><td>10</td><td>¿Para qué sirve crontab en Linux?</td><td>Gestionar usuarios, Programar tareas automáticas, Monitorear procesos, Configurar la red</td><td class="ans">Programar tareas automáticas</td><td>crontab permite ejecutar scripts o comandos en intervalos de tiempo definidos.</td></tr>
+                        <tr><td>11</td><td>¿Cuál es la diferencia entre hipervisor Tipo 1 y Tipo 2?</td><td>El Tipo 1 requiere Windows, Tipo 1 corre sobre el hardware, Tipo 2 es más rápido, Son iguales</td><td class="ans">Tipo 1 corre sobre el hardware</td><td>Tipo 1 (bare-metal) va directo al hardware. Tipo 2 corre sobre un SO anfitrión.</td></tr>
+                        <tr><td>12</td><td>¿Qué directorio almacena los logs del sistema en Linux?</td><td>/home, /tmp, /var/log, /etc/logs</td><td class="ans">/var/log</td><td>/var/log contiene archivos de registro: syslog, auth.log, kern.log, etc.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align:center;padding:1rem 0">
+            <button class="btn-principal" onclick="irAlExamen('so')">
+                <i class="fas fa-graduation-cap"></i> Rendir Certificación Sistemas Operativos
+            </button>
+        </div>
+
+        <!-- Modal: sesión requerida -->
+        <div id="modal-login-requerido" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+            <div style="background:#0f172a;border:1px solid var(--neon-cyan);border-radius:16px;padding:2.5rem;max-width:420px;width:90%;text-align:center;box-shadow:0 0 40px rgba(0,243,255,0.2);">
+                <div style="font-size:3rem;margin-bottom:1rem;">🔐</div>
+                <h3 style="color:var(--neon-cyan);margin-bottom:1rem;">Sesión requerida</h3>
+                <p style="color:#a0aec0;margin-bottom:2rem;line-height:1.6;">Para rendir el examen necesitás iniciar sesión en tu cuenta CertiWebs.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="index.html" class="btn-principal" style="padding:0.8rem 2rem;font-size:1rem;"><i class="fas fa-sign-in-alt"></i> Ir a iniciar sesión</a>
+                    <button onclick="document.getElementById('modal-login-requerido').style.display='none'" style="background:transparent;border:1px solid #a0aec0;color:#a0aec0;border-radius:30px;padding:0.8rem 2rem;cursor:pointer;font-size:1rem;font-family:'Outfit',sans-serif;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2025 CertiWebs — Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+    <p>Todos los derechos reservados.</p>
+</footer>
+<script src="main.js"></script>
+<script>
+function irAlExamen(examId) {
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+    if (token && userId) {
+        window.location.href = 'exam.html?exam=' + examId;
+    } else {
+        document.getElementById('modal-login-requerido').style.display = 'flex';
+    }
+}
+</script>
+</body>
+</html>
+

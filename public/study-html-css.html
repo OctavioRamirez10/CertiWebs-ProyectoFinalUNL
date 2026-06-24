@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio HTML & CSS - CertiWebs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .guide-hero { text-align:center; padding:4rem 2rem 2rem; }
+        .guide-hero h1 { font-size:2.8rem; background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-transform:uppercase; letter-spacing:3px; }
+        .guide-hero p { color:var(--text-muted); font-size:1.15rem; margin-top:1rem; }
+        .badge-row { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin:1.5rem 0; }
+        .badge { background:rgba(0,243,255,0.1); border:1px solid var(--neon-cyan); color:var(--neon-cyan); border-radius:20px; padding:0.4rem 1.1rem; font-size:0.88rem; font-weight:600; }
+        .guide-grid { display:grid; grid-template-columns:1fr; gap:2rem; max-width:960px; margin:0 auto; padding:0 1.5rem 5rem; }
+        .guide-card { background:var(--bg-card); border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:2rem; }
+        .guide-card.accent-cyan { border-left:4px solid var(--neon-cyan); }
+        .guide-card.accent-orange { border-left:4px solid var(--neon-orange); }
+        .guide-card.accent-purple { border-left:4px solid var(--neon-purple); }
+        .guide-card.accent-green { border-left:4px solid var(--neon-green); }
+        .guide-card h2 { font-size:1.5rem; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.7rem; }
+        .guide-card h2 i { font-size:1.3rem; }
+        .guide-card p, .guide-card li { color:#a0aec0; line-height:1.8; font-size:0.97rem; }
+        .guide-card ul { padding-left:1.2rem; margin-top:0.5rem; }
+        .guide-card ul li { margin-bottom:0.4rem; }
+        .code-block { background:#0a0f1e; border:1px solid rgba(0,243,255,0.2); border-radius:10px; padding:1.2rem 1.5rem; margin:1.2rem 0; font-family:'Courier New',monospace; font-size:0.88rem; color:#7ee787; overflow-x:auto; line-height:1.7; }
+        .code-block .kw { color:#ff7b72; }
+        .code-block .at { color:#79c0ff; }
+        .code-block .val { color:#a5d6ff; }
+        .code-block .cm { color:#8b949e; font-style:italic; }
+        .resources-links { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1rem; }
+        .res-link { display:flex; align-items:center; gap:0.6rem; padding:0.9rem 1.2rem; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.1); border-radius:10px; color:var(--neon-cyan); font-size:0.9rem; font-weight:500; transition:all 0.3s; text-decoration:none; }
+        .res-link:hover { background:rgba(0,243,255,0.1); border-color:var(--neon-cyan); transform:translateY(-2px); color:var(--neon-cyan); }
+        .qa-table { width:100%; border-collapse:collapse; font-size:0.9rem; }
+        .qa-table th { color:var(--neon-cyan); text-align:left; padding:0.8rem; background:rgba(0,243,255,0.06); font-size:0.82rem; letter-spacing:1px; text-transform:uppercase; }
+        .qa-table td { padding:0.85rem 0.8rem; border-bottom:1px solid rgba(255,255,255,0.05); color:#a0aec0; vertical-align:top; }
+        .qa-table tr:last-child td { border-bottom:none; }
+        .qa-table .ans { color:var(--neon-green); font-weight:600; }
+        .tip-box { background:rgba(0,255,136,0.06); border:1px solid rgba(0,255,136,0.25); border-radius:10px; padding:1rem 1.3rem; margin:1rem 0; color:#a0aec0; font-size:0.92rem; }
+        .tip-box strong { color:var(--neon-green); }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">CertiWebs</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="exams.html">Exámenes</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="guide-hero">
+        <h1><i class="fab fa-html5" style="color:var(--neon-orange);"></i> HTML &amp; CSS</h1>
+        <p>Fundamentos de la web: estructura, diseño y maquetación profesional.</p>
+        <div class="badge-row">
+            <span class="badge"><i class="fas fa-layer-group"></i> Semántica HTML5</span>
+            <span class="badge"><i class="fas fa-paint-brush"></i> CSS Flexbox &amp; Grid</span>
+            <span class="badge"><i class="fas fa-mobile-alt"></i> Responsive Design</span>
+            <span class="badge"><i class="fas fa-magic"></i> Animaciones CSS</span>
+        </div>
+    </div>
+
+    <div class="guide-grid">
+
+        <!-- BLOQUE 1: HTML SEMÁNTICO -->
+        <div class="guide-card accent-cyan">
+            <h2 style="color:var(--neon-cyan);"><i class="fab fa-html5"></i> HTML5 Semántico</h2>
+            <p>HTML5 introdujo etiquetas <strong>semánticas</strong> que describen el significado del contenido, mejorando accesibilidad y SEO.</p>
+            <ul>
+                <li><strong style="color:#fff;">&lt;header&gt;</strong> — Cabecera del sitio o sección.</li>
+                <li><strong style="color:#fff;">&lt;nav&gt;</strong> — Bloque de navegación principal.</li>
+                <li><strong style="color:#fff;">&lt;main&gt;</strong> — Contenido principal único de la página.</li>
+                <li><strong style="color:#fff;">&lt;article&gt;</strong> — Contenido independiente y reutilizable.</li>
+                <li><strong style="color:#fff;">&lt;section&gt;</strong> — Agrupación temática de contenido.</li>
+                <li><strong style="color:#fff;">&lt;aside&gt;</strong> — Contenido lateral o complementario.</li>
+                <li><strong style="color:#fff;">&lt;footer&gt;</strong> — Pie de página.</li>
+                <li><strong style="color:#fff;">&lt;figure&gt; / &lt;figcaption&gt;</strong> — Imágenes con descripción.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">&lt;!-- Estructura semántica básica --&gt;</span>
+<span class="kw">&lt;header&gt;</span>
+  <span class="kw">&lt;nav&gt;</span><span class="kw">&lt;a</span> <span class="at">href</span>=<span class="val">"/"</span><span class="kw">&gt;</span>Inicio<span class="kw">&lt;/a&gt;&lt;/nav&gt;</span>
+<span class="kw">&lt;/header&gt;</span>
+<span class="kw">&lt;main&gt;</span>
+  <span class="kw">&lt;article&gt;</span>
+    <span class="kw">&lt;h1&gt;</span>Título principal<span class="kw">&lt;/h1&gt;</span>
+    <span class="kw">&lt;section&gt;</span>Sección de contenido<span class="kw">&lt;/section&gt;</span>
+  <span class="kw">&lt;/article&gt;</span>
+<span class="kw">&lt;/main&gt;</span>
+<span class="kw">&lt;footer&gt;</span>&copy; 2025 CertiWebs<span class="kw">&lt;/footer&gt;</span>
+            </div>
+            <div class="tip-box"><strong>💡 Tip:</strong> Usar etiquetas semánticas correctas mejora la puntuación en herramientas de accesibilidad como Lighthouse.</div>
+        </div>
+
+        <!-- BLOQUE 2: FORMULARIOS -->
+        <div class="guide-card accent-orange">
+            <h2 style="color:var(--neon-orange);"><i class="fas fa-wpforms"></i> Formularios HTML5</h2>
+            <p>Los formularios HTML5 incluyen validación nativa, nuevos tipos de input y atributos mejorados.</p>
+            <ul>
+                <li><strong style="color:#fff;">type="email"</strong> — Valida formato de correo automáticamente.</li>
+                <li><strong style="color:#fff;">type="number"</strong> — Solo acepta valores numéricos.</li>
+                <li><strong style="color:#fff;">type="date"</strong> — Selector de fecha nativo.</li>
+                <li><strong style="color:#fff;">required</strong> — Campo obligatorio.</li>
+                <li><strong style="color:#fff;">pattern</strong> — Expresión regular de validación.</li>
+                <li><strong style="color:#fff;">placeholder</strong> — Texto de ayuda dentro del campo.</li>
+                <li><strong style="color:#fff;">min / max</strong> — Rango permitido para números o fechas.</li>
+            </ul>
+            <div class="code-block">
+<span class="kw">&lt;form</span> <span class="at">action</span>=<span class="val">"/enviar"</span> <span class="at">method</span>=<span class="val">"POST"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;label&gt;</span>Email:<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;input</span> <span class="at">type</span>=<span class="val">"email"</span> <span class="at">name</span>=<span class="val">"email"</span> <span class="at">required</span><span class="kw">&gt;</span>
+
+  <span class="kw">&lt;label&gt;</span>Edad (18-99):<span class="kw">&lt;/label&gt;</span>
+  <span class="kw">&lt;input</span> <span class="at">type</span>=<span class="val">"number"</span> <span class="at">min</span>=<span class="val">"18"</span> <span class="at">max</span>=<span class="val">"99"</span> <span class="at">required</span><span class="kw">&gt;</span>
+
+  <span class="kw">&lt;button</span> <span class="at">type</span>=<span class="val">"submit"</span><span class="kw">&gt;</span>Enviar<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;/form&gt;</span>
+            </div>
+        </div>
+
+        <!-- BLOQUE 3: CSS FLEXBOX -->
+        <div class="guide-card accent-purple">
+            <h2 style="color:var(--neon-purple);"><i class="fas fa-th-large"></i> CSS Flexbox</h2>
+            <p>Flexbox permite distribuir elementos en una sola dimensión (fila o columna) con control preciso del alineamiento.</p>
+            <ul>
+                <li><strong style="color:#fff;">display: flex</strong> — Activa el contexto flex en el contenedor.</li>
+                <li><strong style="color:#fff;">flex-direction</strong> — row | column | row-reverse | column-reverse.</li>
+                <li><strong style="color:#fff;">justify-content</strong> — Alineación en eje principal: flex-start, center, space-between, space-around.</li>
+                <li><strong style="color:#fff;">align-items</strong> — Alineación en eje secundario: stretch, center, flex-start, flex-end.</li>
+                <li><strong style="color:#fff;">gap</strong> — Espacio entre elementos.</li>
+                <li><strong style="color:#fff;">flex-wrap: wrap</strong> — Los elementos saltan de línea si no caben.</li>
+                <li><strong style="color:#fff;">flex: 1</strong> — El elemento ocupa el espacio disponible restante.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">/* Navbar con flexbox */</span>
+<span class="at">.navbar</span> {
+  <span class="at">display</span>: flex;
+  <span class="at">justify-content</span>: space-between;
+  <span class="at">align-items</span>: center;
+  <span class="at">gap</span>: <span class="val">1rem</span>;
+  <span class="at">padding</span>: <span class="val">1rem 2rem</span>;
+}
+
+<span class="cm">/* Centrar un elemento */</span>
+<span class="at">.centrado</span> {
+  <span class="at">display</span>: flex;
+  <span class="at">justify-content</span>: center;
+  <span class="at">align-items</span>: center;
+  <span class="at">min-height</span>: <span class="val">100vh</span>;
+}
+            </div>
+        </div>
+
+        <!-- BLOQUE 4: CSS GRID -->
+        <div class="guide-card accent-green">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-border-all"></i> CSS Grid Layout</h2>
+            <p>CSS Grid es ideal para layouts bidimensionales (filas y columnas simultáneas).</p>
+            <ul>
+                <li><strong style="color:#fff;">display: grid</strong> — Activa el layout grid.</li>
+                <li><strong style="color:#fff;">grid-template-columns</strong> — Define el ancho de cada columna.</li>
+                <li><strong style="color:#fff;">grid-template-rows</strong> — Define la altura de cada fila.</li>
+                <li><strong style="color:#fff;">repeat(n, valor)</strong> — Repite una definición n veces.</li>
+                <li><strong style="color:#fff;">1fr</strong> — Fracción del espacio disponible.</li>
+                <li><strong style="color:#fff;">minmax(min, max)</strong> — Columna con tamaño mínimo y máximo.</li>
+                <li><strong style="color:#fff;">grid-column / grid-row</strong> — Controla cuántas celdas ocupa un elemento.</li>
+                <li><strong style="color:#fff;">gap</strong> — Espacio entre filas y columnas.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">/* Grid responsive de 3 columnas */</span>
+<span class="at">.grid</span> {
+  <span class="at">display</span>: grid;
+  <span class="at">grid-template-columns</span>: repeat(auto-fit, minmax(<span class="val">280px</span>, <span class="val">1fr</span>));
+  <span class="at">gap</span>: <span class="val">2rem</span>;
+}
+
+<span class="cm">/* Elemento que ocupa 2 columnas */</span>
+<span class="at">.featured</span> {
+  <span class="at">grid-column</span>: span <span class="val">2</span>;
+}
+            </div>
+        </div>
+
+        <!-- BLOQUE 5: RESPONSIVE DESIGN -->
+        <div class="guide-card accent-cyan">
+            <h2 style="color:var(--neon-cyan);"><i class="fas fa-mobile-alt"></i> Responsive Design &amp; Media Queries</h2>
+            <p>El diseño responsive adapta la interfaz a cualquier tamaño de pantalla usando <strong>media queries</strong>.</p>
+            <ul>
+                <li><strong style="color:#fff;">Breakpoints comunes:</strong> 480px (móvil), 768px (tablet), 1024px (desktop).</li>
+                <li><strong style="color:#fff;">mobile-first:</strong> Se diseña primero para móvil y se expande con min-width.</li>
+                <li><strong style="color:#fff;">viewport meta:</strong> &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</li>
+                <li><strong style="color:#fff;">Unidades relativas:</strong> %, vw, vh, rem, em en lugar de píxeles fijos.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">/* Mobile first */</span>
+<span class="at">.columnas</span> {
+  <span class="at">display</span>: flex;
+  <span class="at">flex-direction</span>: column;
+  <span class="at">gap</span>: <span class="val">1rem</span>;
+}
+
+<span class="cm">/* Tablet y arriba */</span>
+@media (<span class="at">min-width</span>: <span class="val">768px</span>) {
+  <span class="at">.columnas</span> {
+    <span class="at">flex-direction</span>: row;
+    <span class="at">flex-wrap</span>: wrap;
+  }
+}
+
+<span class="cm">/* Desktop */</span>
+@media (<span class="at">min-width</span>: <span class="val">1024px</span>) {
+  <span class="at">.columnas</span> {
+    <span class="at">display</span>: grid;
+    <span class="at">grid-template-columns</span>: repeat(<span class="val">3</span>, <span class="val">1fr</span>);
+  }
+}
+            </div>
+        </div>
+
+        <!-- BLOQUE 6: VARIABLES CSS Y ANIMACIONES -->
+        <div class="guide-card accent-orange">
+            <h2 style="color:var(--neon-orange);"><i class="fas fa-magic"></i> Variables CSS y Animaciones</h2>
+            <p>Las <strong>Custom Properties</strong> (variables CSS) y las animaciones elevan la calidad y mantenibilidad del CSS.</p>
+            <ul>
+                <li><strong style="color:#fff;">--variable: valor</strong> — Declarada dentro de :root para alcance global.</li>
+                <li><strong style="color:#fff;">var(--variable)</strong> — Se usa para leer el valor.</li>
+                <li><strong style="color:#fff;">transition</strong> — Animación suave entre estados (hover, focus).</li>
+                <li><strong style="color:#fff;">@keyframes</strong> — Define animaciones personalizadas paso a paso.</li>
+                <li><strong style="color:#fff;">animation</strong> — Aplica un @keyframes a un elemento.</li>
+                <li><strong style="color:#fff;">transform</strong> — Rotación, escala, traslación sin afectar el flujo.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">/* Variables globales */</span>
+:root {
+  --color-primario: <span class="val">#00f3ff</span>;
+  --radio: <span class="val">12px</span>;
+}
+
+<span class="at">.boton</span> {
+  <span class="at">background</span>: var(--color-primario);
+  <span class="at">border-radius</span>: var(--radio);
+  <span class="at">transition</span>: transform <span class="val">0.3s</span> ease, box-shadow <span class="val">0.3s</span> ease;
+}
+<span class="at">.boton</span>:hover {
+  <span class="at">transform</span>: translateY(<span class="val">-4px</span>);
+  <span class="at">box-shadow</span>: <span class="val">0 8px 20px rgba(0,243,255,0.4)</span>;
+}
+
+@keyframes fadeIn {
+  from { <span class="at">opacity</span>: <span class="val">0</span>; <span class="at">transform</span>: translateY(<span class="val">20px</span>); }
+  to   { <span class="at">opacity</span>: <span class="val">1</span>; <span class="at">transform</span>: translateY(<span class="val">0</span>); }
+}
+<span class="at">.tarjeta</span> { <span class="at">animation</span>: fadeIn <span class="val">0.5s</span> ease; }
+            </div>
+        </div>
+
+        <!-- BLOQUE 7: RECURSOS -->
+        <div class="guide-card accent-purple">
+            <h2 style="color:var(--neon-purple);"><i class="fas fa-book-open"></i> Recursos Oficiales y Documentación</h2>
+            <p>Links a documentación confiable y actualizada para profundizar:</p>
+            <div class="resources-links">
+                <a class="res-link" href="https://developer.mozilla.org/es/docs/Web/HTML" target="_blank"><i class="fas fa-external-link-alt"></i> MDN — HTML</a>
+                <a class="res-link" href="https://developer.mozilla.org/es/docs/Web/CSS" target="_blank"><i class="fas fa-external-link-alt"></i> MDN — CSS</a>
+                <a class="res-link" href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank"><i class="fas fa-external-link-alt"></i> Guía Flexbox (CSS-Tricks)</a>
+                <a class="res-link" href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank"><i class="fas fa-external-link-alt"></i> Guía Grid (CSS-Tricks)</a>
+                <a class="res-link" href="https://www.w3schools.com/html/" target="_blank"><i class="fas fa-external-link-alt"></i> W3Schools HTML</a>
+                <a class="res-link" href="https://web.dev/learn/css/" target="_blank"><i class="fas fa-external-link-alt"></i> web.dev — Learn CSS</a>
+                <a class="res-link" href="https://flexboxfroggy.com/#es" target="_blank"><i class="fas fa-gamepad"></i> Flexbox Froggy (juego)</a>
+                <a class="res-link" href="https://cssgridgarden.com/#es" target="_blank"><i class="fas fa-gamepad"></i> Grid Garden (juego)</a>
+            </div>
+        </div>
+
+        <!-- BLOQUE 8: PREGUNTAS DE PRÁCTICA -->
+        <div class="guide-card accent-green">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-question-circle"></i> Preguntas de Práctica</h2>
+            <div style="overflow-x:auto;">
+                <table class="qa-table">
+                    <thead>
+                        <tr><th>#</th><th>Pregunta</th><th>Opciones</th><th class="ans">Respuesta</th><th>Explicación</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>¿Qué etiqueta define el contenido principal único de una página?</td><td>&lt;main&gt;, &lt;body&gt;, &lt;div&gt;, &lt;section&gt;</td><td class="ans">&lt;main&gt;</td><td>Solo debe existir un &lt;main&gt; por página; indica el contenido central.</td></tr>
+                        <tr><td>2</td><td>¿Cuál propiedad CSS centra elementos en el eje principal de un flex container?</td><td>align-items, justify-content, flex-wrap, gap</td><td class="ans">justify-content</td><td>justify-content actúa sobre el eje principal (horizontal en row).</td></tr>
+                        <tr><td>3</td><td>¿Qué unidad CSS representa el 1% del ancho del viewport?</td><td>em, rem, vw, px</td><td class="ans">vw</td><td>vw = viewport width. 100vw equivale al ancho total de la pantalla.</td></tr>
+                        <tr><td>4</td><td>¿Cómo se declara una variable CSS global?</td><td>:root { --color: #fff }, $color: #fff, var(--color), @var color</td><td class="ans">:root { --color: #fff }</td><td>Las custom properties se declaran con -- dentro de un selector, normalmente :root.</td></tr>
+                        <tr><td>5</td><td>¿Qué atributo HTML5 obliga a rellenar un campo de formulario antes de enviar?</td><td>mandatory, required, validate, nonempty</td><td class="ans">required</td><td>El atributo required activa la validación nativa del navegador.</td></tr>
+                        <tr><td>6</td><td>¿Cuál es la diferencia entre margin y padding?</td><td>Ninguna, Margin es interno, Padding es externo, Margin es externo y Padding es interno</td><td class="ans">Margin es externo y Padding es interno</td><td>Padding es el espacio entre el contenido y el borde. Margin es el espacio fuera del borde.</td></tr>
+                        <tr><td>7</td><td>¿Qué propiedad CSS crea una cuadrícula de columnas?</td><td>grid-template-columns, flex-columns, columns, grid-rows</td><td class="ans">grid-template-columns</td><td>Define el número y ancho de las columnas en un grid container.</td></tr>
+                        <tr><td>8</td><td>¿Para qué sirve el meta viewport?</td><td>SEO, Escalar la página en móviles, Cambiar el idioma, Definir charset</td><td class="ans">Escalar la página en móviles</td><td>Sin el meta viewport, los móviles renderizan la página con el ancho de desktop (960px).</td></tr>
+                        <tr><td>9</td><td>¿Qué hace position: sticky?</td><td>Fija el elemento al scroll, Flota el elemento, Superpone elementos, Centra el elemento</td><td class="ans">Fija el elemento al scroll</td><td>sticky se comporta como relative hasta que llega al umbral (top, left) y luego se fija.</td></tr>
+                        <tr><td>10</td><td>¿Cuál propiedad CSS define la velocidad de transición entre dos estados?</td><td>animation, transform, transition, opacity</td><td class="ans">transition</td><td>transition: propiedad duración función define la transición animada al cambiar de estado.</td></tr>
+                        <tr><td>11</td><td>¿Qué significa "cascada" en CSS?</td><td>Los estilos caen de arriba a abajo, Herencia de estilos de padre a hijo, Prioridad de reglas según origen y especificidad, Animación de caída</td><td class="ans">Prioridad de reglas según origen y especificidad</td><td>La cascada determina qué regla se aplica cuando varias coinciden en el mismo elemento.</td></tr>
+                        <tr><td>12</td><td>¿Qué etiqueta se usa para enlazar un archivo CSS externo?</td><td>&lt;script&gt;, &lt;style&gt;, &lt;link&gt;, &lt;css&gt;</td><td class="ans">&lt;link&gt;</td><td>&lt;link rel="stylesheet" href="styles.css"&gt; va dentro del &lt;head&gt;.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BOTÓN EXAMEN -->
+        <div style="text-align:center; padding:1rem 0;">
+            <button id="btn-rendir-exam" class="btn-principal" onclick="irAlExamen('html')">
+                <i class="fas fa-graduation-cap"></i> Rendir Certificación HTML &amp; CSS
+            </button>
+        </div>
+
+        <!-- Modal: debe iniciar sesión -->
+        <div id="modal-login-requerido" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+            <div style="background:#0f172a;border:1px solid var(--neon-cyan);border-radius:16px;padding:2.5rem;max-width:420px;width:90%;text-align:center;box-shadow:0 0 40px rgba(0,243,255,0.2);animation:scaleUp 0.3s ease;">
+                <div style="font-size:3rem;margin-bottom:1rem;">🔐</div>
+                <h3 style="color:var(--neon-cyan);margin-bottom:1rem;">Sesión requerida</h3>
+                <p style="color:#a0aec0;margin-bottom:2rem;line-height:1.6;">Para rendir el examen necesitás iniciar sesión en tu cuenta CertiWebs.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="index.html" class="btn-principal" style="padding:0.8rem 2rem;font-size:1rem;">
+                        <i class="fas fa-sign-in-alt"></i> Ir a iniciar sesión
+                    </a>
+                    <button onclick="document.getElementById('modal-login-requerido').style.display='none'" style="background:transparent;border:1px solid #a0aec0;color:#a0aec0;border-radius:30px;padding:0.8rem 2rem;cursor:pointer;font-size:1rem;font-family:'Outfit',sans-serif;">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2025 CertiWebs — Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+    <p>Todos los derechos reservados.</p>
+</footer>
+<script src="main.js"></script>
+<script>
+function irAlExamen(examId) {
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+    if (token && userId) {
+        window.location.href = 'exam.html?exam=' + examId;
+    } else {
+        const modal = document.getElementById('modal-login-requerido');
+        modal.style.display = 'flex';
+    }
+}
+</script>
+</body>
+</html>

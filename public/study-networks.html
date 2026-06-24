@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio Redes - CertiWebs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .guide-hero{text-align:center;padding:4rem 2rem 2rem}
+        .guide-hero h1{font-size:2.8rem;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-transform:uppercase;letter-spacing:3px}
+        .guide-hero p{color:var(--text-muted);font-size:1.15rem;margin-top:1rem}
+        .badge-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+        .badge{background:rgba(0,243,255,0.1);border:1px solid var(--neon-cyan);color:var(--neon-cyan);border-radius:20px;padding:.4rem 1.1rem;font-size:.88rem;font-weight:600}
+        .guide-grid{display:grid;grid-template-columns:1fr;gap:2rem;max-width:960px;margin:0 auto;padding:0 1.5rem 5rem}
+        .guide-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem}
+        .guide-card.ac{border-left:4px solid var(--neon-cyan)}
+        .guide-card.ag{border-left:4px solid var(--neon-green)}
+        .guide-card.ap{border-left:4px solid var(--neon-purple)}
+        .guide-card.ao{border-left:4px solid var(--neon-orange)}
+        .guide-card h2{font-size:1.5rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.7rem}
+        .guide-card p,.guide-card li{color:#a0aec0;line-height:1.8;font-size:.97rem}
+        .guide-card ul{padding-left:1.2rem;margin-top:.5rem}
+        .guide-card ul li{margin-bottom:.4rem}
+        .osi-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:1rem}
+        .osi-table th{color:var(--neon-cyan);text-align:left;padding:.7rem;background:rgba(0,243,255,.06);text-transform:uppercase;font-size:.8rem;letter-spacing:1px}
+        .osi-table td{padding:.75rem .7rem;border-bottom:1px solid rgba(255,255,255,.05);color:#a0aec0;vertical-align:top}
+        .osi-table tr:last-child td{border-bottom:none}
+        .layer-num{color:var(--neon-orange);font-weight:700;font-size:1rem}
+        .layer-name{color:#fff;font-weight:600}
+        .code-block{background:#0a0f1e;border:1px solid rgba(0,243,255,.2);border-radius:10px;padding:1.2rem 1.5rem;margin:1.2rem 0;font-family:'Courier New',monospace;font-size:.88rem;color:#7ee787;overflow-x:auto;line-height:1.7}
+        .code-block .kw{color:#ff7b72}
+        .code-block .cm{color:#8b949e;font-style:italic}
+        .res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem}
+        .res-link{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(--neon-cyan);font-size:.9rem;font-weight:500;transition:all .3s;text-decoration:none}
+        .res-link:hover{background:rgba(0,243,255,.1);border-color:var(--neon-cyan);transform:translateY(-2px);color:var(--neon-cyan)}
+        .qa-table{width:100%;border-collapse:collapse;font-size:.9rem}
+        .qa-table th{color:var(--neon-cyan);text-align:left;padding:.8rem;background:rgba(0,243,255,.06);font-size:.82rem;letter-spacing:1px;text-transform:uppercase}
+        .qa-table td{padding:.85rem .8rem;border-bottom:1px solid rgba(255,255,255,.05);color:#a0aec0;vertical-align:top}
+        .qa-table tr:last-child td{border-bottom:none}
+        .qa-table .ans{color:var(--neon-green);font-weight:600}
+        .tip-box{background:rgba(0,243,255,.06);border:1px solid rgba(0,243,255,.25);border-radius:10px;padding:1rem 1.3rem;margin:1rem 0;color:#a0aec0;font-size:.92rem}
+        .tip-box strong{color:var(--neon-cyan)}
+        .ports-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.7rem;margin-top:1rem}
+        .port-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.7rem 1rem;font-size:.88rem}
+        .port-num{color:var(--neon-orange);font-weight:700;font-family:'Courier New',monospace}
+        .port-name{color:#fff;font-weight:500;display:block;margin-top:.2rem}
+        .port-desc{color:#a0aec0;font-size:.8rem}
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">CertiWebs</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="exams.html">Exámenes</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="guide-hero">
+        <h1><i class="fas fa-network-wired" style="color:var(--neon-cyan);"></i> Redes Informáticas</h1>
+        <p>Protocolos, modelos y tecnologías que conectan el mundo digital.</p>
+        <div class="badge-row">
+            <span class="badge"><i class="fas fa-layer-group"></i> Modelo OSI</span>
+            <span class="badge"><i class="fas fa-project-diagram"></i> TCP/IP</span>
+            <span class="badge"><i class="fas fa-shield-alt"></i> Seguridad</span>
+            <span class="badge"><i class="fas fa-sitemap"></i> Subnetting</span>
+        </div>
+    </div>
+
+    <div class="guide-grid">
+
+        <!-- OSI MODEL -->
+        <div class="guide-card ac">
+            <h2 style="color:var(--neon-cyan);"><i class="fas fa-layer-group"></i> Modelo OSI — 7 Capas</h2>
+            <p>El modelo OSI (Open Systems Interconnection) divide la comunicación en red en 7 capas funcionales, cada una con responsabilidades específicas.</p>
+            <table class="osi-table">
+                <thead><tr><th>#</th><th>Capa</th><th>Función</th><th>Protocolos/Ejemplos</th></tr></thead>
+                <tbody>
+                    <tr><td class="layer-num">7</td><td class="layer-name">Aplicación</td><td>Interfaz con el usuario final</td><td>HTTP, FTP, SMTP, DNS, SNMP</td></tr>
+                    <tr><td class="layer-num">6</td><td class="layer-name">Presentación</td><td>Cifrado, compresión, traducción de formatos</td><td>SSL/TLS, JPEG, MP4, ASCII</td></tr>
+                    <tr><td class="layer-num">5</td><td class="layer-name">Sesión</td><td>Gestión de sesiones entre aplicaciones</td><td>NetBIOS, RPC, SQL</td></tr>
+                    <tr><td class="layer-num">4</td><td class="layer-name">Transporte</td><td>Entrega extremo a extremo, control de flujo</td><td>TCP, UDP</td></tr>
+                    <tr><td class="layer-num">3</td><td class="layer-name">Red</td><td>Enrutamiento entre redes distintas</td><td>IP, ICMP, OSPF, BGP</td></tr>
+                    <tr><td class="layer-num">2</td><td class="layer-name">Enlace de datos</td><td>Transferencia dentro de la misma red local</td><td>Ethernet, Wi-Fi (802.11), MAC</td></tr>
+                    <tr><td class="layer-num">1</td><td class="layer-name">Física</td><td>Transmisión de bits por el medio físico</td><td>Cable UTP, fibra óptica, señales eléctricas</td></tr>
+                </tbody>
+            </table>
+            <div class="tip-box"><strong>💡 Mnemotécnico (de arriba a abajo):</strong> <em>"All People Seem To Need Data Processing"</em> → Application, Presentation, Session, Transport, Network, Data Link, Physical.</div>
+        </div>
+
+        <!-- TCP/IP -->
+        <div class="guide-card ag">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-project-diagram"></i> Modelo TCP/IP y Protocolos Clave</h2>
+            <p>TCP/IP es el modelo práctico usado en Internet. Simplifica OSI en 4 capas. Los protocolos más importantes son:</p>
+            <ul>
+                <li><strong style="color:#fff;">IP (Internet Protocol)</strong> — Direccionamiento lógico y enrutamiento. IPv4 (32 bits) e IPv6 (128 bits).</li>
+                <li><strong style="color:#fff;">TCP</strong> — Orientado a conexión, confiable, usa handshake de 3 vías (SYN, SYN-ACK, ACK).</li>
+                <li><strong style="color:#fff;">UDP</strong> — Sin conexión, más rápido, sin garantía de entrega. Ideal para streaming y gaming.</li>
+                <li><strong style="color:#fff;">HTTP / HTTPS</strong> — Transferencia de páginas web. HTTPS cifra con TLS.</li>
+                <li><strong style="color:#fff;">DNS</strong> — Traduce nombres de dominio a direcciones IP.</li>
+                <li><strong style="color:#fff;">DHCP</strong> — Asigna IPs automáticamente a dispositivos en la red.</li>
+                <li><strong style="color:#fff;">ARP</strong> — Resuelve IPs a direcciones MAC en la red local.</li>
+                <li><strong style="color:#fff;">ICMP</strong> — Mensajes de control (ping, traceroute).</li>
+            </ul>
+            <div class="code-block">
+<span class="cm"># TCP Handshake de 3 vías</span>
+Cliente  →  SYN        →  Servidor   <span class="cm">(inicio de conexión)</span>
+Cliente  ←  SYN-ACK    ←  Servidor   <span class="cm">(confirmación)</span>
+Cliente  →  ACK        →  Servidor   <span class="cm">(conexión establecida)</span>
+
+<span class="cm"># Ping (ICMP) — verificar conectividad</span>
+ping 8.8.8.8
+ping google.com
+
+<span class="cm"># Traceroute — rastrear ruta de paquetes</span>
+tracert google.com   <span class="cm">(Windows)</span>
+traceroute google.com <span class="cm">(Linux/Mac)</span>
+            </div>
+        </div>
+
+        <!-- PUERTOS -->
+        <div class="guide-card ao">
+            <h2 style="color:var(--neon-orange);"><i class="fas fa-door-open"></i> Puertos Importantes</h2>
+            <p>Los puertos identifican los servicios que escuchan en un host. Los puertos bien conocidos van del 0 al 1023.</p>
+            <div class="ports-grid">
+                <div class="port-item"><span class="port-num">20/21</span><span class="port-name">FTP</span><span class="port-desc">Transferencia de archivos</span></div>
+                <div class="port-item"><span class="port-num">22</span><span class="port-name">SSH</span><span class="port-desc">Shell seguro remoto</span></div>
+                <div class="port-item"><span class="port-num">23</span><span class="port-name">Telnet</span><span class="port-desc">Shell remoto (sin cifrado)</span></div>
+                <div class="port-item"><span class="port-num">25</span><span class="port-name">SMTP</span><span class="port-desc">Envío de correo</span></div>
+                <div class="port-item"><span class="port-num">53</span><span class="port-name">DNS</span><span class="port-desc">Resolución de nombres</span></div>
+                <div class="port-item"><span class="port-num">67/68</span><span class="port-name">DHCP</span><span class="port-desc">Asignación de IP</span></div>
+                <div class="port-item"><span class="port-num">80</span><span class="port-name">HTTP</span><span class="port-desc">Web sin cifrado</span></div>
+                <div class="port-item"><span class="port-num">110</span><span class="port-name">POP3</span><span class="port-desc">Recepción de correo</span></div>
+                <div class="port-item"><span class="port-num">143</span><span class="port-name">IMAP</span><span class="port-desc">Correo sincronizado</span></div>
+                <div class="port-item"><span class="port-num">443</span><span class="port-name">HTTPS</span><span class="port-desc">Web con TLS/SSL</span></div>
+                <div class="port-item"><span class="port-num">3306</span><span class="port-name">MySQL</span><span class="port-desc">Base de datos MySQL</span></div>
+                <div class="port-item"><span class="port-num">3389</span><span class="port-name">RDP</span><span class="port-desc">Escritorio remoto</span></div>
+            </div>
+        </div>
+
+        <!-- SUBNETTING -->
+        <div class="guide-card ap">
+            <h2 style="color:var(--neon-purple);"><i class="fas fa-sitemap"></i> Direccionamiento IP y Subnetting</h2>
+            <p>IPv4 usa 32 bits divididos en 4 octetos. El subnetting divide una red en subredes más pequeñas.</p>
+            <ul>
+                <li><strong style="color:#fff;">Clases de red:</strong> A (0-127), B (128-191), C (192-223).</li>
+                <li><strong style="color:#fff;">IPs privadas:</strong> 10.x.x.x, 172.16-31.x.x, 192.168.x.x</li>
+                <li><strong style="color:#fff;">Máscara de red:</strong> separa la parte de red y de host.</li>
+                <li><strong style="color:#fff;">Notación CIDR:</strong> 192.168.1.0/24 equivale a máscara 255.255.255.0</li>
+                <li><strong style="color:#fff;">/24</strong> → 256 IPs totales, 254 hosts, máscara 255.255.255.0</li>
+                <li><strong style="color:#fff;">/16</strong> → 65536 IPs totales, 65534 hosts, máscara 255.255.0.0</li>
+                <li><strong style="color:#fff;">/8</strong> → 16 millones de IPs, máscara 255.0.0.0</li>
+                <li><strong style="color:#fff;">Broadcast:</strong> última IP de la subred (ej: 192.168.1.255 en /24).</li>
+                <li><strong style="color:#fff;">Gateway:</strong> primera IP utilizable, conecta la red a Internet.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm"># Ejemplo: Red 192.168.1.0/24</span>
+Red:        192.168.1.0
+Máscara:    255.255.255.0
+Gateway:    192.168.1.1
+Hosts:      192.168.1.1 - 192.168.1.254  <span class="cm">(254 hosts)</span>
+Broadcast:  192.168.1.255
+
+<span class="cm"># CIDR: /24 = 24 bits de red, 8 bits de host</span>
+<span class="cm"># 2^8 = 256 IPs totales - 2 (red+broadcast) = 254 hosts</span>
+            </div>
+        </div>
+
+        <!-- SEGURIDAD -->
+        <div class="guide-card ac">
+            <h2 style="color:var(--neon-cyan);"><i class="fas fa-shield-alt"></i> Seguridad en Redes</h2>
+            <p>Conceptos fundamentales de seguridad para proteger la infraestructura y los datos en tránsito.</p>
+            <ul>
+                <li><strong style="color:#fff;">Firewall</strong> — Filtra tráfico entrante/saliente según reglas. Puede ser de red o de host.</li>
+                <li><strong style="color:#fff;">VPN (Virtual Private Network)</strong> — Crea un túnel cifrado sobre redes públicas.</li>
+                <li><strong style="color:#fff;">TLS/SSL</strong> — Cifra las comunicaciones en la capa de transporte (HTTPS).</li>
+                <li><strong style="color:#fff;">IDS / IPS</strong> — Detección/Prevención de intrusiones. IDS alerta, IPS bloquea.</li>
+                <li><strong style="color:#fff;">Ataque DoS / DDoS</strong> — Inunda el servidor con solicitudes para dejarlo inaccesible.</li>
+                <li><strong style="color:#fff;">Man-in-the-Middle (MITM)</strong> — El atacante intercepta la comunicación entre dos partes.</li>
+                <li><strong style="color:#fff;">Phishing</strong> — Engaño para obtener credenciales mediante sitios/correos falsos.</li>
+                <li><strong style="color:#fff;">VLAN</strong> — Segmenta redes lógicamente en el mismo switch físico.</li>
+                <li><strong style="color:#fff;">NAT</strong> — Traduce IPs privadas a una IP pública para acceder a Internet.</li>
+            </ul>
+            <div class="tip-box"><strong>💡 Dato clave:</strong> HTTPS no garantiza que el sitio sea seguro o legítimo, solo que la comunicación está cifrada. Siempre verificar el dominio.</div>
+        </div>
+
+        <!-- RECURSOS -->
+        <div class="guide-card ag">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-book-open"></i> Recursos y Documentación</h2>
+            <div class="res-grid">
+                <a class="res-link" href="https://www.cloudflare.com/es-es/learning/" target="_blank"><i class="fas fa-external-link-alt"></i> Cloudflare — Learning Center</a>
+                <a class="res-link" href="https://developer.mozilla.org/es/docs/Web/HTTP/Overview" target="_blank"><i class="fas fa-external-link-alt"></i> MDN — HTTP</a>
+                <a class="res-link" href="https://www.cisco.com/c/en/us/training-events/training-certifications/certifications.html" target="_blank"><i class="fas fa-external-link-alt"></i> Cisco — Certificaciones</a>
+                <a class="res-link" href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml" target="_blank"><i class="fas fa-external-link-alt"></i> IANA — Puertos</a>
+                <a class="res-link" href="https://subnet.calculator.net/" target="_blank"><i class="fas fa-calculator"></i> Calculadora Subnetting</a>
+                <a class="res-link" href="https://www.coursera.org/learn/computer-networking" target="_blank"><i class="fas fa-graduation-cap"></i> Google — Networking (Coursera)</a>
+            </div>
+        </div>
+
+        <!-- PREGUNTAS -->
+        <div class="guide-card ap">
+            <h2 style="color:var(--neon-purple);"><i class="fas fa-question-circle"></i> Preguntas de Práctica</h2>
+            <div style="overflow-x:auto">
+                <table class="qa-table">
+                    <thead>
+                        <tr><th>#</th><th>Pregunta</th><th>Opciones</th><th class="ans">Respuesta</th><th>Explicación</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>¿Cuántas capas tiene el modelo OSI?</td><td>4, 5, 6, 7</td><td class="ans">7</td><td>Física, Enlace, Red, Transporte, Sesión, Presentación, Aplicación.</td></tr>
+                        <tr><td>2</td><td>¿Qué protocolo traduce nombres de dominio a IPs?</td><td>DHCP, ARP, DNS, HTTP</td><td class="ans">DNS</td><td>DNS resuelve "google.com" a su IP correspondiente.</td></tr>
+                        <tr><td>3</td><td>¿Cuál es la máscara de red para /24?</td><td>255.0.0.0, 255.255.0.0, 255.255.255.0, 255.255.255.128</td><td class="ans">255.255.255.0</td><td>/24 son 24 bits de red = 3 octetos en 255 → 255.255.255.0</td></tr>
+                        <tr><td>4</td><td>¿Qué diferencia a TCP de UDP?</td><td>TCP es más rápido, UDP es confiable, TCP garantiza entrega UDP no, No hay diferencia</td><td class="ans">TCP garantiza entrega, UDP no</td><td>TCP usa handshake y ACKs. UDP envía sin verificar si llegó.</td></tr>
+                        <tr><td>5</td><td>¿En qué capa del OSI opera un router?</td><td>Capa 1, Capa 2, Capa 3, Capa 4</td><td class="ans">Capa 3 (Red)</td><td>Los routers operan en la capa de Red usando direcciones IP.</td></tr>
+                        <tr><td>6</td><td>¿Qué puerto usa HTTPS?</td><td>80, 21, 443, 25</td><td class="ans">443</td><td>HTTPS usa el puerto 443 con cifrado TLS.</td></tr>
+                        <tr><td>7</td><td>¿Qué hace ARP en una red local?</td><td>Asigna IPs, Resuelve IP a MAC, Cifra datos, Enruta paquetes</td><td class="ans">Resuelve IP a MAC</td><td>ARP (Address Resolution Protocol) mapea IPs a direcciones MAC físicas.</td></tr>
+                        <tr><td>8</td><td>¿Qué tipo de ataque inunda un servidor con solicitudes?</td><td>Phishing, MITM, DDoS, Spoofing</td><td class="ans">DDoS</td><td>Distributed Denial of Service usa múltiples equipos para saturar el servidor.</td></tr>
+                        <tr><td>9</td><td>¿Cuántos hosts útiles tiene una red /24?</td><td>255, 256, 254, 252</td><td class="ans">254</td><td>256 IPs totales - 1 de red - 1 broadcast = 254 hosts.</td></tr>
+                        <tr><td>10</td><td>¿Qué hace DHCP en la red?</td><td>Resuelve nombres, Asigna IPs automáticamente, Cifra tráfico, Filtra paquetes</td><td class="ans">Asigna IPs automáticamente</td><td>DHCP distribuye configuración IP (IP, máscara, gateway, DNS) a dispositivos.</td></tr>
+                        <tr><td>11</td><td>¿Qué protocolo usa el comando ping?</td><td>TCP, UDP, ICMP, ARP</td><td class="ans">ICMP</td><td>Ping envía mensajes Echo Request/Reply del protocolo ICMP.</td></tr>
+                        <tr><td>12</td><td>¿Qué es una VLAN?</td><td>Red virtual sobre Internet, Segmentación lógica en un switch, Tipo de firewall, Cable virtual</td><td class="ans">Segmentación lógica en un switch</td><td>Las VLANs dividen un switch en redes independientes sin hardware extra.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align:center;padding:1rem 0">
+            <button class="btn-principal" onclick="irAlExamen('redes')">
+                <i class="fas fa-graduation-cap"></i> Rendir Certificación Redes
+            </button>
+        </div>
+
+        <!-- Modal: sesión requerida -->
+        <div id="modal-login-requerido" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+            <div style="background:#0f172a;border:1px solid var(--neon-cyan);border-radius:16px;padding:2.5rem;max-width:420px;width:90%;text-align:center;box-shadow:0 0 40px rgba(0,243,255,0.2);">
+                <div style="font-size:3rem;margin-bottom:1rem;">🔐</div>
+                <h3 style="color:var(--neon-cyan);margin-bottom:1rem;">Sesión requerida</h3>
+                <p style="color:#a0aec0;margin-bottom:2rem;line-height:1.6;">Para rendir el examen necesitás iniciar sesión en tu cuenta CertiWebs.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="index.html" class="btn-principal" style="padding:0.8rem 2rem;font-size:1rem;"><i class="fas fa-sign-in-alt"></i> Ir a iniciar sesión</a>
+                    <button onclick="document.getElementById('modal-login-requerido').style.display='none'" style="background:transparent;border:1px solid #a0aec0;color:#a0aec0;border-radius:30px;padding:0.8rem 2rem;cursor:pointer;font-size:1rem;font-family:'Outfit',sans-serif;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2025 CertiWebs — Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+    <p>Todos los derechos reservados.</p>
+</footer>
+<script src="main.js"></script>
+<script>
+function irAlExamen(examId) {
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+    if (token && userId) {
+        window.location.href = 'exam.html?exam=' + examId;
+    } else {
+        document.getElementById('modal-login-requerido').style.display = 'flex';
+    }
+}
+</script>
+</body>
+</html>
+

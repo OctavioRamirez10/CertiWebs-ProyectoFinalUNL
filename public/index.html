@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiWebs - Plataforma de certificación técnica</title>
+    <meta name="description" content="CertiWebs: plataforma educativa de certificaciones técnicas en HTML, CSS, JavaScript, Redes y Sistemas Operativos.">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://certiwebs-backend.onrender.com/">
+    <meta property="og:title" content="CertiWebs - Plataforma de certificación técnica">
+    <meta property="og:description" content="CertiWebs: plataforma educativa de certificaciones técnicas en HTML, CSS, JavaScript, Redes y Sistemas Operativos.">
+    <meta property="og:image" content="https://certiwebs-backend.onrender.com/images/og-image.png">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://certiwebs-backend.onrender.com/">
+    <meta property="twitter:title" content="CertiWebs - Plataforma de certificación técnica">
+    <meta property="twitter:description" content="CertiWebs: plataforma educativa de certificaciones técnicas en HTML, CSS, JavaScript, Redes y Sistemas Operativos.">
+    <meta property="twitter:image" content="https://certiwebs-backend.onrender.com/images/og-image.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">CertiWebs</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="#info">¿Qué es?</a></li>
+            <li><a href="#recursos">Guías de Estudio</a></li>
+            <li><a href="exams.html">Exámenes</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+
+            <!-- Botones cuando NO hay sesión -->
+            <li class="auth-buttons" id="nav-guest">
+                <button class="btn-login" onclick="showLoginModal()">Iniciar sesión</button>
+                <button class="btn-register" onclick="showRegisterModal()">Registrarse</button>
+            </li>
+
+            <!-- Info cuando SÍ hay sesión -->
+            <li class="auth-buttons" id="nav-user" style="display:none; align-items:center; gap:0.7rem;">
+                <span style="color:var(--neon-cyan); font-weight:600;">
+                    <i class="fas fa-user-circle"></i> <span id="nav-username"></span>
+                </span>
+                <button class="btn-login" onclick="cerrarSesion()">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </button>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <!-- HERO -->
+    <section id="inicio" class="hero-section-custom">
+
+        <!-- Banner de bienvenida (solo logueado) -->
+        <div id="hero-loggedin" class="hero-banner-custom">
+            <div class="session-badge">
+                <i class="fas fa-check-circle neon-green-text"></i>
+                <span class="session-badge-text">
+                    ¡Sesión activa! Bienvenido/a de vuelta, <span id="hero-username" class="text-underline"></span>
+                </span>
+            </div>
+        </div>
+
+        <h1 class="hero-title">
+            Domina el Futuro con <span class="neon-cyan-text">CertiWebs</span>
+        </h1>
+        <p class="hero-description">
+            La plataforma técnica definitiva para desarrolladores y administradores. Pon a prueba tus habilidades y obtén
+            <strong class="neon-green-text">certificaciones verificadas al instante</strong>.
+        </p>
+        <a href="#recursos" class="btn-principal hero-btn">
+            <i class="fas fa-book-open"></i> Ver Guías de Estudio
+        </a>
+    </section>
+
+    <!-- ¿POR QUÉ CERTIWEBS? -->
+    <section id="info" class="info-section">
+        <h2 class="section-heading">¿Por qué elegir CertiWebs?</h2>
+        <div class="grid-three-columns">
+            <div class="feature-card accent-orange">
+                <div class="icon-wrapper-orange">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Evaluación Instantánea</h3>
+                <p>Exámenes dinámicos y automatizados. Obtén tu calificación exacta y una revisión detallada al instante.</p>
+            </div>
+            <div class="feature-card accent-green">
+                <div class="icon-wrapper-green">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>Certificados Oficiales</h3>
+                <p>Descarga diplomas digitales en PDF para destacar en tu perfil de LinkedIn o CV.</p>
+            </div>
+            <div class="feature-card accent-purple">
+                <div class="icon-wrapper-purple">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Feedback Integral</h3>
+                <p>Aprende de tus errores con justificaciones técnicas exhaustivas de cada respuesta.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GUÍAS DE ESTUDIO -->
+    <section id="recursos" class="section">
+        <h2>Guías de Estudio</h2>
+        <p>Accede a material educativo completo para prepararte en las áreas más demandadas del mercado tecnológico</p>
+        <div class="recursos-lista">
+
+            <div class="recurso">
+                <div style="font-size:2.5rem; margin-bottom:1rem;">🌐</div>
+                <h3>HTML &amp; CSS</h3>
+                <p>Domina la estructura semántica y el diseño moderno con Flexbox, Grid y animaciones CSS.</p>
+                <a href="study-html-css.html"><i class="fas fa-book-open"></i> Estudiar</a>
+                <a href="#" onclick="irAlExamen('html'); return false;"><i class="fas fa-graduation-cap"></i> Certificarse</a>
+            </div>
+
+            <div class="recurso">
+                <div style="font-size:2.5rem; margin-bottom:1rem;">⚡</div>
+                <h3>JavaScript</h3>
+                <p>Programación dinámica del lado del cliente. ES6+, Promesas, DOM, Módulos y más.</p>
+                <a href="study-javascript.html"><i class="fas fa-book-open"></i> Estudiar</a>
+                <a href="#" onclick="irAlExamen('js'); return false;"><i class="fas fa-graduation-cap"></i> Certificarse</a>
+            </div>
+
+            <div class="recurso">
+                <div style="font-size:2.5rem; margin-bottom:1rem;">🌍</div>
+                <h3>Redes</h3>
+                <p>Modelo OSI, TCP/IP, puertos, subnetting y seguridad en redes informáticas.</p>
+                <a href="study-networks.html"><i class="fas fa-book-open"></i> Estudiar</a>
+                <a href="#" onclick="irAlExamen('redes'); return false;"><i class="fas fa-graduation-cap"></i> Certificarse</a>
+            </div>
+
+            <div class="recurso">
+                <div style="font-size:2.5rem; margin-bottom:1rem;">🖥️</div>
+                <h3>Sistemas Operativos</h3>
+                <p>Kernel, procesos, memoria, permisos Linux, comandos esenciales y virtualización.</p>
+                <a href="study-systems.html"><i class="fas fa-book-open"></i> Estudiar</a>
+                <a href="#" onclick="irAlExamen('so'); return false;"><i class="fas fa-graduation-cap"></i> Certificarse</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN NEWSLETTER -->
+    <section class="newsletter-section">
+        <h4>Boletín de Novedades</h4>
+        <p>Suscríbete para recibir notificaciones sobre nuevas guías de estudio, exámenes y actualizaciones tecnológicas de CertiWebs.</p>
+        <form id="newsletter-form" class="newsletter-form">
+            <input type="email" id="newsletter-email" placeholder="Tu correo electrónico" required>
+            <button type="submit">Suscribirse</button>
+        </form>
+        <div id="newsletter-status"></div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-social-links" style="margin-bottom:1rem; display:flex; justify-content:center; gap:1.5rem;">
+            <a href="https://www.instagram.com/octaaviorami/" target="_blank" aria-label="Instagram">
+                <img src="images/instagram.svg" alt="Instagram" width="20" height="20" style="filter:brightness(0) invert(1); opacity:0.7; transition:opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+            </a>
+            <a href="https://www.youtube.com/@octavioramirez7743" target="_blank" aria-label="YouTube">
+                <img src="images/youtube.svg" alt="YouTube" width="20" height="20" style="filter:brightness(0) invert(1); opacity:0.7; transition:opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+            </a>
+            <a href="https://wa.me/543424324206" target="_blank" aria-label="WhatsApp">
+                <img src="images/whatsapp.svg" alt="WhatsApp" width="20" height="20" style="filter:brightness(0) invert(1); opacity:0.7; transition:opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+            </a>
+            <a href="mailto:octaarami@gmail.com" target="_blank" aria-label="Email">
+                <img src="images/email.svg" alt="Email" width="20" height="20" style="filter:brightness(0) invert(1); opacity:0.7; transition:opacity 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
+            </a>
+        </div>
+        <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
+    </div>
+</footer>
+
+<!-- Modal de Login -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+        <h3>Iniciar Sesión</h3>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required title="Debe ser un correo válido">
+            <span class="form-hint">Debe ser un correo válido (contener @).</span>
+            <input type="password" id="login-password" placeholder="Contraseña" required minlength="6" title="Mínimo 6 caracteres">
+            <span class="form-hint">Mínimo 6 caracteres.</span>
+            <button type="submit">Iniciar sesión</button>
+        </form>
+        <p class="login-msg"></p>
+    </div>
+</div>
+
+<!-- Modal de Registro -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h3>Registrarse</h3>
+        <form id="register-form">
+            <input type="text" id="register-username" placeholder="Nombre completo" required minlength="3" maxlength="50">
+            <span class="form-hint">Mínimo 3 caracteres.</span>
+            <input type="email" id="register-email" placeholder="Correo electrónico" required>
+            <span class="form-hint">Debe ser un correo válido (contener @).</span>
+            <input type="password" id="register-password" placeholder="Contraseña" required minlength="6">
+            <span class="form-hint">Mínimo 6 caracteres.</span>
+            <input type="password" id="register-password-confirm" placeholder="Repetir contraseña" required minlength="6">
+            <span class="form-hint">Debe coincidir con la contraseña.</span>
+            <button type="submit">Registrarse</button>
+        </form>
+        <p class="register-msg"></p>
+    </div>
+</div>
+
+<!-- Modal: sesión requerida para ir al examen -->
+<div id="modal-login-requerido" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; backdrop-filter:blur(6px); align-items:center; justify-content:center;">
+    <div style="background:#0f172a; border:1px solid var(--neon-cyan); border-radius:16px; padding:2.5rem; max-width:420px; width:90%; text-align:center; box-shadow:0 0 40px rgba(0,243,255,0.2);">
+        <div style="font-size:3rem; margin-bottom:1rem;">🔐</div>
+        <h3 style="color:var(--neon-cyan); margin-bottom:1rem;">Sesión requerida</h3>
+        <p style="color:#a0aec0; margin-bottom:2rem; line-height:1.6;">Para rendir el examen necesitás iniciar sesión en tu cuenta CertiWebs.</p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+            <button class="btn-principal" style="padding:0.8rem 2rem; font-size:1rem;" onclick="document.getElementById('modal-login-requerido').style.display='none'; showLoginModal();">
+                <i class="fas fa-sign-in-alt"></i> Iniciar sesión
+            </button>
+            <button onclick="document.getElementById('modal-login-requerido').style.display='none'"
+                style="background:transparent; border:1px solid #a0aec0; color:#a0aec0; border-radius:30px; padding:0.8rem 2rem; cursor:pointer; font-size:1rem; font-family:'Outfit',sans-serif;">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
+<script>
+    // --- Funciones de modales ---
+    function showLoginModal() {
+        document.getElementById('loginModal').style.display = 'block';
+    }
+    function showRegisterModal() {
+        document.getElementById('registerModal').style.display = 'block';
+    }
+    function closeModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    }
+
+    // Cerrar con ESC o clic fuera
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            ['loginModal','registerModal','modal-login-requerido'].forEach(id => {
+                const m = document.getElementById(id);
+                if (m) m.style.display = 'none';
+            });
+        }
+    });
+
+    // --- Estado de sesión ---
+    function actualizarEstadoSesion() {
+        const token    = sessionStorage.getItem('token');
+        const userId   = sessionStorage.getItem('userId');
+        const username = sessionStorage.getItem('username') || 'Usuario';
+
+        const navGuest   = document.getElementById('nav-guest');
+        const navUser    = document.getElementById('nav-user');
+        const navUname   = document.getElementById('nav-username');
+        const heroBanner = document.getElementById('hero-loggedin');
+        const heroUname  = document.getElementById('hero-username');
+
+        if (token && userId) {
+            // CON sesión
+            if (navGuest)   navGuest.style.display   = 'none';
+            if (navUser)    navUser.style.display    = 'flex';
+            if (navUname)   navUname.textContent     = username;
+            if (heroBanner) heroBanner.style.display = 'block';
+            if (heroUname)  heroUname.textContent    = username;
+        } else {
+            // SIN sesión
+            if (navGuest)   navGuest.style.display   = 'flex';
+            if (navUser)    navUser.style.display    = 'none';
+            if (heroBanner) heroBanner.style.display = 'none';
+        }
+    }
+
+    function cerrarSesion() {
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('userId');
+        sessionStorage.removeItem('username');
+        window.location.reload();
+    }
+
+    // --- Ir al examen con verificación ---
+    function irAlExamen(examId) {
+        const token  = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('userId');
+        if (token && userId) {
+            window.location.href = 'exam.html?exam=' + examId;
+        } else {
+            document.getElementById('modal-login-requerido').style.display = 'flex';
+        }
+    }
+
+    // Ejecutar al cargar la página
+    document.addEventListener('DOMContentLoaded', actualizarEstadoSesion);
+</script>
+
+</body>
+</html>
