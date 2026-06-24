@@ -120,9 +120,7 @@ const examQuestions = {
 // Configuración de la API
 // En desarrollo local se usa la dirección del puerto 3000.
 // En producción (Netlify), debes reemplazar la URL de abajo con tu dirección de Render.
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000/api'
-    : 'https://certiwebs-backend.onrender.com/api'; // <-- Reemplaza con tu link de Render cuando lo crees
+const API_URL = window.location.origin + '/api';
 
 // Utilidades
 const utils = {
