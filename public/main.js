@@ -1006,7 +1006,7 @@ runOnDOMReady(() => {
 
                 const email = document.getElementById('login-email').value.trim();
                 const password = document.getElementById('login-password').value;
-                const msgElement = loginForm.querySelector('.login-msg');
+                const msgElement = document.querySelector('#loginModal .login-msg') || loginForm.querySelector('.login-msg');
 
                 console.log('Intentando login con email:', email);
                 console.log('Password length:', password.length);
@@ -1038,8 +1038,6 @@ runOnDOMReady(() => {
                             const rolLabel = data.rol === 'admin' ? ' <span style="color:var(--neon-orange);">[Admin]</span>' : '';
                             msgElement.innerHTML = `¡Bienvenido/a <strong>${data.username}</strong>${rolLabel}! 🎉<br>Sesión iniciada correctamente. Redirigiendo...`;
                             msgElement.className = 'login-msg success-message';
-                        } else {
-                            alert(`¡Bienvenido/a ${data.username}! 🎉\nSesión iniciada correctamente.`);
                         }
 
                         // Redirigir inmediatamente
@@ -1061,8 +1059,6 @@ runOnDOMReady(() => {
                         if (msgElement) {
                             msgElement.textContent = data.error || 'Error al iniciar sesión';
                             msgElement.className = 'login-msg error-message';
-                        } else {
-                            alert(data.error || 'Error al iniciar sesión');
                         }
                     }
                 } catch (error) {
@@ -1070,8 +1066,6 @@ runOnDOMReady(() => {
                     if (msgElement) {
                         msgElement.textContent = 'Error de conexión. Intenta nuevamente.';
                         msgElement.className = 'login-msg error-message';
-                    } else {
-                        alert('Error de conexión. Intenta nuevamente.');
                     }
                 }
             });
@@ -1119,7 +1113,7 @@ runOnDOMReady(() => {
             const password = document.getElementById('register-password').value;
             const passwordConfirm = document.getElementById('register-password-confirm').value;
             const email = document.getElementById('register-email').value;
-            const msgElement = registerForm.querySelector('.register-msg');
+            const msgElement = document.querySelector('#registerModal .register-msg') || registerForm.querySelector('.register-msg');
 
             if (password !== passwordConfirm) {
                 utils.mostrarMensaje(msgElement, 'Las contraseñas no coinciden', 'error');
