@@ -42,6 +42,22 @@ function verificarToken(req, res, next) {
     }
 }
 
+function verificarTokenOpcional(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    if (authHeader) {
+        const token = authHeader.split(' ')[1];
+        if (token) {
+            try {
+                const decoded = jwt.verify(token, JWT_SECRET);
+                req.usuario = decoded;
+            } catch (error) {
+                // Si el token es inválido o expirado, ignorar y seguir como invitado
+            }
+        }
+    }
+    next();
+}
+
 // Middleware
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
@@ -55,16 +71,6 @@ app.use((req, res, next) => {
         return res.sendStatus(200);
     }
     next();
-});
-
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined,
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: process.env.SMTP_USER ? {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS
-    } : undefined
 });
 
 const manejarErroresValidacion = (req, res, next) => {
@@ -95,7 +101,7 @@ app.post('/api/registro', [
                     }
                     return;
                 }
-                const token = jwt.sign({ id: this.lastID, username, rol: 'usuario' }, JWT_SECRET, { expiresIn: '24h' });
+                const token = jwt.sign({ id: this.lastID, username, email, rol: 'usuario' }, JWT_SECRET, { expiresIn: '24h' });
                 res.json({ id: this.lastID, username, email, rol: 'usuario', token });
                 try { broadcast('usuario', { id: this.lastID, username, email }); } catch (e) { /* noop */ }
             });
@@ -179,7 +185,7 @@ app.post('/api/examenes', verificarToken, [
         });
 });
 
-app.post('/api/contact', [
+app.post('/api/contact', verificarTokenOpcional, [
     body('name').trim().notEmpty().withMessage('Nombre es requerido').escape(),
     body('email').trim().isEmail().withMessage('Email inválido').normalizeEmail(),
     body('type').optional().trim().escape(),
@@ -192,39 +198,53 @@ app.post('/api/contact', [
     const tipoConsulta = type || 'Consulta General';
     const fechaActual = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
 
-    db.run('INSERT INTO contactos (nombre, email, asunto, mensaje, fecha_envio) VALUES (?, ?, ?, ?, datetime("now"))',
-        [name, email, `${tipoConsulta}: ${cleanSubject}`, message],
-        async function (err) {
-            if (err) {
-                console.error('Error al insertar en la tabla contactos:', err);
-                return res.status(500).json({ error: 'Error al guardar el mensaje en la base de datos' });
-            }
+    const procesarEnvioContacto = (nombreFinal, emailFinal) => {
+        db.run('INSERT INTO contactos (nombre, email, asunto, mensaje, fecha_envio) VALUES (?, ?, ?, ?, datetime("now"))',
+            [nombreFinal, emailFinal, `${tipoConsulta}: ${cleanSubject}`, message],
+            async function (err) {
+                if (err) {
+                    console.error('Error al insertar en la tabla contactos:', err);
+                    return res.status(500).json({ error: 'Error al guardar el mensaje en la base de datos' });
+                }
 
-            const contactoId = this.lastID;
-            const ticketId = `#CONT-${String(contactoId).padStart(4, '0')}`;
+                const contactoId = this.lastID;
+                const ticketId = `#CONT-${String(contactoId).padStart(4, '0')}`;
 
-            // Emitir evento SSE en tiempo real
-            try {
-                broadcast('contacto', { id: contactoId, nombre: name, email, asunto: cleanSubject, tipo: tipoConsulta, fecha: fechaActual });
-            } catch (e) { }
+                // Emitir evento SSE en tiempo real
+                try {
+                    broadcast('contacto', { id: contactoId, nombre: nombreFinal, email: emailFinal, asunto: cleanSubject, tipo: tipoConsulta, fecha: fechaActual });
+                } catch (e) { }
 
-            // Enviar correo de confirmación en segundo plano
-            enviarCorreosContacto({
-                id: contactoId,
-                nombre: name,
-                email,
-                tipoConsulta,
-                asunto: cleanSubject,
-                mensaje: message,
-                fechaEnvio: fechaActual
-            }).catch(err => console.error('❌ Error enviando email de contacto en background:', err.message));
+                // Enviar correo de confirmación en segundo plano
+                enviarCorreosContacto({
+                    id: contactoId,
+                    nombre: nombreFinal,
+                    email: emailFinal,
+                    tipoConsulta,
+                    asunto: cleanSubject,
+                    mensaje: message,
+                    fechaEnvio: fechaActual
+                }).catch(err => console.error('❌ Error enviando email de contacto en background:', err.message));
 
-            return res.json({
-                id: contactoId,
-                ticket: ticketId,
-                mensaje: `¡Mensaje enviado exitosamente! Se ha registrado tu consulta.`
+                return res.json({
+                    id: contactoId,
+                    ticket: ticketId,
+                    mensaje: `¡Mensaje enviado exitosamente! Se ha registrado tu consulta.`
+                });
             });
+    };
+
+    if (req.usuario && req.usuario.id) {
+        db.get('SELECT username, email FROM usuarios WHERE id = ?', [req.usuario.id], (err, row) => {
+            if (!err && row) {
+                procesarEnvioContacto(row.username, row.email);
+            } else {
+                procesarEnvioContacto(name, email);
+            }
         });
+    } else {
+        procesarEnvioContacto(name, email);
+    }
 });
 
 app.post('/api/newsletter', [
@@ -237,7 +257,27 @@ app.post('/api/newsletter', [
     db.run('INSERT INTO boletin (email) VALUES (?)', [email], async function (err) {
         if (err) {
             if (err.code === 'SQLITE_CONSTRAINT') {
-                return res.status(409).json({ error: 'Este correo electrónico ya está suscrito al boletín de noticias.' });
+                // Si ya está suscrito, buscamos su ID para enviar la notificación igualmente
+                db.get('SELECT id FROM boletin WHERE email = ?', [email], (getErr, row) => {
+                    if (getErr || !row) {
+                        return res.status(500).json({ error: 'Error al procesar la suscripción al boletín.' });
+                    }
+                    const suscripcionId = row.id;
+                    const ticketId = `#BOL-${String(suscripcionId).padStart(4, '0')}`;
+
+                    enviarCorreosBoletin({
+                        id: suscripcionId,
+                        email,
+                        fechaSuscripcion: fechaActual
+                    }).catch(errMail => console.error('❌ Error enviando email de boletín en background:', errMail.message));
+
+                    return res.json({
+                        id: suscripcionId,
+                        ticket: ticketId,
+                        mensaje: `¡Suscripción exitosa! Te hemos suscrito al boletín de noticias.`
+                    });
+                });
+                return;
             }
             return res.status(500).json({ error: 'Error al procesar la suscripción al boletín.' });
         }
@@ -274,7 +314,27 @@ app.post('/api/subscribe', [
 
     db.run('INSERT INTO suscripciones (email) VALUES (?)', [email], async function (err) {
         if (err) {
-            if (err.code === 'SQLITE_CONSTRAINT') return res.status(409).json({ error: 'Este correo electrónico ya está suscrito.' });
+            if (err.code === 'SQLITE_CONSTRAINT') {
+                // Si ya está suscrito, buscamos su ID para enviar la notificación igualmente
+                db.get('SELECT id FROM suscripciones WHERE email = ?', [email], (getErr, row) => {
+                    if (getErr || !row) {
+                        return res.status(500).json({ error: 'Error al guardar la suscripción.' });
+                    }
+                    const suscripcionId = row.id;
+
+                    enviarCorreosBoletin({
+                        id: suscripcionId,
+                        email,
+                        fechaSuscripcion: fechaActual
+                    }).catch(errMail => console.error('❌ Error enviando email de boletín en background:', errMail.message));
+
+                    return res.json({
+                        id: suscripcionId,
+                        mensaje: `¡Suscripción exitosa! Te hemos suscrito al boletín.`
+                    });
+                });
+                return;
+            }
             return res.status(500).json({ error: 'Error al guardar la suscripción.' });
         }
 

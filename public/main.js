@@ -883,6 +883,25 @@ runOnDOMReady(() => {
     const contactoForm = document.getElementById('contacto-form');
     if (contactoForm) {
         console.log('Formulario de contacto encontrado, configurando evento submit');
+
+        // Auto-completar datos si el usuario está logueado
+        const loggedInUser = sessionStorage.getItem('username');
+        const loggedInEmail = sessionStorage.getItem('email');
+        if (loggedInUser && loggedInEmail) {
+            const nameInput = document.getElementById('contact-name');
+            const emailInput = document.getElementById('contact-email');
+            if (nameInput) {
+                nameInput.value = loggedInUser;
+                nameInput.readOnly = true;
+                nameInput.style.opacity = '0.7';
+            }
+            if (emailInput) {
+                emailInput.value = loggedInEmail;
+                emailInput.readOnly = true;
+                emailInput.style.opacity = '0.7';
+            }
+        }
+
         contactoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             console.log('Enviando formulario de contacto...');
@@ -909,28 +928,30 @@ runOnDOMReady(() => {
             submitBtn.textContent = 'Enviando...';
 
             try {
-                const response = await fetch(`${API_URL}/contact`, {
+                // Usar utils.fetchAPI para adjuntar el JWT token automáticamente en la cabecera
+                const data = await utils.fetchAPI('contact', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     body: JSON.stringify({ name, email, type, subject, message })
                 });
 
-                const data = await response.json();
+                statusEl.innerHTML = `<strong>${data.mensaje || '¡Mensaje enviado correctamente!'}</strong><br/><small>Se registraron tus datos en el sistema bajo el Ticket <strong>${data.ticket || ''}</strong>.</small>`;
+                statusEl.className = 'status-message status-success';
+                contactoForm.reset();
 
-                if (response.ok) {
-                    statusEl.innerHTML = `<strong>${data.mensaje || '¡Mensaje enviado correctamente!'}</strong><br/><small>Se registraron tus datos en el sistema bajo el Ticket <strong>${data.ticket || ''}</strong>.</small>`;
-                    statusEl.className = 'status-message status-success';
-                    contactoForm.reset();
-
-                    // Redirigir después de 4 segundos
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 4000);
-                } else {
-                    throw new Error(data.error || 'Error al enviar mensaje');
+                // Si el usuario sigue logueado, restaurar campos protegidos después de resetear el formulario
+                const currentLoggedInUser = sessionStorage.getItem('username');
+                const currentLoggedInEmail = sessionStorage.getItem('email');
+                if (currentLoggedInUser && currentLoggedInEmail) {
+                    const nameInput = document.getElementById('contact-name');
+                    const emailInput = document.getElementById('contact-email');
+                    if (nameInput) nameInput.value = currentLoggedInUser;
+                    if (emailInput) emailInput.value = currentLoggedInEmail;
                 }
+
+                // Redirigir después de 4 segundos
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 4000);
             } catch (error) {
                 console.error('Error en contacto:', error);
                 statusEl.textContent = error.message || 'Error al enviar el mensaje. Por favor intenta nuevamente.';
@@ -949,6 +970,16 @@ runOnDOMReady(() => {
     const newsletterForm = document.getElementById('newsletter-form');
     if (newsletterForm) {
         console.log('Formulario de newsletter encontrado');
+
+        // Auto-completar datos si el usuario está logueado
+        const loggedInEmail = sessionStorage.getItem('email');
+        if (loggedInEmail) {
+            const emailInput = document.getElementById('newsletter-email');
+            if (emailInput) {
+                emailInput.value = loggedInEmail;
+            }
+        }
+
         newsletterForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const emailInput = document.getElementById('newsletter-email');
@@ -963,23 +994,22 @@ runOnDOMReady(() => {
             msgEl.style.color = 'var(--neon-cyan)';
 
             try {
-                const response = await fetch(`${API_URL}/newsletter`, {
+                // Usar utils.fetchAPI para adjuntar el JWT token automáticamente en la cabecera
+                const data = await utils.fetchAPI('newsletter', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     body: JSON.stringify({ email })
                 });
 
-                const data = await response.json();
+                msgEl.textContent = data.mensaje || '¡Te has suscrito exitosamente!';
+                msgEl.className = 'newsletter-status status-success';
+                msgEl.style.color = 'var(--neon-green)';
+                newsletterForm.reset();
 
-                if (response.ok) {
-                    msgEl.textContent = data.mensaje || '¡Te has suscrito exitosamente!';
-                    msgEl.className = 'newsletter-status status-success';
-                    msgEl.style.color = 'var(--neon-green)';
-                    newsletterForm.reset();
-                } else {
-                    throw new Error(data.error || 'Error al suscribirse');
+                // Si el usuario sigue logueado, restaurar campo después del reset
+                const currentLoggedInEmail = sessionStorage.getItem('email');
+                if (currentLoggedInEmail) {
+                    const emailInput = document.getElementById('newsletter-email');
+                    if (emailInput) emailInput.value = currentLoggedInEmail;
                 }
             } catch (error) {
                 console.error('Error en newsletter:', error);

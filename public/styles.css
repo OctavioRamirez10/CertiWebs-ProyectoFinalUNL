@@ -2219,3 +2219,89 @@ margin-top: 1rem;
     box-shadow: 0 0 8px rgba(255, 51, 102, 0.1);
     display: inline-block;
 }
+
+/* ========================================================================== */
+/* MEJORAS GLOBALES DE RESPONSIVIDAD PARA CELULARES */
+/* ========================================================================== */
+@media (max-width: 768px) {
+    /* Contenedor general */
+    .container, .section, .info-section {
+        padding: 1.5rem 1rem !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    /* Títulos generales */
+    .hero-title, .section-heading, .section h2 {
+        font-size: 2.2rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .hero-description {
+        font-size: 1.05rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .hero-btn {
+        font-size: 1rem !important;
+        padding: 0.8rem 2rem !important;
+    }
+
+    /* Grillas y tarjetas */
+    .grid-three-columns, .recursos-lista {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .feature-card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    /* Modales y Formularios */
+    .modal-content, .contact-form, .auth-section {
+        padding: 1.5rem !important;
+        border-radius: 12px !important;
+        margin-top: 1rem !important;
+    }
+
+    .contact-form h1 {
+        font-size: 1.8rem !important;
+    }
+
+    /* Acciones de resultado */
+    .result-main-actions {
+        flex-direction: column !important;
+        gap: 0.8rem !important;
+    }
+
+    .result-main-actions a,
+    .result-main-actions button {
+        width: 100% !important;
+        min-width: 100% !important;
+    }
+
+    /* Historial de exámenes */
+    .history-section {
+        padding: 1.2rem !important;
+        margin-top: 2rem !important;
+        border-radius: 12px !important;
+    }
+
+    .history-section h2 {
+        font-size: 1.4rem !important;
+        margin-bottom: 1.2rem !important;
+    }
+
+    /* Hacer la tabla de historial deslizable en móvil */
+    #history-list {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .history-table th, .history-table td {
+        padding: 0.8rem 0.6rem !important;
+        font-size: 0.85rem !important;
+        white-space: nowrap !important;
+    }
+}
