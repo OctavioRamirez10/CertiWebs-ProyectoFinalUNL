@@ -185,7 +185,7 @@ app.post('/api/examenes', verificarToken, [
         });
 });
 
-app.post('/api/contact', verificarTokenOpcional, [
+app.post('/api/contact', [
     body('name').trim().notEmpty().withMessage('Nombre es requerido').escape(),
     body('email').trim().isEmail().withMessage('Email inválido').normalizeEmail(),
     body('type').optional().trim().escape(),
@@ -198,53 +198,39 @@ app.post('/api/contact', verificarTokenOpcional, [
     const tipoConsulta = type || 'Consulta General';
     const fechaActual = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
 
-    const procesarEnvioContacto = (nombreFinal, emailFinal) => {
-        db.run('INSERT INTO contactos (nombre, email, asunto, mensaje, fecha_envio) VALUES (?, ?, ?, ?, datetime("now"))',
-            [nombreFinal, emailFinal, `${tipoConsulta}: ${cleanSubject}`, message],
-            async function (err) {
-                if (err) {
-                    console.error('Error al insertar en la tabla contactos:', err);
-                    return res.status(500).json({ error: 'Error al guardar el mensaje en la base de datos' });
-                }
-
-                const contactoId = this.lastID;
-                const ticketId = `#CONT-${String(contactoId).padStart(4, '0')}`;
-
-                // Emitir evento SSE en tiempo real
-                try {
-                    broadcast('contacto', { id: contactoId, nombre: nombreFinal, email: emailFinal, asunto: cleanSubject, tipo: tipoConsulta, fecha: fechaActual });
-                } catch (e) { }
-
-                // Enviar correo de confirmación en segundo plano
-                enviarCorreosContacto({
-                    id: contactoId,
-                    nombre: nombreFinal,
-                    email: emailFinal,
-                    tipoConsulta,
-                    asunto: cleanSubject,
-                    mensaje: message,
-                    fechaEnvio: fechaActual
-                }).catch(err => console.error('❌ Error enviando email de contacto en background:', err.message));
-
-                return res.json({
-                    id: contactoId,
-                    ticket: ticketId,
-                    mensaje: `¡Mensaje enviado exitosamente! Se ha registrado tu consulta.`
-                });
-            });
-    };
-
-    if (req.usuario && req.usuario.id) {
-        db.get('SELECT username, email FROM usuarios WHERE id = ?', [req.usuario.id], (err, row) => {
-            if (!err && row) {
-                procesarEnvioContacto(row.username, row.email);
-            } else {
-                procesarEnvioContacto(name, email);
+    db.run('INSERT INTO contactos (nombre, email, asunto, mensaje, fecha_envio) VALUES (?, ?, ?, ?, datetime("now"))',
+        [name, email, `${tipoConsulta}: ${cleanSubject}`, message],
+        async function (err) {
+            if (err) {
+                console.error('Error al insertar en la tabla contactos:', err);
+                return res.status(500).json({ error: 'Error al guardar el mensaje en la base de datos' });
             }
+
+            const contactoId = this.lastID;
+            const ticketId = `#CONT-${String(contactoId).padStart(4, '0')}`;
+
+            // Emitir evento SSE en tiempo real
+            try {
+                broadcast('contacto', { id: contactoId, nombre: name, email, asunto: cleanSubject, tipo: tipoConsulta, fecha: fechaActual });
+            } catch (e) { }
+
+            // Enviar correo de confirmación en segundo plano
+            enviarCorreosContacto({
+                id: contactoId,
+                nombre: name,
+                email,
+                tipoConsulta,
+                asunto: cleanSubject,
+                mensaje: message,
+                fechaEnvio: fechaActual
+            }).catch(err => console.error('❌ Error enviando email de contacto en background:', err.message));
+
+            return res.json({
+                id: contactoId,
+                ticket: ticketId,
+                mensaje: `¡Mensaje enviado exitosamente! Se ha registrado tu consulta.`
+            });
         });
-    } else {
-        procesarEnvioContacto(name, email);
-    }
 });
 
 app.post('/api/newsletter', [

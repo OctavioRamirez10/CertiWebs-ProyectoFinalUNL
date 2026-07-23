@@ -884,22 +884,14 @@ runOnDOMReady(() => {
     if (contactoForm) {
         console.log('Formulario de contacto encontrado, configurando evento submit');
 
-        // Auto-completar datos si el usuario está logueado
+        // Auto-completar datos si el usuario está logueado (como sugerencia editable)
         const loggedInUser = sessionStorage.getItem('username');
         const loggedInEmail = sessionStorage.getItem('email');
         if (loggedInUser && loggedInEmail) {
             const nameInput = document.getElementById('contact-name');
             const emailInput = document.getElementById('contact-email');
-            if (nameInput) {
-                nameInput.value = loggedInUser;
-                nameInput.readOnly = true;
-                nameInput.style.opacity = '0.7';
-            }
-            if (emailInput) {
-                emailInput.value = loggedInEmail;
-                emailInput.readOnly = true;
-                emailInput.style.opacity = '0.7';
-            }
+            if (nameInput) nameInput.value = loggedInUser;
+            if (emailInput) emailInput.value = loggedInEmail;
         }
 
         contactoForm.addEventListener('submit', async (e) => {
