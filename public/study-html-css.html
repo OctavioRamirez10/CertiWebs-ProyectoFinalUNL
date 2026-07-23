@@ -257,7 +257,57 @@
             </div>
         </div>
 
-        <!-- BLOQUE 7: RECURSOS -->
+        <!-- BLOQUE 7: CONCEPTOS CLAVE Y DETALLES DE EXAMEN -->
+        <div class="guide-card accent-cyan">
+            <h2 style="color:var(--neon-cyan);"><i class="fas fa-key"></i> Conceptos Clave de Maquetación y Navegación</h2>
+            <p>Repaso de conceptos específicos indispensables para la aprobación de las evaluaciones y el desarrollo profesional:</p>
+            <ul>
+                <li><strong style="color:#fff;">Especificidad y Comentarios:</strong> El punto (<code>.clase</code>) apunta a clases, mientras que la almohadilla (<code>#id</code>) apunta a selectores de identificación únicos. Los comentarios en CSS se definen únicamente mediante <code>/* comentario */</code>. La pseudoclase <code>:nth-child(even)</code> sirve para dar estilos a elementos hermanos en posiciones pares.</li>
+                <li><strong style="color:#fff;">Unidades de Medida:</strong> <code>px</code> es una unidad absoluta de píxel fijo; <code>em</code> es relativa al tamaño de fuente del contenedor o elemento principal; <code>rem</code> es relativa a la raíz <code>&lt;html&gt;</code>; y <code>vw</code> representa el 1% del ancho del viewport.</li>
+                <li><strong style="color:#fff;">Posicionamiento (Position):</strong>
+                    <ul>
+                        <li><code>static</code>: Comportamiento por defecto que sigue el flujo natural de la página.</li>
+                        <li><code>relative</code>: Desplaza al elemento sin alterar el espacio original que ocupaba.</li>
+                        <li><code>absolute</code>: Saca el elemento del flujo y lo posiciona respecto a su ancestro posicionado más cercano.</li>
+                        <li><code>fixed</code>: Ancla el elemento de forma fija en la pantalla del navegador (no se mueve con el scroll).</li>
+                        <li><code>sticky</code>: Se comporta como relative hasta cruzar un umbral, fijándose como fixed temporalmente.</li>
+                    </ul>
+                </li>
+                <li><strong style="color:#fff;">Visibilidad, Filtros y Capas:</strong>
+                    <ul>
+                        <li><code>display: none</code> remueve el elemento de la maquetación (no ocupa espacio en pantalla).</li>
+                        <li><code>visibility: hidden</code> oculta el elemento visualmente pero preserva el espacio que ocupaba intacto.</li>
+                        <li><code>z-index</code> controla el apilamiento tridimensional de capas (eje Z), aplicable solo a elementos posicionados.</li>
+                        <li><code>filter: blur()</code> permite aplicar efectos de desenfoque nativos.</li>
+                    </ul>
+                </li>
+                <li><strong style="color:#fff;">Navegación e Imágenes:</strong>
+                    <ul>
+                        <li><code>target="_self"</code> es el valor por defecto en los enlaces (abre en la misma pestaña).</li>
+                        <li>El atributo <code>alt</code> de las imágenes describe su contenido para accesibilidad y lectores de pantalla.</li>
+                        <li>El atributo <code>loading="lazy"</code> en las imágenes optimiza la carga demorando su descarga hasta que se aproximan a la pantalla.</li>
+                        <li>La etiqueta <code>&lt;mark&gt;</code> se utiliza para resaltar texto con un fondo de color.</li>
+                        <li>La etiqueta <code>&lt;audio&gt;</code> permite reproducir audio directamente de forma nativa en HTML.</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="code-block">
+<span class="cm">/* Ejemplo de variables, capas y filtros en CSS */</span>
+<span class="at">.tarjeta-superpuesta</span> {
+  <span class="at">position</span>: fixed;
+  <span class="at">z-index</span>: 999;
+  <span class="at">filter</span>: blur(<span class="val">2px</span>);
+  <span class="at">box-shadow</span>: <span class="val">0 0 10px rgba(0,0,0,0.5)</span>;
+}
+
+<span class="cm">/* Selector de elementos de lista pares */</span>
+<span class="at">li</span>:nth-child(even) {
+  <span class="at">background-color</span>: <span class="val">rgba(0, 243, 255, 0.05)</span>;
+}
+            </div>
+        </div>
+
+        <!-- BLOQUE 8: RECURSOS -->
         <div class="guide-card accent-purple">
             <h2 style="color:var(--neon-purple);"><i class="fas fa-book-open"></i> Recursos Oficiales y Documentación</h2>
             <p>Links a documentación confiable y actualizada para profundizar:</p>

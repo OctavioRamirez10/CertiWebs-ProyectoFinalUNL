@@ -249,6 +249,42 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'usuario'</span>,
             </div>
         </div>
 
+        <!-- CONCEPTOS CLAVE Y DETALLES DE EXAMEN -->
+        <div class="guide-card ao">
+            <h2 style="color:var(--neon-orange);"><i class="fas fa-key"></i> Conceptos Clave y Lógica Interna de JavaScript</h2>
+            <p>Sintaxis y comportamientos del lenguaje necesarios para consolidar los conocimientos de las evaluaciones:</p>
+            <ul>
+                <li><strong style="color:#fff;">Naturaleza e Igualdad:</strong> JavaScript es un lenguaje <em>interpretado</em>. Utiliza coerción de tipos con el operador de igualdad débil (<code>==</code>), mientras que el operador de igualdad estricta (<code>===</code>) evalúa si el valor y el tipo de dato son idénticos sin realizar conversión de tipo alguna.</li>
+                <li><strong style="color:#fff;">Tipos de Datos y Bug:</strong> Los números en JS son de doble precisión (no existe tipo float exclusivo). Un error de diseño histórico del motor hace que evaluar <code>typeof null</code> devuelva la cadena <code>"object"</code>.</li>
+                <li><strong style="color:#fff;">Métodos Auxiliares y Comentarios:</strong> Para forzar la conversión de texto a número entero se utiliza <code>parseInt()</code>. Los comentarios rápidos de una línea se escriben utilizando doble diagonal (<code>// comentario</code>).</li>
+                <li><strong style="color:#fff;">Closures y Herencia de Clases:</strong> 
+                    <ul>
+                        <li>Un <em>closure</em> es una función que recuerda y accede a las variables de su ámbito externo (lexical scope) incluso después de que la función padre haya terminado de ejecutarse.</li>
+                        <li>La herencia prototípica formalizada en ES6 se realiza utilizando la palabra clave <code>extends</code> al declarar la clase hija.</li>
+                    </ul>
+                </li>
+                <li><strong style="color:#fff;">Asincronía y Excepciones:</strong> Las promesas asíncronas constan de tres estados: <code>pending</code> (en curso), <code>fulfilled</code> (resuelta con éxito) y <code>rejected</code> (rechazada con error). Para capturar errores asíncronos en bloques <code>try...catch</code> es necesario anteponer la palabra clave <code>await</code> al llamado asincrónico.</li>
+                <li><strong style="color:#fff;">Modelos de Ejecución (Monohilo):</strong> JavaScript ejecuta una sola tarea a la vez en el hilo principal de ejecución del cliente de manera no bloqueante gracias al Event Loop.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">// Ejemplo de Clases, Herencia y Closures</span>
+<span class="kw">class</span> Animal {
+  <span class="fn">constructor</span>(nombre) { this.nombre = nombre; }
+}
+<span class="kw">class</span> Perro <span class="kw">extends</span> Animal {
+  <span class="fn">ladrar</span>() { <span class="kw">return</span> <span class="str">"Guau!"</span>; }
+}
+
+<span class="kw">function</span> <span class="fn">crearContador</span>() {
+  <span class="kw">let</span> cuenta = <span class="str">0</span>;
+  <span class="kw">return</span> <span class="kw">function</span>() {
+    cuenta++; <span class="cm">// Closure: Recuerda 'cuenta'</span>
+    <span class="kw">return</span> cuenta;
+  };
+}
+            </div>
+        </div>
+
         <!-- RECURSOS -->
         <div class="guide-card ab">
             <h2 style="color:var(--neon-cyan);"><i class="fas fa-book-open"></i> Recursos y Documentación</h2>

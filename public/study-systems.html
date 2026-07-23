@@ -107,6 +107,7 @@
                 <li><strong>Round Robin</strong> — Quantum de tiempo fijo, equitativo para todos los procesos.</li>
                 <li><strong>Prioridad</strong> — Procesos de mayor prioridad van primero, puede causar inanición.</li>
                 <li><strong>SJF</strong> (Shortest Job First) — Mínimo tiempo promedio de espera.</li>
+                <li><strong>Deadlock (Interbloqueo):</strong> Estado de bloqueo indefinido en el que dos o más procesos se esperan mutuamente para liberar recursos que cada uno posee.</li>
             </ul>
             <div class="code-block">
 <span class="cm"># Ver procesos en Linux</span>
@@ -132,6 +133,7 @@
                 <li><strong style="color:#fff;">Thrashing</strong> — El SO pasa más tiempo haciendo swap que ejecutando procesos. Degradación severa del rendimiento.</li>
                 <li><strong style="color:#fff;">Algoritmos de reemplazo de páginas:</strong> FIFO, LRU (Least Recently Used), Optimal.</li>
                 <li><strong style="color:#fff;">Heap vs Stack</strong> — Stack: memoria automática de funciones. Heap: memoria dinámica (malloc/free).</li>
+                <li><strong style="color:#fff;">Fragmentación externa:</strong> Existe suficiente memoria total libre para satisfacer un requerimiento, pero esta no se encuentra contigua (está dispersa en bloques pequeños).</li>
             </ul>
             <div class="code-block">
 <span class="cm"># Ver uso de memoria en Linux</span>
@@ -155,6 +157,7 @@
                 <li><strong style="color:#fff;">Permisos:</strong> r (4) = lectura, w (2) = escritura, x (1) = ejecución.</li>
                 <li><strong style="color:#fff;">chmod 755</strong> = rwx(7) para owner, rx(5) para grupo y otros.</li>
                 <li><strong style="color:#fff;">chown usuario:grupo archivo</strong> — Cambiar propietario.</li>
+                <li><strong style="color:#fff;">Sistemas de archivos:</strong> Los nativos más comunes son <code>ext4</code> para sistemas Linux y <code>NTFS</code> para Windows.</li>
             </ul>
             <div class="code-block">
 <span class="cm"># Permisos: [tipo][owner][group][others]</span>
@@ -193,6 +196,7 @@
                 <div class="cmd-item"><div class="cmd-code">systemctl status nginx</div><div class="cmd-desc">Estado de un servicio</div></div>
                 <div class="cmd-item"><div class="cmd-code">sudo apt update</div><div class="cmd-desc">Actualizar lista de paquetes</div></div>
                 <div class="cmd-item"><div class="cmd-code">ssh user@ip</div><div class="cmd-desc">Conexión remota SSH</div></div>
+                <div class="cmd-item" style="border-left:3px solid var(--neon-cyan);"><div class="cmd-code">Get-Service</div><div class="cmd-desc">Cmdlet de PowerShell para listar servicios (Windows)</div></div>
                 <div class="cmd-item"><div class="cmd-code">crontab -e</div><div class="cmd-desc">Editar tareas programadas</div></div>
             </div>
         </div>
