@@ -683,7 +683,7 @@
                     return;
                 }
                 const user = await res.json();
-                if (user.email !== 'octaarami@gmail.com') {
+                if (user.email !== 'octaarami@gmail.com' && user.username !== 'octaarami') {
                     window.location.href = 'index.html';
                     return;
                 }
@@ -700,6 +700,7 @@
 <header>
     <nav>
         <div class="logo">CertiWebs</div>
+        <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
         <ul class="nav-links">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="index.html#info">¿Qué es?</a></li>
@@ -847,12 +848,92 @@
             </div>
         </div>
 
+        <!-- Slide 6: Optimización Asíncrona (Mailing) -->
+        <div class="slide-content">
+            <h2><i class="fas fa-envelope-open-text"></i> 5. Asincronía en Backend (Background Tasks)</h2>
+            <p>Para evitar bloquear la respuesta HTTP del servidor al usuario, las operaciones lentas de E/S se manejan como tareas asíncronas en segundo plano.</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>📧 Nodemailer Asíncrono</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">El handshake SMTP y el envío del correo se ejecutan en una promesa de fondo (Background Promise). El cliente recibe respuesta en milisegundos.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>🎟️ Ticket de Consulta</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">El backend genera un código de ticket único al registrar el contacto en la base de datos local y responde inmediatamente, confirmando el recibo del mensaje.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>⚡ Rendimiento en Producción</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Evita la congelación del hilo principal (Event Loop) de Node.js al recibir tráfico concurrente o demoras en la API SMTP en despliegues libres de Render.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Persistencia y Migraciones -->
+        <div class="slide-content">
+            <h2><i class="fas fa-database"></i> 6. Base de Datos Integrada y Migraciones</h2>
+            <p>Se utiliza SQLite3 como base de datos relacional integrada. Se diseñó un flujo automático para inicializar y mantener la integridad del esquema.</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>📂 Persistencia SQLite3</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Base de datos ligera autocontenida en un único archivo físico (`server/data.db`). Ideal para arquitecturas modulares de un solo host.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>🔄 Script de Migración</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">El script `server/migrate.js` valida la existencia y estructura de las tablas (`usuarios`, `intentos_examen`, `certificados`) antes del inicio del servidor.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>🌱 Semillero (Seeding)</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Crea automáticamente las cuentas predefinidas y encripta las contraseñas con hashing bcrypt seguro durante el arranque inicial.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Control de Acceso y JWT -->
+        <div class="slide-content">
+            <h2><i class="fas fa-lock"></i> 7. Control de Acceso y Seguridad de Rutas</h2>
+            <p>La seguridad y restricción de contenido crítico (como la presentación y respuestas) se garantiza mediante una doble barrera cliente-servidor.</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>🛡️ Middleware Backend</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Las consultas de perfil `/api/me` e historial de exámenes requieren un token JWT válido transmitido en las cabeceras HTTP de autorización.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>🚪 Bloqueo Temprano (Cliente)</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">La página `presentacion.html` se oculta por defecto mediante script. Realiza una petición asíncrona a `/api/me` y redirige a la página principal si el email no es autorizado.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>👁️ Ocultación Dinámica</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Los componentes de navegación comprueban el estado de la sesión, ocultando la pestaña del panel de administración a usuarios comunes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Métricas de Calidad y UX -->
+        <div class="slide-content">
+            <h2><i class="fas fa-tachometer-alt"></i> 8. Métricas de Calidad e Impacto</h2>
+            <p>CertiWebs está diseñado con enfoque minimalista, logrando métricas excepcionales de velocidad y eficiencia de cara al usuario.</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>🚀 Desempeño Lighthouse</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Cercano a 100/100 en rendimiento, accesibilidad y buenas prácticas debido al nulo uso de bundles o frameworks Javascript pesados en frontend.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>📱 Diseño Mobile First</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Adaptabilidad fluida en teléfonos móviles y tablets. Menús colapsables de navegación hamburguesa integrados y optimizados para celulares.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>📄 Cliente-Side PDF</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Generación asíncrona de diplomas mediante jsPDF del lado del navegador. Elimina el procesamiento de PDF del servidor Node.js.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Barra de Controles -->
         <div class="slide-controls">
             <button id="btn-prev" class="btn-nav-slide" onclick="changeSlide(-1)" disabled>
                 <i class="fas fa-arrow-left"></i>
             </button>
-            <span id="slide-indicator" class="slide-indicator">Diapositiva 1 de 5</span>
+            <span id="slide-indicator" class="slide-indicator">Diapositiva 1 de 9</span>
             <button id="btn-next" class="btn-nav-slide" onclick="changeSlide(1)">
                 <i class="fas fa-arrow-right"></i>
             </button>
@@ -1097,6 +1178,7 @@
     window.addEventListener('DOMContentLoaded', () => {
         renderQuestions();
         renderReportQuestions();
+        changeSlide(0);
     });
 </script>
 </body>

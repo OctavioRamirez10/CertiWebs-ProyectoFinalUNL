@@ -25,6 +25,7 @@
 <header>
     <nav>
         <div class="logo">CertiWebs</div>
+        <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
         <ul class="nav-links">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="#info">¿Qué es?</a></li>
@@ -294,7 +295,7 @@
             if (navBadge)   navBadge.style.display   = (rol === 'admin') ? 'inline-flex' : 'none';
             if (heroBanner) heroBanner.style.display = 'block';
             if (heroUname)  heroUname.textContent    = username;
-            if (navPres)    navPres.style.display    = (email === 'octaarami@gmail.com') ? 'inline-block' : 'none';
+            if (navPres)    navPres.style.display    = (email === 'octaarami@gmail.com' || username === 'octaarami') ? 'inline-block' : 'none';
         } else {
             // SIN sesión
             if (navGuest)   navGuest.style.display   = 'flex';

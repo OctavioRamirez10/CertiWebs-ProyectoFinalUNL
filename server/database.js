@@ -142,14 +142,21 @@ db.serialize(() => {
                             console.error('Error hashing password:', hashErr);
                         }
                     } else if (row) {
-                        // Actualizar rol si es necesario (para usuarios ya existentes que deben ser admin)
-                        if (usuario.rol === 'admin' && row.rol !== 'admin') {
-                            db.run('UPDATE usuarios SET rol = ? WHERE id = ?', ['admin', row.id], () => {
-                                console.log(`🔄 Rol actualizado a admin para: ${usuario.username}`);
-                            });
-                        } else {
-                            console.log(`✓ Usuario ya existe: ${usuario.username}`);
-                        }
+                        // Forzar sincronización de email y rol para asegurar que estén alineados
+                        db.run(
+                            'UPDATE usuarios SET email = ?, rol = ? WHERE id = ?',
+                            [usuario.email, usuario.rol, row.id],
+                            async () => {
+                                try {
+                                    const hashedPassword = await bcrypt.hash(usuario.password, 10);
+                                    db.run('UPDATE usuarios SET password = ? WHERE id = ?', [hashedPassword, row.id], () => {
+                                        console.log(`✓ Usuario predefinido sincronizado: ${usuario.username}`);
+                                    });
+                                } catch (e) {
+                                    console.error(`Error al resincronizar clave de ${usuario.username}:`, e);
+                                }
+                            }
+                        );
                     }
                 }
             );

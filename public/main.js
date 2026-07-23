@@ -1194,7 +1194,7 @@ runOnDOMReady(function () {
         const email = sessionStorage.getItem('email');
         const navPres = document.getElementById('nav-presentacion');
         if (navPres) {
-            navPres.style.display = (email === 'octaarami@gmail.com') ? 'inline-block' : 'none';
+            navPres.style.display = (email === 'octaarami@gmail.com' || (usuario && usuario.username === 'octaarami')) ? 'inline-block' : 'none';
         }
 
         // Mostrar nombre de usuario y mensaje de bienvenida
