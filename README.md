@@ -4,10 +4,9 @@ Sitio web educativo sobre informática, inspirado en estudiaencasa.fun. Incluye:
 
 Tecnologías: HTML, CSS, JavaScript puro.
 
-## Estructura
-
 ## Uso
 Abre `index.html` en tu navegador para ver el sitio.
+
 # CertiWebs
 
 Sitio web educativo sobre informática, inspirado en estudiaencasa.fun.
@@ -132,4 +131,3 @@ Si quieres que ejecute pruebas locales aquí, ten en cuenta que en este entorno 
 
 ---
 Fecha de actualización: 2025-11-30
-# CertiWebs-UNL-

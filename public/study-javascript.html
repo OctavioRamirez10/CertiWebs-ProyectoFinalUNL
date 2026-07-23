@@ -3,330 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estudiar JavaScript - CertiWebs</title>
+    <title>Guía de Estudio JavaScript - CertiWebs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            color: #333;
-        }
-        header {
-            background: #003366;
-            color: #fff;
-            padding: 1rem 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            color: #fff;
-        }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            margin: 0;
-        }
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: color 0.2s;
-        }
-        .nav-links a:hover {
-            color: #ff6b35;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .study-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        .study-header h1 {
-            color: #003366;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .study-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        .study-section {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .study-section h2 {
-            color: #003366;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-        .topic-list {
-            list-style: none;
-            padding: 0;
-        }
-        .topic-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-        }
-        .topic-list li:last-child {
-            border-bottom: none;
-        }
-        .topic-list li::before {
-            content: "🚀";
-            margin-right: 1rem;
-            font-size: 1.2rem;
-        }
-        .resources-section {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .resource-card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid #ff6b35;
-            transition: transform 0.2s;
-        }
-        .resource-card:hover {
-            transform: translateY(-2px);
-        }
-        .resource-card h4 {
-            color: #003366;
-            margin-bottom: 0.5rem;
-        }
-        .resource-card a {
-            color: #ff6b35;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .resource-card a:hover {
-            text-decoration: underline;
-        }
-        .exam-btn {
-            display: inline-block;
-            background: #ff6b35;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.3s;
-            margin-top: 1rem;
-        }
-        .exam-btn:hover {
-            background: #e55a2b;
-            transform: translateY(-2px);
-            color: white;
-        }
-        .code-example {
-            background: #f4f4f4;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 1rem;
-            margin: 1rem 0;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-        }
+        .guide-hero{text-align:center;padding:4rem 2rem 2rem}
+        .guide-hero h1{font-size:2.8rem;background:linear-gradient(135deg,#f7df1e,var(--neon-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-transform:uppercase;letter-spacing:3px}
+        .guide-hero p{color:var(--text-muted);font-size:1.15rem;margin-top:1rem}
+        .badge-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+        .badge{background:rgba(247,223,30,0.1);border:1px solid #f7df1e;color:#f7df1e;border-radius:20px;padding:.4rem 1.1rem;font-size:.88rem;font-weight:600}
+        .guide-grid{display:grid;grid-template-columns:1fr;gap:2rem;max-width:960px;margin:0 auto;padding:0 1.5rem 5rem}
+        .guide-card{background:var(--bg-card);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem}
+        .guide-card.ac{border-left:4px solid #f7df1e}
+        .guide-card.ab{border-left:4px solid var(--neon-cyan)}
+        .guide-card.ag{border-left:4px solid var(--neon-green)}
+        .guide-card.ap{border-left:4px solid var(--neon-purple)}
+        .guide-card.ao{border-left:4px solid var(--neon-orange)}
+        .guide-card h2{font-size:1.5rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.7rem}
+        .guide-card p,.guide-card li{color:#a0aecb;line-height:1.8;font-size:.97rem}
+        .guide-card ul{padding-left:1.2rem;margin-top:.5rem}
+        .guide-card ul li{margin-bottom:.4rem}
+        .code-block{background:#0a0f1e;border:1px solid rgba(247,223,30,.2);border-radius:10px;padding:1.2rem 1.5rem;margin:1.2rem 0;font-family:'Courier New',monospace;font-size:.88rem;color:#7ee787;overflow-x:auto;line-height:1.7}
+        .code-block .kw{color:#ff7b72}
+        .code-block .fn{color:#f7df1e}
+        .code-block .cm{color:#8b949e;font-style:italic}
+        .code-block .str{color:#a5d6ff}
+        .res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem}
+        .res-link{display:flex;align-items:center;gap:.6rem;padding:.9rem 1.2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:var(--neon-cyan);font-size:.9rem;font-weight:500;transition:all .3s;text-decoration:none}
+        .res-link:hover{background:rgba(0,243,255,.1);border-color:var(--neon-cyan);transform:translateY(-2px);color:var(--neon-cyan)}
+        .qa-table{width:100%;border-collapse:collapse;font-size:.9rem}
+        .qa-table th{color:#f7df1e;text-align:left;padding:.8rem;background:rgba(247,223,30,.06);font-size:.82rem;letter-spacing:1px;text-transform:uppercase}
+        .qa-table td{padding:.85rem .8rem;border-bottom:1px solid rgba(255,255,255,.05);color:#a0aecb;vertical-align:top}
+        .qa-table tr:last-child td{border-bottom:none}
+        .qa-table .ans{color:var(--neon-green);font-weight:600}
+        .tip-box{background:rgba(247,223,30,.06);border:1px solid rgba(247,223,30,.25);border-radius:10px;padding:1rem 1.3rem;margin:1rem 0;color:#a0aecb;font-size:.92rem}
+        .tip-box strong{color:#f7df1e}
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">CertiWebs</div>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html#info">¿Qué es?</a></li>
-                <li><a href="index.html#recursos">Certificaciones</a></li>
-                <li><a href="exams.html">Exámenes</a></li>
-                <li><a href="contact.html">Contacto</a></li>
+<header>
+    <nav>
+        <div class="logo">CertiWebs</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="exams.html">Exámenes</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="guide-hero">
+        <h1><i class="fab fa-js-square" style="color:#f7df1e;"></i> JavaScript Moderno</h1>
+        <p>Programación del lado del cliente con ES6+ y asincronía.</p>
+        <div class="badge-row">
+            <span class="badge"><i class="fas fa-code"></i> ES6 Sintaxis</span>
+            <span class="badge"><i class="fas fa-clock"></i> Async / Await</span>
+            <span class="badge"><i class="fas fa-sitemap"></i> DOM &amp; Eventos</span>
+            <span class="badge"><i class="fas fa-cubes"></i> Módulos</span>
+        </div>
+    </div>
+
+    <div class="guide-grid">
+
+        <!-- VAR / LET / CONST -->
+        <div class="guide-card ac">
+            <h2 style="color:#f7df1e;"><i class="fas fa-box"></i> Variables: var, let y const</h2>
+            <p>ES6 introdujo <strong>let</strong> y <strong>const</strong> para superar las limitaciones de <strong>var</strong>.</p>
+            <ul>
+                <li><strong style="color:#fff;">var</strong> — Alcance de función, sufre hoisting, permite redeclaración. Evitar en código moderno.</li>
+                <li><strong style="color:#fff;">let</strong> — Alcance de bloque, no se puede redeclarar en el mismo bloque, sí reasignar.</li>
+                <li><strong style="color:#fff;">const</strong> — Alcance de bloque, no se puede reasignar. Obligatorio para referencias a objetos/arrays.</li>
+                <li><strong style="color:#fff;">Hoisting:</strong> var se "sube" al inicio de la función con valor undefined. let/const también se elevan pero quedan en Temporal Dead Zone.</li>
             </ul>
-        </nav>
-    </header>
+            <div class="code-block">
+<span class="kw">var</span> x = <span class="str">1</span>;   <span class="cm">// Alcance de función</span>
+<span class="kw">let</span> y = <span class="str">2</span>;   <span class="cm">// Alcance de bloque</span>
+<span class="kw">const</span> z = <span class="str">3</span>; <span class="cm">// No reasignable</span>
 
-    <main>
-        <div class="container">
-            <div class="study-header">
-                <h1>JavaScript - Guía de Estudio</h1>
-                <p>Domina el lenguaje de programación más popular del mundo web</p>
-            </div>
-
-            <div class="study-content">
-                <div class="study-section">
-                    <h2>📋 Fundamentos</h2>
-                    <ul class="topic-list">
-                        <li>Variables y tipos de datos</li>
-                        <li>Operadores aritméticos y lógicos</li>
-                        <li>Estructuras de control (if/else, switch)</li>
-                        <li>Bucles (for, while, do-while)</li>
-                        <li>Funciones y scope</li>
-                        <li>Arrays y métodos de array</li>
-                        <li>Objetos y propiedades</li>
-                        <li>Manejo de errores (try/catch)</li>
-                    </ul>
-                </div>
-
-                <div class="study-section">
-                    <h2>🔥 Conceptos Avanzados</h2>
-                    <ul class="topic-list">
-                        <li>Programación orientada a objetos</li>
-                        <li>Funciones flecha y closures</li>
-                        <li>Promises y async/await</li>
-                        <li>Manipulación del DOM</li>
-                        <li>Eventos y event listeners</li>
-                        <li>LocalStorage y SessionStorage</li>
-                        <li>Fetch API y AJAX</li>
-                        <li>ES6+ características modernas</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="resources-section">
-                <h2>📖 Recursos de Estudio</h2>
-                <div class="resource-grid">
-                    <div class="resource-card">
-                        <h4>Documentación Oficial</h4>
-                        <p>Referencias completas y actualizadas</p>
-                        <a href="https://developer.mozilla.org/es/docs/Web/JavaScript" target="_blank">MDN JavaScript</a><br>
-                        <a href="https://developer.mozilla.org/es/docs/Web/API" target="_blank">Web APIs</a>
-                    </div>
-                    <div class="resource-card">
-                        <h4>Tutoriales Interactivos</h4>
-                        <p>Aprende practicando</p>
-                        <a href="https://www.javascript.info/" target="_blank">JavaScript.info</a><br>
-                        <a href="https://www.w3schools.com/js/" target="_blank">W3Schools JS</a>
-                    </div>
-                    <div class="resource-card">
-                        <h4>Videos y Cursos</h4>
-                        <p>Contenido audiovisual</p>
-                        <a href="https://www.youtube.com/results?search_query=javascript+tutorial" target="_blank">YouTube</a><br>
-                        <a href="https://www.freecodecamp.org/" target="_blank">freeCodeCamp</a>
-                    </div>
-                    <div class="resource-card">
-                        <h4>Herramientas Online</h4>
-                        <p>Practica en el navegador</p>
-                        <a href="https://codepen.io/" target="_blank">CodePen</a><br>
-                        <a href="https://replit.com/languages/javascript" target="_blank">Replit</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="resources-section">
-                <h2>💡 Ejemplos Prácticos</h2>
-                
-                <h3>Variables y Tipos</h3>
-                <div class="code-example">
-// Variables modernas
-let nombre = "Juan";
-const edad = 25;
-var ciudad = "Madrid";
-
-// Tipos de datos
-let texto = "Hola Mundo";
-let numero = 42;
-let booleano = true;
-let array = [1, 2, 3];
-let objeto = { nombre: "Juan", edad: 25 };
-                </div>
-
-                <h3>Funciones Modernas</h3>
-                <div class="code-example">
-// Función tradicional
-function sumar(a, b) {
-    return a + b;
+<span class="kw">if</span> (<span class="kw">true</span>) {
+  <span class="kw">let</span> bloque = <span class="str">'solo aquí'</span>;
+  <span class="cm">// var x sigue accesible aquí</span>
 }
+<span class="cm">// bloque no existe fuera del if</span>
 
-// Función flecha
-const multiplicar = (a, b) => a * b;
-
-// Función asíncrona
-async function obtenerDatos() {
-    try {
-        const response = await fetch('/api/datos');
-        const datos = await response.json();
-        return datos;
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-                </div>
-
-                <h3>Manipulación del DOM</h3>
-                <div class="code-example">
-// Seleccionar elementos
-const boton = document.getElementById('miBoton');
-const parrafo = document.querySelector('.mi-parrafo');
-
-// Event listeners
-boton.addEventListener('click', () => {
-    parrafo.textContent = '¡Texto cambiado!';
-    parrafo.style.color = '#ff6b35';
-});
-
-// Crear elementos
-const nuevoDiv = document.createElement('div');
-nuevoDiv.className = 'nuevo-elemento';
-nuevoDiv.textContent = 'Elemento dinámico';
-document.body.appendChild(nuevoDiv);
-                </div>
-
-                <h3>Arrays y Métodos</h3>
-                <div class="code-example">
-const numeros = [1, 2, 3, 4, 5];
-
-// Métodos funcionales
-const duplicados = numeros.map(n => n * 2);
-const pares = numeros.filter(n => n % 2 === 0);
-const suma = numeros.reduce((acc, n) => acc + n, 0);
-
-// Destructuring
-const [primero, segundo] = numeros;
-const { nombre, edad } = { nombre: "Ana", edad: 30 };
-                </div>
+<span class="kw">const</span> obj = { nombre: <span class="str">'Ana'</span> };
+obj.nombre = <span class="str">'Luis'</span>; <span class="cm">// ✔ Mutar propiedades sí es válido</span>
+<span class="cm">// obj = {} ❌ No se puede reasignar la referencia</span>
             </div>
+            <div class="tip-box"><strong>💡 Regla:</strong> Usa <code>const</code> por defecto. Solo cambia a <code>let</code> si necesitas reasignar. Nunca uses <code>var</code>.</div>
+        </div>
 
-            <div style="text-align: center; margin-top: 3rem;">
-                <h2>🎯 ¿Listo para certificarte?</h2>
-                <p>Evalúa tus conocimientos y obtén tu certificado</p>
-                <a href="exam.html?exam=js" class="exam-btn">Tomar Examen JavaScript</a>
+        <!-- ARROW FUNCTIONS -->
+        <div class="guide-card ab">
+            <h2 style="color:var(--neon-cyan);"><i class="fas fa-arrow-right"></i> Arrow Functions y Funciones</h2>
+            <p>Las arrow functions tienen sintaxis compacta y no crean su propio contexto <strong>this</strong>.</p>
+            <ul>
+                <li><strong style="color:#fff;">Función tradicional:</strong> tiene su propio this, puede ser constructor, se eleva con hoisting.</li>
+                <li><strong style="color:#fff;">Arrow function:</strong> hereda el this del contexto padre, no puede ser constructor, más concisa.</li>
+                <li><strong style="color:#fff;">Retorno implícito:</strong> si el cuerpo es una sola expresión, se omiten llaves y return.</li>
+                <li><strong style="color:#fff;">Parámetros por defecto:</strong> function suma(a, b = 0) asigna 0 si b no se pasa.</li>
+                <li><strong style="color:#fff;">Rest params:</strong> ...args recoge todos los argumentos restantes en un array.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">// Función tradicional</span>
+<span class="kw">function</span> <span class="fn">sumar</span>(a, b) { <span class="kw">return</span> a + b; }
+
+<span class="cm">// Arrow function de flexibildad</span>
+<span class="kw">const</span> <span class="fn">sumar</span> = (a, b) => a + b;
+
+<span class="cm">// Parámetro por defecto</span>
+<span class="kw">const</span> <span class="fn">saludar</span> = (nombre = <span class="str">'mundo'</span>) =>
+  <span class="str">`Hola, ${nombre}!`</span>;
+
+<span class="cm">// Rest params</span>
+<span class="kw">const</span> <span class="fn">total</span> = (...nums) =>
+  nums.<span class="fn">reduce</span>((acc, n) => acc + n, <span class="str">0</span>);
+
+<span class="fn">total</span>(<span class="str">1</span>, <span class="str">2</span>, <span class="str">3</span>, <span class="str">4</span>); <span class="cm">// ➔ 10</span>
             </div>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2025 CertiWebs. Universidad Nacional del Litoral. Proyecto de Octavio Ramírez.</p>
-        <p>Todos los derechos reservados</p>
-    </footer>
+        <!-- ARRAYS Y MÉTODOS -->
+        <div class="guide-card ag">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-list"></i> Arrays y Métodos Funcionales</h2>
+            <p>Los métodos funcionales de arrays procesan colecciones de forma elegante y sin mutar el original.</p>
+            <ul>
+                <li><strong style="color:#fff;">map(fn)</strong> — Transforma cada elemento, devuelve nuevo array.</li>
+                <li><strong style="color:#fff;">filter(fn)</strong> — Filtra elementos que cumplan condición.</li>
+                <li><strong style="color:#fff;">reduce(fn, init)</strong> — Acumula un valor a partir de todos los elementos.</li>
+                <li><strong style="color:#fff;">find(fn)</strong> — Devuelve el primer elemento que cumple la condición.</li>
+                <li><strong style="color:#fff;">some(fn) / every(fn)</strong> — Booleano: alguno / todos cumplen condición.</li>
+                <li><strong style="color:#fff;">flat() / flatMap(fn)</strong> — Aplana arrays anidados.</li>
+                <li><strong style="color:#fff;">spread [...arr]</strong> — Copia o combina arrays.</li>
+                <li><strong style="color:#fff;">destructuring</strong> — Extrae valores con [a, b] = arr.</li>
+            </ul>
+            <div class="code-block">
+<span class="kw">const</span> nums = [<span class="str">1</span>, <span class="str">2</span>, <span class="str">3</span>, <span class="str">4</span>, <span class="str">5</span>];
+
+nums.<span class="fn">map</span>(n => n * <span class="str">2</span>);        <span class="cm">// [2,4,6,8,10]</span>
+nums.<span class="fn">filter</span>(n => n % <span class="str">2</span> === <span class="str">0</span>); <span class="cm">// [2,4]</span>
+nums.<span class="fn">reduce</span>((acc, n) => acc + n, <span class="str">0</span>); <span class="cm">// 15</span>
+
+<span class="cm">// Desestructuración</span>
+<span class="kw">const</span> [primero, segundo, ...resto] = nums;
+<span class="cm">// primero=1, segundo=2, resto=[3,4,5]</span>
+
+<span class="cm">// Combinar arrays</span>
+<span class="kw">const</span> todos = [...nums, ...[<span class="str">6</span>, <span class="str">7</span>]]; <span class="cm">// [1..7]</span>
+            </div>
+        </div>
+
+        <!-- PROMISES Y ASYNC/AWAIT -->
+        <div class="guide-card ap">
+            <h2 style="color:var(--neon-purple);"><i class="fas fa-spinner"></i> Promesas y Async/Await</h2>
+            <p>JavaScript maneja operaciones asíncronas (red, timers) mediante <strong>Promesas</strong> y la sintaxis <strong>async/await</strong>.</p>
+            <ul>
+                <li><strong style="color:#fff;">Promise</strong> — Objeto con 3 estados: pending, fulfilled, rejected.</li>
+                <li><strong style="color:#fff;">.then(fn)</strong> — Ejecuta fn cuando la promesa se resuelve.</li>
+                <li><strong style="color:#fff;">.catch(fn)</strong> — Captura errores o rechazos.</li>
+                <li><strong style="color:#fff;">.finally(fn)</strong> — Siempre se ejecuta independientemente del resultado.</li>
+                <li><strong style="color:#fff;">async function</strong> — Siempre retorna una promesa implícitamente.</li>
+                <li><strong style="color:#fff;">await</strong> — Pausa la ejecución hasta resolver la promesa (solo dentro de async).</li>
+                <li><strong style="color:#fff;">Promise.all([])</strong> — Espera que TODAS las promesas resuelvan en paralelo.</li>
+                <li><strong style="color:#fff;">Promise.race([])</strong> — Resuelve con la primera promesa que termine.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">// Con .then/.catch</span>
+<span class="fn">fetch</span>(<span class="str">'/api/datos'</span>)
+  .<span class="fn">then</span>(res => res.<span class="fn">json</span>())
+  .<span class="fn">then</span>(data => console.<span class="fn">log</span>(data))
+  .<span class="fn">catch</span>(err => console.<span class="fn">error</span>(err));
+
+<span class="cm">// Con async/await (más legible)</span>
+<span class="kw">async function</span> <span class="fn">cargarDatos</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/datos'</span>);
+    <span class="kw">const</span> data = <span class="kw">await</span> res.<span class="fn">json</span>();
+    <span class="kw">return</span> data;
+  } <span class="kw">catch</span> (err) {
+    console.<span class="fn">error</span>(<span class="str">'Error:'</span>, err);
+  }
+}
+            </div>
+        </div>
+
+        <!-- DOM Y EVENTOS -->
+        <div class="guide-card ao">
+            <h2 style="color:var(--neon-orange);"><i class="fas fa-sitemap"></i> Manipulación del DOM y Eventos</h2>
+            <p>El <strong>DOM</strong> (Document Object Model) es la representación en árbol del HTML. JS puede modificarlo en tiempo real.</p>
+            <ul>
+                <li><strong style="color:#fff;">getElementById / querySelector</strong> — Seleccionar elementos.</li>
+                <li><strong style="color:#fff;">querySelectorAll</strong> — Devuelve NodeList con todos los coincidentes.</li>
+                <li><strong style="color:#fff;">textContent / innerHTML</strong> — Leer o escribir contenido (innerHTML permite HTML).</li>
+                <li><strong style="color:#fff;">classList.add/remove/toggle</strong> — Gestionar clases CSS.</li>
+                <li><strong style="color:#fff;">style.property</strong> — Cambiar estilos en línea directamente.</li>
+                <li><strong style="color:#fff;">createElement / appendChild</strong> — Crear e insertar nodos.</li>
+                <li><strong style="color:#fff;">addEventListener(evento, fn)</strong> — Escuchar eventos del usuario.</li>
+                <li><strong style="color:#fff;">event.preventDefault()</strong> — Evitar comportamiento por defecto del navegador.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">// Seleccionar y modificar</span>
+<span class="kw">const</span> btn = document.<span class="fn">querySelector</span>(<span class="str">'#mi-btn'</span>);
+btn.textContent = <span class="str">'Haz clic'</span>;
+btn.classList.<span class="fn">add</span>(<span class="str">'activo'</span>);
+
+<span class="cm">// Escuchar eventos</span>
+btn.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) => {
+  e.<span class="fn">preventDefault</span>();
+  console.<span class="fn">log</span>(<span class="str">'¡Clic detectado!'</span>);
+});
+
+<span class="cm">// Crear e insertar elemento</span>
+<span class="kw">const</span> li = document.<span class="fn">createElement</span>(<span class="str">'li'</span>);
+li.textContent = <span class="str">'Nuevo ítem'</span>;
+document.<span class="fn">querySelector</span>(<span class="str">'ul'</span>).<span class="fn">appendChild</span>(li);
+            </div>
+        </div>
+
+        <!-- MÓDULOS ES6 Y LOCALSTORAGE -->
+        <div class="guide-card ac">
+            <h2 style="color:#f7df1e;"><i class="fas fa-cubes"></i> Módulos ES6 y LocalStorage</h2>
+            <p>Los módulos permiten organizar el código en archivos reutilizables. LocalStorage persiste datos en el navegador.</p>
+            <ul>
+                <li><strong style="color:#fff;">export</strong> — Exporta una función, clase o variable de un módulo.</li>
+                <li><strong style="color:#fff;">import</strong> — Importa desde otro módulo.</li>
+                <li><strong style="color:#fff;">export default</strong> — Exportación principal del archivo.</li>
+                <li><strong style="color:#fff;">localStorage.setItem(key, val)</strong> — Guarda dato (siempre string).</li>
+                <li><strong style="color:#fff;">localStorage.getItem(key)</strong> — Lee dato guardado.</li>
+                <li><strong style="color:#fff;">JSON.stringify / JSON.parse</strong> — Convierte objetos a/desde string para guardarlos.</li>
+            </ul>
+            <div class="code-block">
+<span class="cm">// utils.js</span>
+<span class="kw">export const</span> <span class="fn">sumar</span> = (a, b) => a + b;
+<span class="kw">export default function</span> <span class="fn">saludar</span>(n) { <span class="kw">return</span> <span class="str">`Hola ${n}`</span>; }
+
+<span class="cm">// main.js</span>
+<span class="kw">import</span> saludar, { sumar } <span class="kw">from</span> <span class="str">'./utils.js'</span>;
+
+<span class="cm">// LocalStorage</span>
+<span class="kw">const</span> usuario = { nombre: <span class="str">'Ana'</span>, role: <span class="str">'admin'</span> };
+localStorage.<span class="fn">setItem</span>(<span class="str">'usuario'</span>, JSON.<span class="fn">stringify</span>(usuario));
+
+<span class="kw">const</span> guardado = JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'usuario'</span>));
+            </div>
+        </div>
+
+        <!-- RECURSOS -->
+        <div class="guide-card ab">
+            <h2 style="color:var(--neon-cyan);"><i class="fas fa-book-open"></i> Recursos y Documentación</h2>
+            <div class="res-grid">
+                <a class="res-link" href="https://developer.mozilla.org/es/docs/Web/JavaScript/Guide" target="_blank"><i class="fas fa-external-link-alt"></i> MDN — Guía JS</a>
+                <a class="res-link" href="https://javascript.info/js" target="_blank"><i class="fas fa-external-link-alt"></i> javascript.info</a>
+                <a class="res-link" href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank"><i class="fas fa-external-link-alt"></i> MDN — Promesas</a>
+                <a class="res-link" href="https://developer.mozilla.org/es/docs/Web/API/Document_Object_Model" target="_blank"><i class="fas fa-external-link-alt"></i> MDN — DOM</a>
+                <a class="res-link" href="https://es6.io/" target="_blank"><i class="fas fa-external-link-alt"></i> ES6 for Everyone</a>
+                <a class="res-link" href="https://eloquentjavascript.net/" target="_blank"><i class="fas fa-external-link-alt"></i> Eloquent JavaScript</a>
+            </div>
+        </div>
+
+        <!-- PREGUNTAS -->
+        <div class="guide-card ag">
+            <h2 style="color:var(--neon-green);"><i class="fas fa-question-circle"></i> Preguntas de Práctica</h2>
+            <div style="overflow-x:auto;">
+                <table class="qa-table">
+                    <thead>
+                        <tr><th>#</th><th>Pregunta</th><th>Opciones</th><th class="ans">Respuesta</th><th>Explicación</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>¿Cuál es la diferencia principal entre let y var?</td><td>Alcance de bloque vs función, velocidad, tipo de dato, compatibilidad</td><td class="ans">Alcance de bloque vs función</td><td>let tiene alcance de bloque {}; var tiene alcance de función.</td></tr>
+                        <tr><td>2</td><td>¿Qué devuelve el método map() de un array?</td><td>El mismo array mutado, un nuevo array transformado, undefined, el primer elemento</td><td class="ans">Un nuevo array transformado</td><td>map() nunca muta el array original, siempre retorna uno nuevo.</td></tr>
+                        <tr><td>3</td><td>¿Cómo se declara una función de flecha que retorna x*2?</td><td>function(x){return x*2}, (x) => x*2, arrow x => x*2, x : x*2</td><td class="ans">(x) => x*2</td><td>Sintaxis de arrow function con retorno implícito sin llaves.</td></tr>
+                        <tr><td>4</td><td>¿Qué método se usa para capturar errores en una Promise?</td><td>.error(), .catch(), .fail(), .reject()</td><td class="ans">.catch()</td><td>.catch(fn) captura cualquier rechazo en la cadena de promesas.</td></tr>
+                        <tr><td>5</td><td>¿Qué hace await dentro de una función async?</td><td>Cancela la función, pausa hasta resolver la promesa, convierte a callback, genera error</td><td class="ans">Pausa hasta resolver la promesa</td><td>await suspende la ejecución de la función async hasta que la promesa se resuelva.</td></tr>
+                        <tr><td>6</td><td>¿Cuál método selecciona el primer elemento con clase "card"?</td><td>getElementById, getElementByClass, querySelector('.card'), querySelectorAll</td><td class="ans">querySelector('.card')</td><td>querySelector devuelve el primer elemento que coincide con el selector CSS.</td></tr>
+                        <tr><td>7</td><td>¿Qué hace JSON.stringify()?</td><td>Parsea JSON a objeto, convierte objeto a string JSON, borra propiedades, importa JSON</td><td class="ans">Convierte objeto a string JSON</td><td>Necesario para guardar objetos en localStorage que solo acepta strings.</td></tr>
+                        <tr><td>8</td><td>¿Qué operador copia todos los elementos de un array?</td><td>... (spread), * (asterisk), &amp; (and), # (hash)</td><td class="ans">... (spread)</td><td>[...arr] crea una copia superficial del array original.</td></tr>
+                        <tr><td>9</td><td>¿Qué retorna filter() si ningún elemento cumple la condición?</td><td>null, undefined, false, array vacío []</td><td class="ans">Array vacío []</td><td>filter() siempre retorna un array, vacío si no hay coincidencias.</td></tr>
+                        <tr><td>10</td><td>¿Qué hace event.preventDefault()?</td><td>Detiene la propagación, cancela el comportamiento por defecto, elimina el listener, pausa JS</td><td class="ans">Cancela el comportamiento por defecto</td><td>Por ejemplo, evita que un formulario recargue la página al hacer submit.</td></tr>
+                        <tr><td>11</td><td>¿Qué diferencia hay entre == y ===?</td><td>Ninguna, === compara tipo y valor, == solo compara valor con coerción, === es más lento</td><td class="ans">=== compara tipo y valor</td><td>=== es estricto: 1 === "1" es false. == con coerción: 1 == "1" es true.</td></tr>
+                        <tr><td>12</td><td>¿Qué es el closure en JavaScript?</td><td>Una clase especial, una función que recuerda su ámbito léxico, un error de scope, un módulo</td><td class="ans">Una función que recuerda su ámbito léxico</td><td>Un closure permite que una función interna acceda a variables de su función externa.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align:center;padding:1rem 0">
+            <button id="btn-rendir-exam" class="btn-principal" onclick="irAlExamen('js')">
+                <i class="fas fa-graduation-cap"></i> Rendir Certificación JavaScript
+            </button>
+        </div>
+
+        <!-- Modal: sesión requerida -->
+        <div id="modal-login-requerido" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;backdrop-filter:blur(6px);align-items:center;justify-content:center">
+            <div style="background:#0f172a;border:1px solid var(--neon-cyan);border-radius:16px;padding:2.5rem;max-width:420px;width:90%;text-align:center;box-shadow:0 0 40px rgba(0,243,255,0.2)">
+                <div style="font-size:3rem;margin-bottom:1rem">🔒</div>
+                <h3 style="color:var(--neon-cyan);margin-bottom:1rem;">Sesión requerida</h3>
+                <p style="color:#a0aecb;margin-bottom:2rem;line-height:1.6;">Para rendir el examen necesitas iniciar sesión en tu cuenta CertiWebs.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                    <a href="index.html" class="btn-principal" style="padding:0.8rem 2rem;font-size:1rem;">
+                        <i class="fas fa-sign-in-alt"></i> Ir a iniciar sesión
+                    </a>
+                    <button onclick="document.getElementById('modal-login-requerido').style.display='none'" style="background:transparent;border:1px solid #a0aecb;color:#a0aecb;border-radius:30px;padding:0.8rem 2rem;cursor:pointer;font-size:1rem;font-family:'Outfit',sans-serif">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 CertiWebs. Todos los derechos reservados.</p>
+</footer>
+<script src="main.js"></script>
+<script>
+function irAlExamen(examId) {
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+    if (token && userId) {
+        window.location.href = 'exam.html?exam=' + examId;
+    } else {
+        document.getElementById('modal-login-requerido').style.display = 'flex';
+    }
+}
+</script>
 </body>
 </html>
