@@ -208,7 +208,8 @@ app.post('/api/contact', [
                 broadcast('contacto', { id: contactoId, nombre: name, email, asunto: cleanSubject, tipo: tipoConsulta, fecha: fechaActual });
             } catch (e) { }
 
-            const resultadoEmail = await enviarCorreosContacto({
+            // Enviar correo de confirmación en segundo plano
+            enviarCorreosContacto({
                 id: contactoId,
                 nombre: name,
                 email,
@@ -216,13 +217,12 @@ app.post('/api/contact', [
                 asunto: cleanSubject,
                 mensaje: message,
                 fechaEnvio: fechaActual
-            });
+            }).catch(err => console.error('❌ Error enviando email de contacto en background:', err.message));
 
             return res.json({
                 id: contactoId,
                 ticket: ticketId,
-                mensaje: `¡Mensaje enviado exitosamente! Se ha enviado un correo de confirmación con los datos a ${email}.`,
-                infoEmail: resultadoEmail
+                mensaje: `¡Mensaje enviado exitosamente! Se ha registrado tu consulta.`
             });
         });
 });
@@ -248,18 +248,17 @@ app.post('/api/newsletter', [
         // Broadcast SSE
         try { broadcast('boletin', { id: suscripcionId, email, fecha: fechaActual }); } catch (e) { }
 
-        // Enviar correos automáticos (bienvenida al usuario + aviso al admin)
-        const resultadoEmail = await enviarCorreosBoletin({
+        // Enviar correos automáticos en segundo plano
+        enviarCorreosBoletin({
             id: suscripcionId,
             email,
             fechaSuscripcion: fechaActual
-        });
+        }).catch(err => console.error('❌ Error enviando email de boletín en background:', err.message));
 
         return res.json({
             id: suscripcionId,
             ticket: ticketId,
-            mensaje: `¡Suscripción exitosa! Te hemos enviado un correo de bienvenida a ${email}.`,
-            infoEmail: resultadoEmail
+            mensaje: `¡Suscripción exitosa! Te hemos suscrito al boletín de noticias.`
         });
     });
 });
@@ -282,16 +281,16 @@ app.post('/api/subscribe', [
         const suscripcionId = this.lastID;
         try { broadcast('suscripcion', { id: suscripcionId, email, fecha: fechaActual }); } catch (e) { }
 
-        const resultadoEmail = await enviarCorreosBoletin({
+        // Enviar correos automáticos en segundo plano
+        enviarCorreosBoletin({
             id: suscripcionId,
             email,
             fechaSuscripcion: fechaActual
-        });
+        }).catch(err => console.error('❌ Error enviando email de boletín en background:', err.message));
 
         return res.json({
             id: suscripcionId,
-            mensaje: `¡Suscripción exitosa! Te hemos enviado un correo de bienvenida a ${email}.`,
-            infoEmail: resultadoEmail
+            mensaje: `¡Suscripción exitosa! Te hemos suscrito al boletín.`
         });
     });
 });
