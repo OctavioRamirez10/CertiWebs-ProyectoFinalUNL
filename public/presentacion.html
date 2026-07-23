@@ -377,6 +377,127 @@
             display: none;
         }
 
+        /* ESTILOS PARA MÓVILES (TELÉFONOS CELULARES) */
+        @media (max-width: 768px) {
+            .pres-container {
+                margin: 1rem auto;
+                padding: 0 0.8rem;
+            }
+
+            .pres-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .pres-header p {
+                font-size: 0.95rem;
+            }
+
+            .mode-selector {
+                flex-direction: column;
+                gap: 0.6rem;
+                align-items: stretch;
+            }
+
+            .btn-mode, .btn-print-pdf {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .slides-wrapper {
+                min-height: 380px;
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+
+            .slide-content h2 {
+                font-size: 1.35rem;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+            }
+
+            .slide-content p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                margin-bottom: 1rem;
+            }
+
+            .slide-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .slide-card {
+                padding: 1rem;
+            }
+
+            .slide-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .slide-card li {
+                font-size: 0.88rem;
+            }
+
+            .slide-controls {
+                margin-top: 1.5rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .btn-nav-slide {
+                width: 38px;
+                height: 38px;
+                font-size: 1.2rem;
+            }
+
+            .slide-indicator {
+                font-size: 0.88rem;
+            }
+
+            /* Banco de respuestas en móviles */
+            .subject-tabs {
+                gap: 0.35rem;
+            }
+
+            .tab-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.82rem;
+                border-radius: 6px;
+                flex: 1 1 calc(50% - 0.4rem); /* Dos botones por fila */
+                text-align: center;
+            }
+
+            .tab-btn:last-child {
+                flex: 1 1 100%; /* El último botón ocupa todo el ancho */
+            }
+
+            .search-box input {
+                padding: 0.6rem 1rem 0.6rem 2.4rem;
+                font-size: 0.9rem;
+            }
+
+            .q-card {
+                padding: 1rem;
+                border-radius: 10px;
+            }
+
+            .q-card h3 {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+
+            .option-item {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.88rem;
+            }
+
+            .q-explanation {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.82rem;
+            }
+        }
+
         /* ESTILOS DE IMPRESIÓN */
         @media print {
             body {
