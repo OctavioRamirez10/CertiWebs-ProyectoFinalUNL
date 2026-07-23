@@ -1020,13 +1020,21 @@
         });
     }
 
+    // Helper para normalizar texto eliminando tildes y diacríticos
+    function normalizeText(str) {
+        return str
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+    }
+
     // Filtrar Preguntas
     function filterQuestions() {
-        const query = document.getElementById('search-input').value.toLowerCase();
+        const query = normalizeText(document.getElementById('search-input').value);
         const cards = document.querySelectorAll('.q-card');
         
         cards.forEach(card => {
-            const text = card.textContent.toLowerCase();
+            const text = normalizeText(card.textContent);
             if (text.includes(query)) {
                 card.style.display = 'block';
             } else {
