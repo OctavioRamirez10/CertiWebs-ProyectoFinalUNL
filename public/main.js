@@ -1,3 +1,19 @@
+// --- Control del Menú Móvil Hamburger ---
+function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    const menuIcon = document.querySelector('#menuToggleBtn i');
+    if (navLinks) {
+        navLinks.classList.toggle('active');
+        if (menuIcon) {
+            if (navLinks.classList.contains('active')) {
+                menuIcon.className = 'fas fa-times'; // Cruz de cerrar
+            } else {
+                menuIcon.className = 'fas fa-bars'; // Icono hamburguesa
+            }
+        }
+    }
+}
+
 // --- Funcionalidad básica para el formulario de contacto (solo si existe) ---
 // Este código será reemplazado por la versión más completa más abajo
 
@@ -1203,23 +1219,24 @@ runOnDOMReady(function () {
         const welcomeMessage = document.createElement('div');
         welcomeMessage.className = 'welcome-message';
         welcomeMessage.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 1rem;">
-                <div style="font-size: 2rem;">👋</div>
+            <div style="display: flex; align-items: center; gap: 1rem; text-align: left;">
+                <div style="font-size: 2.2rem; filter: drop-shadow(0 0 5px var(--neon-green));">👋</div>
                 <div>
-                    <h4 style="margin: 0; color: #28a745;">¡Bienvenido/a de vuelta!</h4>
-                    <p style="margin: 0; opacity: 0.9;">Hola <strong>${usuario.username}</strong>, ¿qué examen tomarás hoy?</p>
+                    <h4 style="margin: 0; color: var(--neon-green); text-shadow: 0 0 10px rgba(0,255,136,0.4); font-weight: 700; font-size: 1.15rem;">¡Bienvenido/a de vuelta!</h4>
+                    <p style="margin: 0; color: #f8fafc; opacity: 0.95; font-size: 0.92rem;">Hola <strong>${usuario.username}</strong>, ¿qué examen tomarás hoy?</p>
                 </div>
             </div>
         `;
         welcomeMessage.style.cssText = `
-            background: linear-gradient(135deg, #28a745, #20c997);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--neon-green);
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            max-width: 480px;
+            margin: 2rem auto 1rem auto;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
             animation: slideDown 0.5s ease-out;
         `;
 
