@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CertiWebs - Presentación del Proyecto y Banco de Respuestas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos específicos para la Presentación */
+        .pres-container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        .pres-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .pres-header h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .pres-header h1 span {
+            color: var(--neon-cyan);
+            text-shadow: var(--border-glow);
+        }
+
+        .pres-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Selector de modo */
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-mode {
+            padding: 0.8rem 1.8rem;
+            background: var(--bg-panel);
+            border: var(--glass-border);
+            color: var(--text-main);
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-mode.active, .btn-mode:hover {
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, #3b82f6 100%);
+            color: #000;
+            border-color: var(--neon-cyan);
+            box-shadow: var(--border-glow);
+            font-weight: 700;
+        }
+
+        .btn-print-pdf {
+            padding: 0.8rem 1.8rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-print-pdf:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+        }
+
+        /* SLIDES VIEW */
+        .slides-wrapper {
+            position: relative;
+            background: var(--bg-panel);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+        }
+
+        .slide-content {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .slide-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-content h2 {
+            font-size: 2rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(0, 243, 255, 0.2);
+            padding-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .slide-content p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .slide-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .slide-card h3 {
+            color: var(--neon-orange);
+            margin-bottom: 0.6rem;
+            font-size: 1.2rem;
+        }
+
+        .slide-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .slide-card li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.2rem;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .slide-card li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            color: var(--neon-cyan);
+        }
+
+        /* Controles de Slides */
+        .slide-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            background: rgba(15, 23, 42, 0.4);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: var(--glass-border);
+        }
+
+        .btn-nav-slide {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-nav-slide:hover:not(:disabled) {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: var(--border-glow);
+        }
+
+        .btn-nav-slide:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-indicator {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* BANCO DE RESPUESTAS VIEW */
+        .bank-wrapper {
+            display: none;
+        }
+
+        .bank-wrapper.active {
+            display: block;
+        }
+
+        .subject-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-panel);
+            border: var(--glass-border);
+            color: var(--text-muted);
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            color: #000;
+            font-weight: 700;
+        }
+
+        .tab-btn[data-subj="html"].active { background: var(--neon-cyan); box-shadow: var(--border-glow); }
+        .tab-btn[data-subj="css"].active { background: var(--neon-orange); box-shadow: var(--orange-glow); }
+        .tab-btn[data-subj="js"].active { background: var(--neon-green); box-shadow: 0 0 12px rgba(0, 255, 136, 0.4); }
+        .tab-btn[data-subj="redes"].active { background: var(--neon-purple); box-shadow: 0 0 12px rgba(176, 38, 255, 0.4); }
+        .tab-btn[data-subj="so"].active { background: var(--neon-red); box-shadow: 0 0 12px rgba(255, 51, 102, 0.4); }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.8rem;
+            background: var(--bg-card);
+            border: var(--glass-border);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .questions-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .q-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .q-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .q-card h3 {
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .q-number {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neon-cyan);
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .options-list {
+            display: grid;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-item {
+            padding: 0.6rem 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .option-item.correct {
+            background: rgba(0, 255, 136, 0.08);
+            border-color: var(--neon-green);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .option-item i {
+            font-size: 0.9rem;
+        }
+
+        .option-item.correct i {
+            color: var(--neon-green);
+        }
+
+        .q-explanation {
+            background: rgba(0, 243, 255, 0.05);
+            border-left: 3px solid var(--neon-cyan);
+            padding: 0.8rem 1rem;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        .q-explanation strong {
+            color: #fff;
+        }
+
+        /* VISTA COMPLETA (MODO REPORTE DE EXPOSICION PARA IMPRESIÓN/PDF) */
+        .report-view {
+            display: none;
+        }
+
+        /* ESTILOS DE IMPRESIÓN */
+        @media print {
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            }
+
+            header, footer, .mode-selector, .slide-controls, .subject-tabs, .search-box, .btn-print-pdf {
+                display: none !important;
+            }
+
+            .pres-container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .slides-wrapper, .bank-wrapper {
+                display: none !important;
+            }
+
+            .report-view {
+                display: block !important;
+            }
+
+            .report-header {
+                text-align: center;
+                border-bottom: 2px solid #000;
+                padding-bottom: 1.5rem;
+                margin-bottom: 2rem;
+                page-break-after: avoid;
+            }
+
+            .report-header h1 {
+                font-size: 28pt;
+                color: #000;
+                margin: 0;
+            }
+
+            .report-header p {
+                font-size: 14pt;
+                color: #555;
+                margin: 5px 0 0 0;
+            }
+
+            .report-section {
+                margin-bottom: 2.5rem;
+                page-break-inside: avoid;
+            }
+
+            .report-section h2 {
+                font-size: 18pt;
+                color: #111;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .report-section p {
+                font-size: 11pt;
+                line-height: 1.6;
+                color: #222;
+            }
+
+            .report-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+
+            .report-card {
+                border: 1px solid #ddd;
+                padding: 1rem;
+                border-radius: 6px;
+                background: #fcfcfc;
+            }
+
+            .report-card h3 {
+                font-size: 12pt;
+                margin-top: 0;
+                color: #000;
+                border-bottom: 1px dashed #ddd;
+                padding-bottom: 4px;
+            }
+
+            .report-card ul {
+                padding-left: 1.2rem;
+                margin: 5px 0 0 0;
+            }
+
+            .report-card li {
+                font-size: 10pt;
+                margin-bottom: 3px;
+                color: #333;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            /* Banco de Preguntas en Reporte */
+            .report-q-category {
+                margin-top: 2rem;
+            }
+
+            .report-q-category h3 {
+                font-size: 15pt;
+                color: #000;
+                background: #f0f0f0;
+                padding: 0.4rem 0.8rem;
+                border-left: 4px solid #111;
+                margin-bottom: 1rem;
+                page-break-after: avoid;
+            }
+
+            .report-q-item {
+                margin-bottom: 1.5rem;
+                page-break-inside: avoid;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 1rem;
+            }
+
+            .report-q-item h4 {
+                font-size: 11pt;
+                margin: 0 0 0.5rem 0;
+                color: #000;
+            }
+
+            .report-options {
+                list-style-type: none;
+                padding-left: 0;
+                margin: 0 0 0.5rem 0;
+            }
+
+            .report-option {
+                font-size: 10pt;
+                padding: 2px 0;
+                color: #444;
+            }
+
+            .report-option.correct {
+                font-weight: bold;
+                color: #000;
+            }
+
+            .report-option.correct::before {
+                content: '[X] ';
+            }
+
+            .report-option:not(.correct)::before {
+                content: '[ ] ';
+            }
+
+            .report-explanation {
+                font-size: 9.5pt;
+                color: #555;
+                font-style: italic;
+                background: #fcfcfc;
+                border-left: 3px solid #666;
+                padding: 0.3rem 0.6rem;
+                margin: 5px 0 0 0;
+            }
+        }
+    </style>
+    <script>
+        // Ocultar la visualización del documento hasta que verifiquemos el acceso
+        document.documentElement.style.display = 'none';
+
+        (async function verificarAcceso() {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'index.html';
+                return;
+            }
+            try {
+                // Hacer una petición al backend para validar el token y obtener los datos frescos del perfil
+                const res = await fetch('/api/me', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                if (!res.ok) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+                const user = await res.json();
+                if (user.email !== 'octaarami@gmail.com') {
+                    window.location.href = 'index.html';
+                    return;
+                }
+                // Si el correo coincide, mostramos la página
+                document.documentElement.style.display = '';
+            } catch (e) {
+                window.location.href = 'index.html';
+            }
+        })();
+    </script>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo">CertiWebs</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="index.html#info">¿Qué es?</a></li>
+            <li><a href="index.html#recursos">Guías de Estudio</a></li>
+            <li><a href="exams.html">Exámenes</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+            <li><a href="verificar.html">Verificar</a></li>
+            <li><a href="presentacion.html" style="color:var(--neon-green); text-shadow:0 0 5px rgba(0,255,136,0.3);"><i class="fas fa-chalkboard-user"></i> Presentación</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="pres-container">
+    
+    <div class="pres-header">
+        <h1>Presentación y <span>Banco de Respuestas</span></h1>
+        <p>Documentación técnica de arquitectura y guía académica del sistema de exámenes de CertiWebs.</p>
+    </div>
+
+    <!-- Selectores de Modo de Visualización -->
+    <div class="mode-selector">
+        <button class="btn-mode active" onclick="switchMode('slides')">
+            <i class="fas fa-desktop"></i> Ver como Diapositivas
+        </button>
+        <button class="btn-mode" onclick="switchMode('bank')">
+            <i class="fas fa-database"></i> Banco de Respuestas (100 Qs)
+        </button>
+        <button class="btn-print-pdf" onclick="window.print()">
+            <i class="fas fa-file-pdf"></i> Exportar Reporte PDF / Imprimir
+        </button>
+    </div>
+
+    <!-- MODO 1: DIAPOSITIVAS INTERACTIVAS -->
+    <div id="slides-view" class="slides-wrapper">
+        
+        <!-- Slide 1: Portada -->
+        <div class="slide-content active">
+            <div style="text-align:center; padding: 2rem 0;">
+                <h2 style="justify-content:center; border:none; font-size:2.8rem; color:#fff; text-shadow:0 0 20px rgba(0,243,255,0.4); margin-bottom:1rem;">
+                    🎓 Proyecto CertiWebs
+                </h2>
+                <p style="font-size:1.4rem; color:var(--neon-cyan); font-weight:600; margin-bottom:2rem;">
+                    Sistema Educativo de Simulación de Exámenes y Certificación Técnica
+                </p>
+                <div style="background:var(--bg-card); display:inline-block; padding:1.5rem 3rem; border-radius:15px; border:var(--glass-border);">
+                    <p style="margin:0 0 0.5rem 0; font-size:1rem; color:var(--text-muted);">Desarrollado para la Cátedra de Proyecto Final</p>
+                    <p style="margin:0; font-size:1.1rem; color:#fff; font-weight:bold;">Universidad Nacional del Litoral (UNL)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Introducción al Sistema -->
+        <div class="slide-content">
+            <h2><i class="fas fa-info-circle"></i> 1. Resumen y Objetivos del Proyecto</h2>
+            <p><strong>CertiWebs</strong> es una plataforma diseñada para resolver la brecha de evaluación formativa en informática. Permite evaluar y certificar conocimientos en tiempo real, garantizando dinamismo y seguridad académica.</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>🎯 Misión</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Ofrecer a los estudiantes herramientas interactivas de simulación con feedback inmediato e informes explicativos detallados.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>💡 Autoevaluación</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Permitir la práctica repetida mediante bancos de preguntas extensos, evitando la memorización repetitiva.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>🔒 Validación</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Generar certificados digitales en formato PDF firmados con códigos criptográficos verificables públicamente.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Arquitectura Técnica -->
+        <div class="slide-content">
+            <h2><i class="fas fa-server"></i> 2. Arquitectura de Software (Stack)</h2>
+            <p>Se estructuró una arquitectura robusta, ligera y veloz, libre de frameworks pesados de renderizado frontal, priorizando CSS vainilla y JavaScript modular nativo.</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>🎨 Frontend (Capa Cliente)</h3>
+                    <ul>
+                        <li>HTML5 Semántico para SEO y accesibilidad</li>
+                        <li>CSS Vainilla moderno con variables nativas</li>
+                        <li>JavaScript ES6 modular para lógica reactiva</li>
+                        <li>Generación dinámica de certificados con jsPDF</li>
+                    </ul>
+                </div>
+                <div class="slide-card">
+                    <h3>⚙️ Backend (Capa Servidor)</h3>
+                    <ul>
+                        <li>Node.js + Express para APIs REST HTTP</li>
+                        <li>Sesiones seguras con JSON Web Tokens (JWT)</li>
+                        <li>Autenticación con hashing bcrypt</li>
+                        <li>Servicio de emails asíncrono vía Nodemailer</li>
+                    </ul>
+                </div>
+                <div class="slide-card">
+                    <h3>🗄️ Base de Datos</h3>
+                    <ul>
+                        <li>SQLite3 para persistencia integrada ligera</li>
+                        <li>Consultas indexadas de usuarios y certificados</li>
+                        <li>Migrations seguras integradas al arranque</li>
+                        <li>Configuración ágil con variables .env</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Lógica de Negocio en Exámenes -->
+        <div class="slide-content">
+            <h2><i class="fas fa-brain"></i> 3. Mecánica Interna del Examen</h2>
+            <p>El núcleo pedagógico consta de simulaciones dinámicas configuradas con las mejores prácticas de experiencia de usuario (UX).</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>🎲 Selección Aleatoria</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0 0 0.5rem 0;">Se baraja la pila de 20 preguntas usando el algoritmo de Fisher-Yates simplificado y se seleccionan exactamente 5 para el intento actual.</p>
+                    <code style="display:block; background:#0f172a; padding:0.5rem; border-radius:4px; font-size:0.75rem; color:var(--neon-green); font-family:monospace;">shuffledPool.sort(() => 0.5 - Math.random())</code>
+                </div>
+                <div class="slide-card">
+                    <h3>🧭 Navegación Libre</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Barra de círculos interactivos (Progress Dots). El alumno puede saltar a cualquier pregunta, ver cuáles están contestadas y cambiar respuestas libremente.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>⏰ Alerta de Temporizador</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Cronómetro regresivo. Al restar menos de 60 segundos, el diseño del temporizador añade la clase CSS `.warning` parpadeante en neón rojo.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Seguridad y Certificados -->
+        <div class="slide-content">
+            <h2><i class="fas fa-shield-alt"></i> 4. Generación y Validación de Diplomas</h2>
+            <p>CertiWebs no solo califica, sino que expide diplomas con validación formal para prevenir falsificaciones en el ámbito académico.</p>
+            <div class="slide-grid">
+                <div class="slide-card">
+                    <h3>📄 Generación PDF Cliente</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">El PDF se ensambla directamente en el navegador del usuario utilizando jsPDF, reduciendo el consumo de recursos de CPU en el servidor en Render.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>🔑 Código de Verificación</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Cada certificado guardado almacena un UUID único asignado en la base de datos SQLite y asociado al ID del alumno y la materia aprobada.</p>
+                </div>
+                <div class="slide-card">
+                    <h3>🔍 Portal de Auditoría</h3>
+                    <p style="font-size:0.9rem; color:#cbd5e1; margin:0;">Cualquier persona o empresa interesada puede verificar la autenticidad de un certificado ingresando el código único en el portal `/verificar.html`.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de Controles -->
+        <div class="slide-controls">
+            <button id="btn-prev" class="btn-nav-slide" onclick="changeSlide(-1)" disabled>
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <span id="slide-indicator" class="slide-indicator">Diapositiva 1 de 5</span>
+            <button id="btn-next" class="btn-nav-slide" onclick="changeSlide(1)">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MODO 2: BANCO DE PREGUNTAS Y RESPUESTAS (100 PREGUNTAS) -->
+    <div id="bank-view" class="bank-wrapper">
+        
+        <!-- Pestañas de Materias -->
+        <div class="subject-tabs">
+            <button class="tab-btn active" data-subj="html" onclick="switchSubject('html')">🌐 HTML Básico</button>
+            <button class="tab-btn" data-subj="css" onclick="switchSubject('css')">🎨 CSS Básico</button>
+            <button class="tab-btn" data-subj="js" onclick="switchSubject('js')">⚡ JavaScript Básico</button>
+            <button class="tab-btn" data-subj="redes" onclick="switchSubject('redes')">📡 Redes y Protocolos</button>
+            <button class="tab-btn" data-subj="so" onclick="switchSubject('so')">💻 Sistemas Operativos</button>
+        </div>
+
+        <!-- Buscador -->
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="Buscar preguntas o conceptos clave..." oninput="filterQuestions()">
+        </div>
+
+        <!-- Listado de Preguntas Dinámico -->
+        <div id="questions-container" class="questions-list">
+            <!-- Se carga dinámicamente con JS -->
+        </div>
+    </div>
+
+    <!-- MODO IMPRESIÓN / REPORTE COMPLETO (Se muestra solo en print o en modo reporte plano) -->
+    <div id="report-view" class="report-view">
+        <div class="report-header">
+            <h1>CertiWebs - Universidad Nacional del Litoral</h1>
+            <p>Plataforma Integradora de Exámenes y Certificación Técnica</p>
+            <p style="font-size: 11pt; margin-top: 10px;">Informe del Sistema & Banco Oficial de Respuestas (100 Preguntas)</p>
+        </div>
+
+        <div class="report-section">
+            <h2>1. Resumen Ejecutivo del Proyecto</h2>
+            <p>Este informe detalla los fundamentos de desarrollo de CertiWebs, una plataforma interactiva web dedicada a la enseñanza y acreditación de conocimientos tecnológicos fundamentales en el área informática. El sistema comprende guías de estudio interactivas, un simulador de exámenes dinámicos de selección aleatoria con temporizador de alerta, y un generador local de certificados PDF con códigos de validación criptográficos registrados en base de datos.</p>
+        </div>
+
+        <div class="report-section">
+            <h2>2. Estructura y Arquitectura del Sistema</h2>
+            <div class="report-grid">
+                <div class="report-card">
+                    <h3>Frontend (Capa de Presentación)</h3>
+                    <ul>
+                        <li>HTML5 Estructurado Semánticamente</li>
+                        <li>Hojas de estilo CSS3 responsivas personalizadas (sin librerías)</li>
+                        <li>Lógica de cliente modular nativa basada en Javascript ES6</li>
+                        <li>Librería jsPDF en cliente para generación rápida de certificados</li>
+                    </ul>
+                </div>
+                <div class="report-card">
+                    <h3>Backend y Persistencia</h3>
+                    <ul>
+                        <li>Servidor HTTP y API REST en Node.js con Framework Express</li>
+                        <li>Gestión de usuarios y autenticación con tokens JWT (JSON Web Tokens)</li>
+                        <li>Cifrado de claves de usuarios con bcrypt</li>
+                        <li>Base de datos relacional integrada SQLite3</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h2>3. Lógica de los Exámenes y Feedback</h2>
+            <p>Cada materia cuenta con un banco oficial de 20 preguntas especializadas. Para evitar la memorización mecánica, el servidor selecciona 5 preguntas al azar por intento. Al finalizar, el sistema provee al alumno la calificación final acompañada de una revisión minuciosa donde cada pregunta expone no solo la opción correcta sino una explicación teórica detallada de su validez.</p>
+        </div>
+
+        <div class="page-break"></div>
+
+        <div class="report-section">
+            <h2>4. Banco Completo de Preguntas y Respuestas (100 Preguntas)</h2>
+            <p>A continuación se detallan las 100 preguntas del sistema con sus opciones de respuestas (indicando la correcta con una cruz '[X]') y su correspondiente justificación teórica.</p>
+            
+            <div id="report-questions-container">
+                <!-- Se cargará dinámicamente con JS -->
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer style="margin-top:auto; padding:2rem; background:rgba(15,23,42,0.9); border-top:var(--glass-border); text-align:center; font-size:0.9rem; color:var(--text-muted);">
+    <p>&copy; 2026 CertiWebs - Universidad Nacional del Litoral</p>
+    <p style="font-size:0.8rem; margin-top:5px;">Trabajo de Presentación Final - Ingeniería en Informática</p>
+</footer>
+
+<script src="main.js"></script>
+<script>
+    // Importamos las preguntas desde main.js que ya está cargado
+    // Las preguntas están en la variable global "examQuestions"
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide-content');
+    const totalSlides = slides.length;
+    let activeSubject = 'html';
+
+    // Manejo de Diapositivas
+    function changeSlide(direction) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide += direction;
+        
+        if (currentSlide < 0) currentSlide = 0;
+        if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+        
+        slides[currentSlide].classList.add('active');
+        
+        document.getElementById('btn-prev').disabled = (currentSlide === 0);
+        document.getElementById('btn-next').disabled = (currentSlide === totalSlides - 1);
+        document.getElementById('slide-indicator').textContent = `Diapositiva ${currentSlide + 1} de ${totalSlides}`;
+    }
+
+    // Cambiar Modos de Visualización
+    function switchMode(mode) {
+        document.querySelectorAll('.btn-mode').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('slides-view').style.display = 'none';
+        document.getElementById('bank-view').style.display = 'none';
+        
+        if (mode === 'slides') {
+            document.getElementById('slides-view').style.display = 'flex';
+            event.currentTarget.classList.add('active');
+        } else if (mode === 'bank') {
+            document.getElementById('bank-view').style.display = 'block';
+            event.currentTarget.classList.add('active');
+            renderQuestions();
+        }
+    }
+
+    // Cambiar de materia en el Banco de Preguntas
+    function switchSubject(subj) {
+        activeSubject = subj;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.tab-btn[data-subj="${subj}"]`).classList.add('active');
+        document.getElementById('search-input').value = '';
+        renderQuestions();
+    }
+
+    // Renderizar Preguntas del Banco Interactivo
+    function renderQuestions() {
+        const container = document.getElementById('questions-container');
+        container.innerHTML = '';
+        const list = examQuestions[activeSubject] || [];
+        
+        list.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'q-card';
+            card.innerHTML = `
+                <h3><span class="q-number">Q${index + 1}</span> ${item.q}</h3>
+                <div class="options-list">
+                    ${item.o.map((opt, oIdx) => `
+                        <div class="option-item ${oIdx === item.a ? 'correct' : ''}">
+                            <i class="${oIdx === item.a ? 'fas fa-check-circle' : 'far fa-circle'}"></i>
+                            <span>${opt}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="q-explanation">
+                    <strong>💡 Explicación:</strong> ${item.exp}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Filtrar Preguntas
+    function filterQuestions() {
+        const query = document.getElementById('search-input').value.toLowerCase();
+        const cards = document.querySelectorAll('.q-card');
+        
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            if (text.includes(query)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // Renderizar preguntas para la versión de Impresión / PDF Reporte
+    function renderReportQuestions() {
+        const reportContainer = document.getElementById('report-questions-container');
+        reportContainer.innerHTML = '';
+        
+        const categories = {
+            html: '🌐 HTML Básico',
+            css: '🎨 CSS Básico',
+            js: '⚡ JavaScript Básico',
+            redes: '📡 Redes y Protocolos',
+            so: '💻 Sistemas Operativos'
+        };
+
+        for (const [key, categoryName] of Object.entries(categories)) {
+            const catSection = document.createElement('div');
+            catSection.className = 'report-q-category';
+            catSection.innerHTML = `<h3>${categoryName}</h3>`;
+            
+            const list = examQuestions[key] || [];
+            list.forEach((item, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'report-q-item';
+                qDiv.innerHTML = `
+                    <h4>Pregunta ${index + 1}: ${item.q}</h4>
+                    <ul class="report-options">
+                        ${item.o.map((opt, oIdx) => `
+                            <li class="report-option ${oIdx === item.a ? 'correct' : ''}">${opt}</li>
+                        `).join('')}
+                    </ul>
+                    <div class="report-explanation">
+                        <strong>Explicación:</strong> ${item.exp}
+                    </div>
+                `;
+                catSection.appendChild(qDiv);
+            });
+            reportContainer.appendChild(catSection);
+        }
+    }
+
+    // Controles por teclado
+    document.addEventListener('keydown', (e) => {
+        if (document.getElementById('slides-view').style.display !== 'none') {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        }
+    });
+
+    // Inicializar cargas
+    window.addEventListener('DOMContentLoaded', () => {
+        renderQuestions();
+        renderReportQuestions();
+    });
+</script>
+</body>
+</html>

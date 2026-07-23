@@ -99,6 +99,12 @@ db.serialize(() => {
             rol: 'admin'
         },
         {
+            username: 'octaarami',
+            password: '123456',
+            email: 'octaarami@gmail.com',
+            rol: 'usuario'
+        },
+        {
             username: 'Administrador',
             password: 'Admin_1234!',
             email: 'administrador@certiwebs.com',

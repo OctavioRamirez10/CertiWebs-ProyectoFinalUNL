@@ -219,6 +219,7 @@ const utils = {
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('rol');
+        sessionStorage.removeItem('email');
         window.location.href = 'index.html';
     },
 
@@ -1014,6 +1015,7 @@ runOnDOMReady(() => {
                         sessionStorage.setItem('username', data.username);
                         sessionStorage.setItem('userId', data.id);
                         sessionStorage.setItem('rol', data.rol || 'usuario');
+                        sessionStorage.setItem('email', data.email || '');
 
                         // Mostrar mensaje de éxito personalizado
                         if (msgElement) {
@@ -1120,6 +1122,7 @@ runOnDOMReady(() => {
                 sessionStorage.setItem('username', data.username);
                 sessionStorage.setItem('userId', data.id);
                 sessionStorage.setItem('rol', data.rol || 'usuario');
+                sessionStorage.setItem('email', data.email || '');
 
                 utils.mostrarMensaje(msgElement, '¡Registro exitoso! Iniciando sesión...', 'success');
 
@@ -1175,6 +1178,13 @@ runOnDOMReady(function () {
             console.log('Usuario no autenticado, redirigiendo...');
             utils.cerrarSesion();
             return;
+        }
+
+        // Mostrar link a la presentación si el correo es octaarami@gmail.com
+        const email = sessionStorage.getItem('email');
+        const navPres = document.getElementById('nav-presentacion');
+        if (navPres) {
+            navPres.style.display = (email === 'octaarami@gmail.com') ? 'inline-block' : 'none';
         }
 
         // Mostrar nombre de usuario y mensaje de bienvenida

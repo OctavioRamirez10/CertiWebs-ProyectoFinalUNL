@@ -113,8 +113,8 @@ app.post('/api/login', [
     // Aceptar login por email O por username
     const esEmail = loginInput.includes('@');
     const query = esEmail
-        ? 'SELECT id, username, password, rol FROM usuarios WHERE email = ?'
-        : 'SELECT id, username, password, rol FROM usuarios WHERE username = ?';
+        ? 'SELECT id, username, email, password, rol FROM usuarios WHERE email = ?'
+        : 'SELECT id, username, email, password, rol FROM usuarios WHERE username = ?';
     const valorBusqueda = esEmail ? loginInput.toLowerCase().trim() : loginInput.trim();
 
     db.get(query, [valorBusqueda], (err, row) => {
@@ -131,11 +131,11 @@ app.post('/api/login', [
             if (same) {
                 const rol = row.rol || 'usuario';
                 const token = jwt.sign(
-                    { id: row.id, username: row.username, rol },
+                    { id: row.id, username: row.username, email: row.email, rol },
                     JWT_SECRET,
                     { expiresIn: '24h' }
                 );
-                res.json({ id: row.id, username: row.username, rol, token });
+                res.json({ id: row.id, username: row.username, email: row.email, rol, token });
             } else {
                 res.status(401).json({ error: 'Credenciales inválidas. Verifica tu usuario/email y contraseña.' });
             }
