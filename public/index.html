@@ -252,6 +252,12 @@
     // --- Funciones de modales ---
     function showLoginModal() {
         document.getElementById('loginModal').style.display = 'block';
+        // Limpiar el mensaje si se abre manualmente y no por redirección
+        const msgElement = document.querySelector('#loginModal .login-msg');
+        if (msgElement && !window.location.search.includes('login_required')) {
+            msgElement.textContent = '';
+            msgElement.className = 'login-msg';
+        }
     }
     function showRegisterModal() {
         document.getElementById('registerModal').style.display = 'block';
@@ -317,7 +323,19 @@
     }
 
     // Ejecutar al cargar la página
-    document.addEventListener('DOMContentLoaded', actualizarEstadoSesion);
+    document.addEventListener('DOMContentLoaded', () => {
+        actualizarEstadoSesion();
+        
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('login_required')) {
+            showLoginModal();
+            const msgElement = document.querySelector('#loginModal .login-msg');
+            if (msgElement) {
+                msgElement.innerHTML = `<span style="color:var(--neon-orange); font-weight:600;"><i class="fas fa-exclamation-triangle"></i> Para acceder a esa sección debes iniciar sesión en tu cuenta.</span>`;
+                msgElement.className = 'login-msg error-message';
+            }
+        }
+    });
 </script>
 
 </body>

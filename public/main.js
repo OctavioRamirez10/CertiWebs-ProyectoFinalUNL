@@ -230,13 +230,17 @@ const utils = {
         sessionStorage.setItem('username', username);
     },
 
-    cerrarSesion() {
+    cerrarSesion(reason = '') {
         sessionStorage.removeItem('userId');
         sessionStorage.removeItem('username');
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('rol');
         sessionStorage.removeItem('email');
-        window.location.href = 'index.html';
+        if (reason) {
+            window.location.href = 'index.html?login_required=' + encodeURIComponent(reason);
+        } else {
+            window.location.href = 'index.html';
+        }
     },
 
     mostrarMensaje(elemento, mensaje, tipo = 'error') {
@@ -940,10 +944,7 @@ runOnDOMReady(() => {
                     if (emailInput) emailInput.value = currentLoggedInEmail;
                 }
 
-                // Redirigir después de 4 segundos
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 4000);
+
             } catch (error) {
                 console.error('Error en contacto:', error);
                 statusEl.textContent = error.message || 'Error al enviar el mensaje. Por favor intenta nuevamente.';
@@ -1208,7 +1209,7 @@ runOnDOMReady(function () {
 
         if (!usuario.id || !token) {
             console.log('Usuario no autenticado, redirigiendo...');
-            utils.cerrarSesion();
+            utils.cerrarSesion('session_required');
             return;
         }
 
@@ -1460,7 +1461,7 @@ runOnDOMReady(function () {
 
         if (!usuario.id || !token) {
             console.log('Usuario no autenticado, redirigiendo...');
-            utils.cerrarSesion();
+            utils.cerrarSesion('session_required');
             return;
         }
 
