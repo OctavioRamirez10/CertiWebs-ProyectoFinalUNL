@@ -158,7 +158,9 @@ async function enviarCorreosContacto({ id, nombre, email, tipoConsulta, asunto, 
     let transporter;
     let isTest = false;
     let envios = { usuario: false, admin: false, error: null };
-    const fromAddress = process.env.SMTP_FROM || `"CertiWebs" <${process.env.SMTP_USER || 'no-reply@certiwebs.com'}>`;
+    const fromAddress = process.env.SMTP_USER 
+        ? `"CertiWebs" <${process.env.SMTP_USER}>` 
+        : (process.env.SMTP_FROM || '"CertiWebs" <no-reply@certiwebs.com>');
 
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS || process.env.SMTP_PASS === 'tu_password_app_aqui') {
         console.warn('\n⚠️ [ATENCIÓN SMTP] Usando cuenta de pruebas temporal (Ethereal Email) porque SMTP_PASS no está configurado en .env.');
@@ -281,7 +283,9 @@ async function enviarCorreosBoletin({ id, email, fechaSuscripcion }) {
     let transporter;
     let isTest = false;
     let envios = { usuario: false, admin: false, error: null };
-    const fromAddress = process.env.SMTP_FROM || `"CertiWebs" <${process.env.SMTP_USER || 'no-reply@certiwebs.com'}>`;
+    const fromAddress = process.env.SMTP_USER 
+        ? `"CertiWebs" <${process.env.SMTP_USER}>` 
+        : (process.env.SMTP_FROM || '"CertiWebs" <no-reply@certiwebs.com>');
 
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS || process.env.SMTP_PASS === 'tu_password_app_aqui') {
         console.warn('\n⚠️ [ATENCIÓN SMTP] Usando cuenta de pruebas temporal (Ethereal Email) porque SMTP_PASS no está configurado en .env.');
