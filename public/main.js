@@ -895,6 +895,40 @@ runOnDOMReady(() => {
     if (contactoForm) {
         console.log('Formulario de contacto encontrado, configurando evento submit');
 
+        const nameInput = document.getElementById('contact-name');
+        const emailInput = document.getElementById('contact-email');
+        if (nameInput) {
+            nameInput.addEventListener('input', function () {
+                // Bloquear números y caracteres especiales en tiempo real
+                this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            });
+        }
+        if (emailInput) {
+            emailInput.addEventListener('input', function () {
+                // Eliminar espacios en blanco en tiempo real
+                this.value = this.value.replace(/\s/g, '');
+            });
+        }
+
+        const esTextoRepetitivo = (text) => {
+            if (!text) return false;
+            const clean = text.replace(/[\s\-_]+/g, '').toLowerCase();
+            if (clean.length === 0) return false;
+            if (/([a-zñáéíóú])\1{2,}/i.test(clean)) return true;
+            if (clean.length >= 8) {
+                const uniqueChars = new Set(clean).size;
+                if (uniqueChars < 3) return true;
+                for (let len = 2; len <= 4; len++) {
+                    const chunk = clean.substring(0, len);
+                    let reconstructed = '';
+                    while (reconstructed.length < clean.length) {
+                        reconstructed += chunk;
+                    }
+                    if (reconstructed.substring(0, clean.length) === clean) return true;
+                }
+            }
+            return false;
+        };
 
         contactoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -910,9 +944,72 @@ runOnDOMReady(() => {
             const subject = document.getElementById('contact-subject').value.trim();
             const message = document.getElementById('contact-message').value.trim();
 
-            // Validación básica
+            // Validación avanzada en Frontend
             if (!name || !email || !subject || !message) {
                 statusEl.textContent = 'Por favor completa todos los campos obligatorios.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+
+            // 1. Nombre completo: min 3, max 33, solo letras y espacios, no repetitivo
+            if (name.length < 3 || name.length > 33) {
+                statusEl.textContent = 'El nombre completo debe tener entre 3 y 33 caracteres.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+            const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+            if (!nameRegex.test(name)) {
+                statusEl.textContent = 'El nombre completo solo puede contener letras y espacios.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+            if (esTextoRepetitivo(name)) {
+                statusEl.textContent = 'El nombre completo no debe contener secuencias de caracteres repetitivas o sin sentido.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+
+            // 2. Email: min 6, max 33, formato regex
+            if (email.length < 6 || email.length > 33) {
+                statusEl.textContent = 'El correo electrónico debe tener entre 6 y 33 caracteres.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                statusEl.textContent = 'Por favor ingresa un correo electrónico válido (ejemplo@dominio.com).';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+
+            // 3. Tipo de consulta: verificación select
+            const validTypes = ['Pregunta General', 'Reporte de Error', 'Problema con Certificado', 'Sugerencia'];
+            if (!validTypes.includes(type)) {
+                statusEl.textContent = 'Por favor selecciona un tipo de consulta válido.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+
+            // 4. Asunto: min 5, max 33, no repetitivo
+            if (subject.length < 5 || subject.length > 33) {
+                statusEl.textContent = 'El asunto debe tener entre 5 y 33 caracteres.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+            if (esTextoRepetitivo(subject)) {
+                statusEl.textContent = 'El asunto no debe contener secuencias de caracteres repetitivas o sin sentido.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+
+            // 5. Mensaje: min 10, max 1000, no repetitivo
+            if (message.length < 10 || message.length > 1000) {
+                statusEl.textContent = 'El mensaje debe tener entre 10 y 1000 caracteres.';
+                statusEl.className = 'status-message status-error';
+                return;
+            }
+            if (esTextoRepetitivo(message)) {
+                statusEl.textContent = 'El mensaje no debe contener secuencias de caracteres repetitivas o sin sentido.';
                 statusEl.className = 'status-message status-error';
                 return;
             }
@@ -953,6 +1050,14 @@ runOnDOMReady(() => {
     if (newsletterForm) {
         console.log('Formulario de newsletter encontrado');
 
+        const newsEmailInput = document.getElementById('newsletter-email');
+        if (newsEmailInput) {
+            newsEmailInput.addEventListener('input', function () {
+                // Eliminar espacios en blanco en tiempo real
+                this.value = this.value.replace(/\s/g, '');
+            });
+        }
+
 
         newsletterForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -961,6 +1066,21 @@ runOnDOMReady(() => {
             const email = emailInput.value.trim();
 
             if (!email) return;
+
+            // Validación avanzada en Frontend para Boletín
+            if (email.length < 6 || email.length > 35) {
+                msgEl.textContent = 'El correo electrónico debe tener entre 6 y 35 caracteres.';
+                msgEl.className = 'newsletter-status status-error';
+                msgEl.style.color = 'var(--neon-orange)';
+                return;
+            }
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                msgEl.textContent = 'Por favor ingresa un correo electrónico válido (ejemplo@dominio.com).';
+                msgEl.className = 'newsletter-status status-error';
+                msgEl.style.color = 'var(--neon-orange)';
+                return;
+            }
 
             msgEl.textContent = 'Procesando suscripción...';
             msgEl.className = 'newsletter-status status-info';

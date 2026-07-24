@@ -96,7 +96,7 @@
             
             <form id="verifyForm">
                 <div class="mb-3">
-                    <input type="text" id="certCode" class="verification-input" placeholder="Ej: CERT-HTML-1627918239023" required>
+                    <input type="text" id="certCode" class="verification-input" placeholder="Ej: CERT-HTML-1627918239023" required maxlength="23">
                 </div>
                 <button type="submit" class="btn-principal w-100 py-2.5" style="background: var(--neon-cyan); color: #000; border: none; font-weight: 600; box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);">
                     Verificar Autenticidad
@@ -120,10 +120,36 @@
     <script>
         // API_URL se obtiene globalmente desde main.js, evitamos re-declaración
 
+        const certInput = document.getElementById('certCode');
+        if (certInput) {
+            certInput.addEventListener('input', function () {
+                // Convertir a mayúsculas y permitir solo letras, números y guiones en tiempo real
+                this.value = this.value.toUpperCase().replace(/[^A-Z0-9\-]/g, '');
+            });
+        }
+
         document.getElementById('verifyForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const code = document.getElementById('certCode').value.trim();
+            const resultBox = document.getElementById('resultBox');
             if (!code) return;
+
+            // Validación de formato del código de certificado
+            if (code.length !== 23) {
+                resultBox.style.display = 'block';
+                resultBox.className = 'result-card result-error p-3';
+                resultBox.innerHTML = '<p class="text-danger mb-0" style="color:#ff4d4d; font-weight:600;"><i class="fas fa-exclamation-circle"></i> El código de verificación debe tener exactamente 23 caracteres.</p>';
+                return;
+            }
+
+            const codeRegex = /^CERT-[A-Z0-9]{4}-[0-9]{13}$/;
+            if (!codeRegex.test(code)) {
+                resultBox.style.display = 'block';
+                resultBox.className = 'result-card result-error p-3';
+                resultBox.innerHTML = '<p class="text-danger mb-0" style="color:#ff4d4d; font-weight:600;"><i class="fas fa-exclamation-circle"></i> Formato de código inválido (ej: CERT-JSXX-1721782345678).</p>';
+                return;
+            }
+
             await verifyCertificate(code);
         });
 

@@ -185,12 +185,68 @@ app.post('/api/examenes', verificarToken, [
         });
 });
 
+const esTextoRepetitivo = (text) => {
+    if (!text) return false;
+    const clean = text.replace(/[\s\-_]+/g, '').toLowerCase();
+    if (clean.length === 0) return false;
+    if (/([a-zñáéíóú])\1{2,}/i.test(clean)) return true;
+    if (clean.length >= 8) {
+        const uniqueChars = new Set(clean).size;
+        if (uniqueChars < 3) return true;
+        for (let len = 2; len <= 4; len++) {
+            const chunk = clean.substring(0, len);
+            let reconstructed = '';
+            while (reconstructed.length < clean.length) {
+                reconstructed += chunk;
+            }
+            if (reconstructed.substring(0, clean.length) === clean) return true;
+        }
+    }
+    return false;
+};
+
 app.post('/api/contact', [
-    body('name').trim().notEmpty().withMessage('Nombre es requerido').escape(),
-    body('email').trim().isEmail().withMessage('Email inválido').normalizeEmail(),
-    body('type').optional().trim().escape(),
-    body('subject').optional().trim().escape(),
-    body('message').trim().notEmpty().withMessage('Mensaje es requerido').escape(),
+    body('name')
+        .trim()
+        .isLength({ min: 3, max: 33 }).withMessage('El nombre debe tener entre 3 y 33 caracteres.')
+        .matches(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/).withMessage('El nombre solo debe contener letras y espacios.')
+        .custom(value => {
+            if (esTextoRepetitivo(value)) {
+                throw new Error('El nombre no debe contener secuencias de caracteres repetitivas o sin sentido.');
+            }
+            return true;
+        })
+        .escape(),
+    body('email')
+        .trim()
+        .isLength({ min: 6, max: 33 }).withMessage('El email debe tener entre 6 y 33 caracteres.')
+        .isEmail().withMessage('Formato de email inválido.')
+        .normalizeEmail(),
+    body('type')
+        .trim()
+        .notEmpty().withMessage('El tipo de consulta es requerido.')
+        .isIn(['Pregunta General', 'Reporte de Error', 'Problema con Certificado', 'Sugerencia']).withMessage('Tipo de consulta inválido.')
+        .escape(),
+    body('subject')
+        .trim()
+        .isLength({ min: 5, max: 33 }).withMessage('El asunto debe tener entre 5 y 33 caracteres.')
+        .custom(value => {
+            if (esTextoRepetitivo(value)) {
+                throw new Error('El asunto no debe contener secuencias de caracteres repetitivas o sin sentido.');
+            }
+            return true;
+        })
+        .escape(),
+    body('message')
+        .trim()
+        .isLength({ min: 10, max: 1000 }).withMessage('El mensaje debe tener entre 10 y 1000 caracteres.')
+        .custom(value => {
+            if (esTextoRepetitivo(value)) {
+                throw new Error('El mensaje no debe contener secuencias de caracteres repetitivas o sin sentido.');
+            }
+            return true;
+        })
+        .escape(),
     manejarErroresValidacion
 ], (req, res) => {
     const { name, email, type, subject, message } = req.body;
@@ -234,7 +290,11 @@ app.post('/api/contact', [
 });
 
 app.post('/api/newsletter', [
-    body('email').trim().isEmail().withMessage('Debe ser un email válido').normalizeEmail(),
+    body('email')
+        .trim()
+        .isLength({ min: 6, max: 35 }).withMessage('El email debe tener entre 6 y 35 caracteres.')
+        .isEmail().withMessage('Debe ser un email válido.')
+        .normalizeEmail(),
     manejarErroresValidacion
 ], (req, res) => {
     const { email } = req.body;
@@ -291,7 +351,11 @@ app.post('/api/newsletter', [
 
 // Suscripción a newsletter (endpoint alternativo)
 app.post('/api/subscribe', [
-    body('email').trim().isEmail().withMessage('Email inválido').normalizeEmail()
+    body('email')
+        .trim()
+        .isLength({ min: 6, max: 35 }).withMessage('El email debe tener entre 6 y 35 caracteres.')
+        .isEmail().withMessage('Email inválido.')
+        .normalizeEmail()
 ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ error: 'Email inválido' });
@@ -396,8 +460,8 @@ app.post('/api/certificados', verificarToken, [
         return res.status(403).json({ error: 'No autorizado' });
     }
 
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    const codigo = `CERT-${examen_id.toUpperCase()}-${Date.now()}-${randomSuffix}`;
+    const examPart = examen_id.toUpperCase().slice(0, 4).padEnd(4, 'X');
+    const codigo = `CERT-${examPart}-${Date.now()}`;
     db.run('INSERT INTO certificados (usuario_id, examen_id, codigo_verificacion) VALUES (?, ?, ?)',
         [usuario_id, examen_id, codigo],
         function (err) {

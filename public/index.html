@@ -162,7 +162,7 @@
             <h4>Boletín de Novedades</h4>
             <p>Suscríbete para recibir avisos sobre nuevas guías, exámenes y actualizaciones de CertiWebs.</p>
             <form id="newsletter-form" class="newsletter-form">
-                <input type="email" id="newsletter-email" placeholder="Tu correo electrónico" required>
+                <input type="email" id="newsletter-email" placeholder="Tu correo electrónico" required maxlength="35">
                 <button type="submit">Suscribirse</button>
             </form>
             <div id="newsletter-status" class="newsletter-status"></div>
@@ -306,7 +306,7 @@
         if (token && userId) {
             // CON sesión
             if (navGuest)   navGuest.style.display   = 'none';
-            if (navUser)    navUser.style.display    = 'flex';
+            if (navUser)    navUser.style.display    = 'inline-flex';
             if (navUname)   navUname.textContent     = username;
             if (navBadge)   navBadge.style.display   = (rol === 'admin') ? 'inline-flex' : 'none';
             if (heroBanner) heroBanner.style.display = 'block';
