@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Sitio web educativo sobre informática, inspirado en estudiaencasa.fun. Incluye: - Menú de navegación - Portada - Secciones de recursos - Enlaces a cursos - Diseño moderno",
   "main": "main.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
