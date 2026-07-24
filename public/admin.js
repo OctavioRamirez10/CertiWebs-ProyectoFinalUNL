@@ -138,4 +138,41 @@
     const key = keyInput().value || '';
     if (key && !es) startSSE(key);
   });
+
+  // Descargar la base de datos SQLite directamente como archivo binario (.db)
+  const downloadDbBtn = document.getElementById('downloadDbBtn');
+  if (downloadDbBtn) {
+    downloadDbBtn.addEventListener('click', () => {
+      const key = keyInput().value || '';
+      if (!key) {
+        alert('Por favor, ingresa el Admin Key para descargar la base de datos.');
+        return;
+      }
+      statusEl().textContent = 'Descargando base de datos...';
+      fetch(API + '/download-db', {
+        headers: { 'X-Admin-Key': key }
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Autenticación fallida o error de descarga (Código ' + res.status + ')');
+        return res.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'data.db';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        statusEl().textContent = 'Descarga de base de datos completada.';
+      })
+      .catch(err => {
+        console.error(err);
+        statusEl().textContent = 'Error: ' + err.message;
+        alert('Error al descargar la base de datos: ' + err.message);
+      });
+    });
+  }
 })();

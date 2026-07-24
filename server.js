@@ -571,6 +571,19 @@ app.get('/api/admin/overview', checkAdmin, (req, res) => {
     });
 });
 
+app.get('/api/admin/download-db', checkAdmin, (req, res) => {
+    const path = require('path');
+    const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'server', 'data.db');
+    res.download(dbPath, 'data.db', (err) => {
+        if (err) {
+            console.error('Error al descargar la base de datos:', err);
+            if (!res.headersSent) {
+                res.status(500).json({ error: 'No se pudo descargar la base de datos.' });
+            }
+        }
+    });
+});
+
 module.exports = app;
 
 app.use((err, req, res, next) => {
