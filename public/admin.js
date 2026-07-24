@@ -20,8 +20,24 @@
       return;
     }
     const keys = Object.keys(rows[0]);
+    
+    // Función para formatear fechas de UTC a hora local de Argentina
+    const formatValue = (key, val) => {
+      if (val === null || val === undefined) return '';
+      const keyLower = key.toLowerCase();
+      if (keyLower.includes('fecha') || keyLower.includes('date') || keyLower.includes('time')) {
+          // Si no tiene indicador de zona, indicarle al navegador que viene en UTC
+          const dateStr = (typeof val === 'string' && !val.includes('Z') && !val.includes('T')) ? val + ' UTC' : val;
+          const date = new Date(dateStr);
+          if (!isNaN(date.getTime())) {
+              return date.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+          }
+      }
+      return String(val);
+    };
+
     let html = '<table><thead><tr>' + keys.map(k => `<th>${k}</th>`).join('') + '</tr></thead><tbody>';
-    html += rows.map(r => '<tr>' + keys.map(k => `<td>${(r[k]===null||r[k]===undefined)?'':String(r[k])}</td>`).join('') + '</tr>').join('');
+    html += rows.map(r => '<tr>' + keys.map(k => `<td>${formatValue(k, r[k])}</td>`).join('') + '</tr>').join('');
     html += '</tbody></table>';
     container.innerHTML = html;
   }
