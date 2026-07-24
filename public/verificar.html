@@ -168,7 +168,7 @@
                     const parseSQLiteDate = (sqliteStr) => {
                         if (!sqliteStr) return new Date();
                         if (sqliteStr.includes('Z') || sqliteStr.includes('+')) return new Date(sqliteStr);
-                        return new Date(sqliteStr.replace(' ', 'T') + 'Z');
+                        return new Date(sqliteStr.replace(' ', 'T'));
                     };
                     const fecha = parseSQLiteDate(data.fecha_emision).toLocaleDateString();
                     resultBox.className = 'result-card result-success';

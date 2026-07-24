@@ -21,13 +21,16 @@
     }
     const keys = Object.keys(rows[0]);
     
-    // Función para formatear fechas de UTC a hora local de Argentina
+    // Función para formatear fechas a la hora local de Argentina
     const formatValue = (key, val) => {
       if (val === null || val === undefined) return '';
       const keyLower = key.toLowerCase();
       if (keyLower.includes('fecha') || keyLower.includes('date') || keyLower.includes('time')) {
-          // Si no tiene indicador de zona, indicarle al navegador que viene en UTC
-          const dateStr = (typeof val === 'string' && !val.includes('Z') && !val.includes('T')) ? val + ' UTC' : val;
+          let dateStr = val;
+          if (typeof val === 'string' && !val.includes('Z') && !val.includes('+') && !/-\d{2}:\d{2}$/.test(val)) {
+              // Si no tiene indicador de zona, asumimos que viene en hora de Argentina (UTC-3)
+              dateStr = val.replace(' ', 'T') + '-03:00';
+          }
           const date = new Date(dateStr);
           if (!isNaN(date.getTime())) {
               return date.toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
@@ -59,22 +62,76 @@
       if (overview.error) {
         overviewEl.textContent = overview.error;
       } else {
-        overviewEl.innerHTML = `• Usuarios Registrados: <strong>${overview.usuarios}</strong><br/>` +
-                               `• Exámenes Completados: <strong>${overview.examenes}</strong><br/>` +
-                               `• Certificados Emitidos: <strong>${overview.certificados}</strong><br/>` +
-                               `• Suscripciones al Boletín: <strong>${overview.boletin}</strong><br/>` +
-                               `• Formularios de Contacto Recibidos: <strong>${overview.contactos}</strong>`;
+        overviewEl.innerHTML = `
+          <div class="metrics-grid">
+            <div class="metric-card card-cyan">
+              <div class="metric-icon"><i class="fas fa-users"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Usuarios</span>
+                <span class="metric-value">${overview.usuarios}</span>
+              </div>
+            </div>
+            <div class="metric-card card-green">
+              <div class="metric-icon"><i class="fas fa-check-double"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Exámenes</span>
+                <span class="metric-value">${overview.examenes}</span>
+              </div>
+            </div>
+            <div class="metric-card card-orange">
+              <div class="metric-icon"><i class="fas fa-medal"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Certificados</span>
+                <span class="metric-value">${overview.certificados}</span>
+              </div>
+            </div>
+            <div class="metric-card card-purple">
+              <div class="metric-icon"><i class="fas fa-envelope-open"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Suscripciones</span>
+                <span class="metric-value">${overview.boletin}</span>
+              </div>
+            </div>
+            <div class="metric-card card-red">
+              <div class="metric-icon"><i class="fas fa-comment-dots"></i></div>
+              <div class="metric-info">
+                <span class="metric-title">Mensajes</span>
+                <span class="metric-value">${overview.contactos}</span>
+              </div>
+            </div>
+          </div>
+        `;
       }
 
       if (Array.isArray(users)) renderTable('users', users); else document.getElementById('users').textContent = users.error || String(users);
       if (Array.isArray(exams)) renderTable('exams', exams); else document.getElementById('exams').textContent = exams.error || String(exams);
       if (Array.isArray(certs)) renderTable('certs', certs); else document.getElementById('certs').textContent = certs.error || String(certs);
 
-      // Merge suscripciones + boletin into subs
+      // Merge suscripciones + boletin into subs con columnas unificadas
       const subsCombined = [];
-      if (Array.isArray(subs)) subsCombined.push(...subs.map(s => ({type:'suscripcion', ...s}))); 
-      if (Array.isArray(boletin)) subsCombined.push(...boletin.map(b => ({type:'boletin', ...b})));
-      if (subsCombined.length) renderTable('subs', subsCombined); else document.getElementById('subs').textContent = 'No hay suscripciones';
+      if (Array.isArray(subs) && !subs.error) {
+        subsCombined.push(...subs.map(s => ({
+          id: s.id,
+          email: s.email,
+          origen: 'Formulario Pie',
+          fecha: s.fecha_subscripcion
+        }))); 
+      }
+      if (Array.isArray(boletin) && !boletin.error) {
+        subsCombined.push(...boletin.map(b => ({
+          id: b.id,
+          email: b.email,
+          origen: 'Boletín Novedades',
+        })));
+      }
+      // Ordenar suscripciones combinadas por fecha descendente (más nuevos primero)
+      subsCombined.sort((a, b) => {
+        const dateA = a.fecha ? new Date(a.fecha.replace(' ', 'T')) : 0;
+        const dateB = b.fecha ? new Date(b.fecha.replace(' ', 'T')) : 0;
+        return dateB - dateA;
+      });
+
+      if (subsCombined.length) renderTable('subs', subsCombined); else document.getElementById('subs').innerHTML = '<div class="table-loading">No hay suscripciones activas.</div>';
 
       if (Array.isArray(contacts)) renderTable('contacts', contacts); else document.getElementById('contacts').textContent = contacts.error || String(contacts);
 

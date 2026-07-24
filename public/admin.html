@@ -4,58 +4,430 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Admin - CertiWebs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;margin:1rem}
-    .controls{display:flex;gap:.5rem;align-items:center;margin-bottom:1rem}
-    input[type=text]{padding:.5rem;width:320px}
-    button{padding:.5rem 1rem}
-    section{margin-top:1rem}
-    table{width:100%;border-collapse:collapse;margin-top:.5rem;table-layout:fixed}
-    th,td{border:1px solid #ddd;padding:.4rem;text-align:left;word-wrap:break-word;word-break:break-all}
-    th{background:#f6f6f6}
-    .small{font-size:.9rem;color:#555}
+    :root {
+      --bg-darker: #090d16;
+      --bg-glass: rgba(15, 23, 42, 0.6);
+      --border-glow-orange: 0 0 10px rgba(255, 107, 53, 0.3), inset 0 0 5px rgba(255, 107, 53, 0.1);
+    }
+
+    body {
+      background-color: var(--bg-darker);
+      background-image: radial-gradient(circle at top left, rgba(0, 243, 255, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(255, 107, 53, 0.03) 0%, transparent 40%);
+      font-family: 'Outfit', sans-serif;
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .admin-container {
+      max-width: 1280px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .admin-title-area {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 1.5rem;
+    }
+
+    .admin-title-area h2 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 30%, var(--neon-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .admin-title-area h2 i {
+      background: linear-gradient(135deg, var(--neon-cyan), #00bcff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* CONTROLES PANEL */
+    .controls-panel {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: var(--glass-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .inputs-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 1rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    input[type=text] {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      padding: 0.7rem 1rem 0.7rem 2.5rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.9rem;
+      width: 380px;
+      transition: all 0.3s ease;
+    }
+
+    input[type=text]:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: var(--border-glow);
+      outline: none;
+    }
+
+    .btn-action {
+      border-radius: 25px;
+      padding: 0.7rem 1.5rem;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    #loadBtn {
+      background: linear-gradient(135deg, var(--neon-cyan), #00bcff);
+      color: #020617;
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.25);
+    }
+
+    #loadBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.45);
+    }
+
+    #downloadDbBtn {
+      background: linear-gradient(135deg, var(--neon-orange), #ff4d00) !important;
+      color: #fff !important;
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.25) !important;
+    }
+
+    #downloadDbBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px rgba(255, 107, 53, 0.45) !important;
+    }
+
+    .refresh-toggle-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      user-select: none;
+    }
+
+    .checkbox-label input {
+      accent-color: var(--neon-cyan);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    #status {
+      font-size: 0.85rem;
+      color: var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.05);
+      border: 1px solid rgba(0, 243, 255, 0.15);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 500;
+    }
+
+    /* DASHBOARD OVERVIEW */
+    .dashboard-section {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      border: var(--glass-border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .dashboard-section h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-left: 3px solid var(--neon-cyan);
+      padding-left: 0.6rem;
+    }
+
+    /* Métrica Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1.2rem;
+      width: 100%;
+    }
+
+    .metric-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-3px);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .metric-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-title {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.2rem;
+    }
+
+    .metric-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Variantes de colores de tarjetas */
+    .card-cyan { border-left: 3px solid var(--neon-cyan); }
+    .card-cyan .metric-icon { background: rgba(0, 243, 255, 0.1); color: var(--neon-cyan); }
+    
+    .card-green { border-left: 3px solid var(--neon-green); }
+    .card-green .metric-icon { background: rgba(0, 255, 136, 0.1); color: var(--neon-green); }
+    
+    .card-orange { border-left: 3px solid var(--neon-orange); }
+    .card-orange .metric-icon { background: rgba(255, 107, 53, 0.1); color: var(--neon-orange); }
+    
+    .card-purple { border-left: 3px solid var(--neon-purple); }
+    .card-purple .metric-icon { background: rgba(176, 38, 255, 0.1); color: var(--neon-purple); }
+    
+    .card-red { border-left: 3px solid var(--neon-red); }
+    .card-red .metric-icon { background: rgba(255, 51, 102, 0.1); color: var(--neon-red); }
+
+    /* TABLAS ESTILO PREMIUM */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(15, 23, 42, 0.3);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      table-layout: auto;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--neon-cyan);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 1rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.06);
+    }
+
+    td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #cbd5e1;
+      font-size: 0.9rem;
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+
+    tr {
+      transition: background-color 0.2s ease;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .small {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Estilos dinámicos para columnas especiales */
+    td:nth-child(2) {
+      font-weight: 500;
+    }
+
+    /* Mapeos específicos de badges de tablas */
+    .table-badge {
+      padding: 0.2rem 0.6rem;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+
+    /* Estilo del Loader en tabla vacía */
+    .table-loading {
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    header {
+      margin-bottom: 1rem;
+    }
   </style>
 </head>
 <body>
-  <h2>Panel Admin — CertiWebs</h2>
-  <div class="controls">
-    <label class="small">Admin Key:</label>
-    <input id="adminKey" type="text" placeholder="Introduce X-Admin-Key o admin_key (env ADMIN_KEY)">
-    <button id="loadBtn">Cargar ahora</button>
-    <button id="downloadDbBtn" style="background:#0284c7;color:#fff;border:none;border-radius:4px;cursor:pointer;padding:.5rem 1rem;">Descargar BD (.db)</button>
-    <label class="small"><input id="autoRefresh" type="checkbox"> Auto-refresh (5s)</label>
-    <span id="status" class="small"></span>
+  
+  <header>
+    <nav>
+      <div class="logo">Certi<span>Webs</span> <small style="font-size:0.8rem; margin-left:0.5rem; color:var(--neon-orange); text-shadow:none;">Admin</small></div>
+      <ul class="nav-links">
+        <li><a href="index.html"><i class="fas fa-home"></i> Inicio</a></li>
+        <li><a href="exams.html"><i class="fas fa-graduation-cap"></i> Exámenes</a></li>
+        <li><a href="verificar.html"><i class="fas fa-check-circle"></i> Verificar</a></li>
+        <li><a href="contact.html"><i class="fas fa-envelope"></i> Soporte</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="admin-container">
+    <div class="admin-title-area">
+      <h2><i class="fas fa-shield-halved"></i> Panel Admin — CertiWebs</h2>
+      <div id="status"><i class="fas fa-circle-notch fa-spin"></i> Cargando...</div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div class="controls-panel">
+      <div class="inputs-group">
+        <label class="small">Admin Key:</label>
+        <div class="input-wrapper">
+          <i class="fas fa-key"></i>
+          <input id="adminKey" type="text" placeholder="Introduce X-Admin-Key o admin_key (env ADMIN_KEY)">
+        </div>
+        <button id="loadBtn" class="btn-action"><i class="fas fa-sync-alt"></i> Cargar ahora</button>
+        <button id="downloadDbBtn" class="btn-action"><i class="fas fa-download"></i> Descargar BD (.db)</button>
+      </div>
+      <div class="refresh-toggle-area">
+        <label class="checkbox-label">
+          <input id="autoRefresh" type="checkbox"> 
+          <span>Auto-refresh (5s)</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- METRICAS / OVERVIEW -->
+    <section class="dashboard-section" id="overviewSection">
+      <h3><i class="fas fa-chart-pie"></i> Resumen</h3>
+      <div id="overview" class="small">Cargando...</div>
+    </section>
+
+    <!-- USUARIOS -->
+    <section class="dashboard-section" id="usersSection">
+      <h3><i class="fas fa-users"></i> Usuarios</h3>
+      <div id="users" class="table-container"><div class="table-loading">Cargando usuarios...</div></div>
+    </section>
+
+    <!-- EXAMENES -->
+    <section class="dashboard-section" id="examsSection">
+      <h3><i class="fas fa-graduation-cap"></i> Exámenes completados</h3>
+      <div id="exams" class="table-container"><div class="table-loading">Cargando exámenes...</div></div>
+    </section>
+
+    <!-- CERTIFICADOS -->
+    <section class="dashboard-section" id="certsSection">
+      <h3><i class="fas fa-award"></i> Certificados</h3>
+      <div id="certs" class="table-container"><div class="table-loading">Cargando certificados...</div></div>
+    </section>
+
+    <!-- SUSCRIPCIONES -->
+    <section class="dashboard-section" id="subsSection">
+      <h3><i class="fas fa-mail-bulk"></i> Suscripciones / Boletín</h3>
+      <div id="subs" class="table-container"><div class="table-loading">Cargando suscripciones...</div></div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="dashboard-section" id="contactsSection">
+      <h3><i class="fas fa-envelope-open-text"></i> Formularios de Contacto Completados</h3>
+      <div id="contacts" class="table-container"><div class="table-loading">Cargando contactos...</div></div>
+    </section>
   </div>
-
-  <section id="overviewSection">
-    <h3>Resumen</h3>
-    <pre id="overview" class="small">Cargando...</pre>
-  </section>
-
-  <section id="usersSection">
-    <h3>Usuarios</h3>
-    <div id="users"></div>
-  </section>
-
-  <section id="examsSection">
-    <h3>Exámenes completados</h3>
-    <div id="exams"></div>
-  </section>
-
-  <section id="certsSection">
-    <h3>Certificados</h3>
-    <div id="certs"></div>
-  </section>
-
-  <section id="subsSection">
-    <h3>Suscripciones / Boletín</h3>
-    <div id="subs"></div>
-  </section>
-
-  <section id="contactsSection">
-    <h3>Formularios de Contacto Completados</h3>
-    <div id="contacts"></div>
-  </section>
 
   <script src="/admin.js"></script>
 </body>

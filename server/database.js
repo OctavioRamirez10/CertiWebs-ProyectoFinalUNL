@@ -84,6 +84,13 @@ db.serialize(() => {
         fecha_suscripcion DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
 
+    // Limpieza de registro obsoleto con fecha desfasada (ID 8) solicitado por el usuario
+    db.run('DELETE FROM boletin WHERE id = 8', function(err) {
+        if (!err) {
+            console.log('✓ Registro antiguo (ID 8) eliminado correctamente de la tabla boletin.');
+        }
+    });
+
     // Usuarios predefinidos: admin + demos
     const usuariosPredefinidos = [
         {
@@ -118,6 +125,21 @@ db.serialize(() => {
         }
     ];
 
+// Helper para obtener la fecha y hora exacta de Santa Fe, Argentina (UTC-3)
+function getArgentinaTime() {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('sv-SE', {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    return formatter.format(now).replace('T', ' ');
+}
+
     async function insertarUsuariosPredefinidos() {
         for (const usuario of usuariosPredefinidos) {
             db.get('SELECT id, rol FROM usuarios WHERE username = ? OR email = ?',
@@ -128,8 +150,8 @@ db.serialize(() => {
                         try {
                             const hashedPassword = await bcrypt.hash(usuario.password, 10);
                             db.run(
-                                'INSERT INTO usuarios (username, password, email, rol) VALUES (?, ?, ?, ?)',
-                                [usuario.username, hashedPassword, usuario.email, usuario.rol],
+                                'INSERT INTO usuarios (username, password, email, rol, fecha_registro) VALUES (?, ?, ?, ?, ?)',
+                                [usuario.username, hashedPassword, usuario.email, usuario.rol, getArgentinaTime()],
                                 function(insertErr) {
                                     if (!insertErr) {
                                         console.log(`✅ Usuario predefinido creado: ${usuario.username} [${usuario.rol}]`);

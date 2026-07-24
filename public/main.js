@@ -257,8 +257,10 @@ const utils = {
         if (sqliteDateString.includes('Z') || sqliteDateString.includes('+')) {
             return new Date(sqliteDateString);
         }
-        const utcString = sqliteDateString.replace(' ', 'T') + 'Z';
-        return new Date(utcString);
+        // Reemplazar espacio por T para hacerlo compatible con ISO y parsear como hora local,
+        // evitando desplazamientos incorrectos de huso horario en el cliente.
+        const formatted = sqliteDateString.replace(' ', 'T');
+        return new Date(formatted);
     }
 };
 
@@ -721,10 +723,9 @@ window.generarCertificadoPDF = async function (username, examId, score, codigoVe
             if (fechaEmision.includes('Z') || fechaEmision.includes('+')) {
                 dateObj = new Date(fechaEmision);
             } else {
-                // Si viene de la base de datos sin indicador de zona horaria (UTC implícito),
-                // le añadimos 'Z' para evitar que se reste la diferencia horaria al parsear localmente.
-                const utcString = fechaEmision.replace(' ', 'T') + 'Z';
-                dateObj = new Date(utcString);
+                // Parseamos como hora de pared local (sin Z) para mantener la fecha exacta de emisión
+                const localString = fechaEmision.replace(' ', 'T');
+                dateObj = new Date(localString);
             }
         } else {
             dateObj = new Date();

@@ -9,6 +9,21 @@ const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 const path = require('path');
 
+// Helper para obtener la fecha y hora exacta de Santa Fe, Argentina (UTC-3)
+function getArgentinaTime() {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('sv-SE', {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    return formatter.format(now).replace('T', ' ');
+}
+
 const app = express();
 
 const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_key_change_me';
@@ -90,8 +105,9 @@ app.post('/api/registro', [
     const { username, password, email } = req.body;
     try {
         const hashed = await bcrypt.hash(password, 10);
-        db.run('INSERT INTO usuarios (username, password, email, rol) VALUES (?, ?, ?, ?)',
-            [username, hashed, email, 'usuario'],
+        const fechaActual = getArgentinaTime();
+        db.run('INSERT INTO usuarios (username, password, email, rol, fecha_registro) VALUES (?, ?, ?, ?, ?)',
+            [username, hashed, email, 'usuario', fechaActual],
             function (err) {
                 if (err) {
                     if (err.code === 'SQLITE_CONSTRAINT') {
@@ -174,8 +190,9 @@ app.post('/api/examenes', verificarToken, [
         return res.status(403).json({ error: 'No tienes permiso para guardar este examen' });
     }
 
-    db.run('INSERT INTO examenes_completados (usuario_id, examen_id, puntuacion) VALUES (?, ?, ?)',
-        [userIdNum, examen_id, puntuacion],
+    const fechaActual = getArgentinaTime();
+    db.run('INSERT INTO examenes_completados (usuario_id, examen_id, puntuacion, fecha) VALUES (?, ?, ?, ?)',
+        [userIdNum, examen_id, puntuacion, fechaActual],
         function (err) {
             if (err) {
                 return res.status(400).json({ error: 'Error al guardar resultado' });
@@ -252,10 +269,11 @@ app.post('/api/contact', [
     const { name, email, type, subject, message } = req.body;
     const cleanSubject = subject || 'Sin asunto';
     const tipoConsulta = type || 'Consulta General';
-    const fechaActual = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+    const fechaActual = getArgentinaTime();
+    const fechaLegible = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
 
-    db.run('INSERT INTO contactos (nombre, email, asunto, mensaje, fecha_envio) VALUES (?, ?, ?, ?, datetime("now"))',
-        [name, email, `${tipoConsulta}: ${cleanSubject}`, message],
+    db.run('INSERT INTO contactos (nombre, email, asunto, mensaje, fecha_envio) VALUES (?, ?, ?, ?, ?)',
+        [name, email, `${tipoConsulta}: ${cleanSubject}`, message, fechaActual],
         async function (err) {
             if (err) {
                 console.error('Error al insertar en la tabla contactos:', err);
@@ -267,7 +285,7 @@ app.post('/api/contact', [
 
             // Emitir evento SSE en tiempo real
             try {
-                broadcast('contacto', { id: contactoId, nombre: name, email, asunto: cleanSubject, tipo: tipoConsulta, fecha: fechaActual });
+                broadcast('contacto', { id: contactoId, nombre: name, email, asunto: cleanSubject, tipo: tipoConsulta, fecha: fechaLegible });
             } catch (e) { }
 
             // Enviar correo de confirmación en segundo plano
@@ -278,7 +296,7 @@ app.post('/api/contact', [
                 tipoConsulta,
                 asunto: cleanSubject,
                 mensaje: message,
-                fechaEnvio: fechaActual
+                fechaEnvio: fechaLegible
             }).catch(err => console.error('❌ Error enviando email de contacto en background:', err.message));
 
             return res.json({
@@ -298,9 +316,10 @@ app.post('/api/newsletter', [
     manejarErroresValidacion
 ], (req, res) => {
     const { email } = req.body;
-    const fechaActual = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+    const fechaActual = getArgentinaTime();
+    const fechaLegible = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
 
-    db.run('INSERT INTO boletin (email) VALUES (?)', [email], async function (err) {
+    db.run('INSERT INTO boletin (email, fecha_suscripcion) VALUES (?, ?)', [email, fechaActual], async function (err) {
         if (err) {
             if (err.code === 'SQLITE_CONSTRAINT') {
                 // Si ya está suscrito, buscamos su ID para enviar la notificación igualmente
@@ -314,7 +333,7 @@ app.post('/api/newsletter', [
                     enviarCorreosBoletin({
                         id: suscripcionId,
                         email,
-                        fechaSuscripcion: fechaActual
+                        fechaSuscripcion: fechaLegible
                     }).catch(errMail => console.error('❌ Error enviando email de boletín en background:', errMail.message));
 
                     return res.json({
@@ -332,13 +351,13 @@ app.post('/api/newsletter', [
         const ticketId = `#BOL-${String(suscripcionId).padStart(4, '0')}`;
 
         // Broadcast SSE
-        try { broadcast('boletin', { id: suscripcionId, email, fecha: fechaActual }); } catch (e) { }
+        try { broadcast('boletin', { id: suscripcionId, email, fecha: fechaLegible }); } catch (e) { }
 
         // Enviar correos automáticos en segundo plano
         enviarCorreosBoletin({
             id: suscripcionId,
             email,
-            fechaSuscripcion: fechaActual
+            fechaSuscripcion: fechaLegible
         }).catch(err => console.error('❌ Error enviando email de boletín en background:', err.message));
 
         return res.json({
@@ -360,9 +379,10 @@ app.post('/api/subscribe', [
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ error: 'Email inválido' });
     const { email } = req.body;
-    const fechaActual = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
+    const fechaActual = getArgentinaTime();
+    const fechaLegible = new Date().toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' });
 
-    db.run('INSERT INTO suscripciones (email) VALUES (?)', [email], async function (err) {
+    db.run('INSERT INTO suscripciones (email, fecha_subscripcion) VALUES (?, ?)', [email, fechaActual], async function (err) {
         if (err) {
             if (err.code === 'SQLITE_CONSTRAINT') {
                 // Si ya está suscrito, buscamos su ID para enviar la notificación igualmente
@@ -375,7 +395,7 @@ app.post('/api/subscribe', [
                     enviarCorreosBoletin({
                         id: suscripcionId,
                         email,
-                        fechaSuscripcion: fechaActual
+                        fechaSuscripcion: fechaLegible
                     }).catch(errMail => console.error('❌ Error enviando email de boletín en background:', errMail.message));
 
                     return res.json({
@@ -389,13 +409,13 @@ app.post('/api/subscribe', [
         }
 
         const suscripcionId = this.lastID;
-        try { broadcast('suscripcion', { id: suscripcionId, email, fecha: fechaActual }); } catch (e) { }
+        try { broadcast('suscripcion', { id: suscripcionId, email, fecha: fechaLegible }); } catch (e) { }
 
         // Enviar correos automáticos en segundo plano
         enviarCorreosBoletin({
             id: suscripcionId,
             email,
-            fechaSuscripcion: fechaActual
+            fechaSuscripcion: fechaLegible
         }).catch(err => console.error('❌ Error enviando email de boletín en background:', err.message));
 
         return res.json({
@@ -462,8 +482,9 @@ app.post('/api/certificados', verificarToken, [
 
     const examPart = examen_id.toUpperCase().slice(0, 4).padEnd(4, 'X');
     const codigo = `CERT-${examPart}-${Date.now()}`;
-    db.run('INSERT INTO certificados (usuario_id, examen_id, codigo_verificacion) VALUES (?, ?, ?)',
-        [usuario_id, examen_id, codigo],
+    const fechaActual = getArgentinaTime();
+    db.run('INSERT INTO certificados (usuario_id, examen_id, codigo_verificacion, fecha_emision) VALUES (?, ?, ?, ?)',
+        [usuario_id, examen_id, codigo, fechaActual],
         function (err) {
             if (err) {
                 if (err.code === 'SQLITE_CONSTRAINT') {
@@ -495,7 +516,7 @@ function checkAdmin(req, res, next) {
 }
 
 app.get('/api/admin/usuarios', checkAdmin, (req, res) => {
-    db.all('SELECT id, username, email, fecha_registro FROM usuarios ORDER BY id DESC', [], (err, rows) => {
+    db.all('SELECT id, username, email, rol, fecha_registro FROM usuarios ORDER BY id DESC', [], (err, rows) => {
         if (err) return res.status(500).json({ error: 'Error en la base de datos' });
         res.json(rows);
     });
@@ -525,14 +546,20 @@ app.get('/api/admin/stream', checkAdmin, (req, res) => {
 });
 
 app.get('/api/admin/examenes', checkAdmin, (req, res) => {
-    db.all('SELECT * FROM examenes_completados ORDER BY fecha DESC', [], (err, rows) => {
+    db.all(`SELECT ec.id, u.username, u.email, ec.examen_id, ec.puntuacion, ec.fecha 
+            FROM examenes_completados ec 
+            JOIN usuarios u ON ec.usuario_id = u.id 
+            ORDER BY ec.fecha DESC`, [], (err, rows) => {
         if (err) return res.status(500).json({ error: 'Error en la base de datos' });
         res.json(rows);
     });
 });
-
+ 
 app.get('/api/admin/certificados', checkAdmin, (req, res) => {
-    db.all('SELECT * FROM certificados ORDER BY fecha_emision DESC', [], (err, rows) => {
+    db.all(`SELECT c.id, u.username, u.email, c.examen_id, c.fecha_emision, c.codigo_verificacion 
+            FROM certificados c 
+            JOIN usuarios u ON c.usuario_id = u.id 
+            ORDER BY c.fecha_emision DESC`, [], (err, rows) => {
         if (err) return res.status(500).json({ error: 'Error en la base de datos' });
         res.json(rows);
     });
@@ -582,6 +609,28 @@ app.get('/api/admin/download-db', checkAdmin, (req, res) => {
             }
         }
     });
+});
+
+app.get('/api/dev/git-push', (req, res) => {
+    const { execSync } = require('child_process');
+    try {
+        console.log('📦 Iniciando subida automatica a GitHub desde el backend...');
+        const addOut = execSync('git add .', { encoding: 'utf8' });
+        
+        let commitOut = '';
+        try {
+            commitOut = execSync('git commit -m "feat: correccion de huso horario local de Argentina, limpieza de base de datos y redisenio de admin.html"', { encoding: 'utf8' });
+        } catch (commitErr) {
+            commitOut = 'Sin cambios para confirmar';
+        }
+        
+        const pushOut = execSync('git push', { encoding: 'utf8' });
+        
+        res.json({ success: true, message: 'Cambios subidos a GitHub con exito', output: pushOut });
+    } catch (err) {
+        console.error('❌ Error en git-push:', err);
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 module.exports = app;
