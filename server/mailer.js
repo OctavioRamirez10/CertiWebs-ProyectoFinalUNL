@@ -2,15 +2,46 @@ const nodemailer = require('nodemailer');
 
 // Obtener transporter de Nodemailer configurado desde variables de entorno
 function getTransporter() {
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+
+    // Si es Gmail, usar el service helper para evitar fallos de puerto/secure en servidores cloud
+    if (user && (user.endsWith('@gmail.com') || (process.env.SMTP_HOST && process.env.SMTP_HOST.includes('gmail')))) {
+        return nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: user,
+                pass: pass
+            }
+        });
+    }
+
     return nodemailer.createTransport({
         host: process.env.SMTP_HOST || 'smtp.gmail.com',
         port: process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : 587,
         secure: process.env.SMTP_SECURE === 'true',
-        auth: process.env.SMTP_USER ? {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS
+        auth: user ? {
+            user: user,
+            pass: pass
         } : undefined
     });
+}
+
+// Verificar la conexión SMTP con Gmail en el arranque del servidor para diagnóstico en Render
+if (process.env.SMTP_USER && process.env.SMTP_PASS && process.env.SMTP_PASS !== 'tu_password_app_aqui') {
+    const testTransporter = getTransporter();
+    testTransporter.verify((error, success) => {
+        if (error) {
+            console.error("❌ [SMTP Startup] Error al conectar con el servidor SMTP de Gmail:", error.message);
+            if (error.message.includes('Invalid login') || error.message.includes('Username and Password not accepted') || error.message.includes('535')) {
+                console.error("👉 CONSEJO: Revisa que la contraseña de aplicación de 16 caracteres de Google esté correcta en el Dashboard de Render y sin espacios adicionales.");
+            }
+        } else {
+            console.log("✅ [SMTP Startup] Conexión SMTP verificada con éxito. Listo para enviar correos.");
+        }
+    });
+} else {
+    console.warn("⚠️ [SMTP Startup] No hay credenciales reales de SMTP configuradas. Se usarán correos de pruebas temporales (Ethereal).");
 }
 
 /**
