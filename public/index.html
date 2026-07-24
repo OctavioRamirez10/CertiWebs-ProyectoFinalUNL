@@ -42,13 +42,11 @@
             </li>
 
             <!-- Info cuando SÍ hay sesión -->
-            <li class="auth-buttons" id="nav-user" style="display:none; align-items:center; gap:0.7rem;">
-                <span style="color:var(--neon-cyan); font-weight:600;">
-                    <i class="fas fa-user-circle"></i> <span id="nav-username"></span>
+            <li id="nav-user" class="user-profile-pill" style="display:none;">
+                <span>
+                    <i class="fas fa-user-circle" style="color: var(--neon-cyan);"></i> <span id="nav-username"></span>
                 </span>
-                <span id="nav-admin-badge" style="display:none; background:rgba(255,107,53,0.15); border:1px solid var(--neon-orange); color:var(--neon-orange); font-size:0.7rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:20px; text-transform:uppercase; letter-spacing:1px;">
-                    <i class="fas fa-shield-alt"></i> Admin
-                </span>
+                <span id="nav-admin-badge" class="admin-badge" style="display:none;"><i class="fas fa-shield-alt"></i> Admin</span>
                 <button class="btn-login" onclick="cerrarSesion()">
                     <i class="fas fa-sign-out-alt"></i> Salir
                 </button>

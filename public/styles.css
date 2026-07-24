@@ -123,20 +123,93 @@ nav {
     transition: all 0.3s ease;
 }
 
-.btn-login:hover, .logout-btn:hover, #logoutBtn:hover {
+.btn-login:hover, .logout-btn:hover {
     background: rgba(0, 243, 255, 0.1);
     box-shadow: var(--border-glow);
 }
 
-.user-info {
+/* Nuevo diseño Premium para el Navbar y el Perfil del Usuario */
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, var(--neon-cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
 }
 
-#username-display {
-    color: var(--neon-cyan);
+.logo span {
+    background: linear-gradient(135deg, var(--neon-cyan) 30%, #00bcff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+}
+
+/* User profile pill inside nav-user and user-info */
+.user-profile-pill, .user-info {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.35rem 0.5rem 0.35rem 1.2rem;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+}
+
+.user-profile-pill:hover, .user-info:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(0, 243, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 243, 255, 0.05);
+}
+
+.user-profile-pill span, .user-info #username-display, .user-info span, #username-display {
+    font-size: 0.9rem;
     font-weight: 600;
+    color: #e2e8f0;
+}
+
+.user-profile-pill .admin-badge, .user-info .admin-badge, #nav-admin-badge {
+    background: rgba(255, 107, 53, 0.15) !important;
+    border: 1px solid var(--neon-orange) !important;
+    color: var(--neon-orange) !important;
+    font-size: 0.65rem !important;
+    font-weight: 700 !important;
+    padding: 0.15rem 0.5rem !important;
+    border-radius: 20px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-left: 0.25rem !important;
+    display: inline-flex !important;
+    align-items: center;
+}
+
+/* Botón Salir / Logout Premium */
+.btn-login[onclick*="cerrarSesion"], #logoutBtn {
+    background: rgba(255, 75, 75, 0.12) !important;
+    border: 1px solid rgba(255, 75, 75, 0.3) !important;
+    color: #ff4d4d !important;
+    padding: 0.35rem 1rem !important;
+    font-size: 0.8rem !important;
+    border-radius: 20px !important;
+    font-weight: 700 !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.3rem;
+    cursor: pointer;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+}
+
+.btn-login[onclick*="cerrarSesion"]:hover, #logoutBtn:hover {
+    background: rgba(255, 75, 75, 0.25) !important;
+    border-color: #ff4d4d !important;
+    color: #fff !important;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.4) !important;
+    transform: translateY(0) !important;
 }
 
 .btn-register {
@@ -1471,7 +1544,7 @@ footer a:hover {
     text-shadow: 0 0 10px var(--neon-cyan);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1150px) {
     .menu-toggle {
         display: block;
     }
@@ -1514,13 +1587,14 @@ footer a:hover {
         width: 80%;
     }
 
-    .user-info {
+    .user-info, .user-profile-pill {
         margin-top: 1rem;
         flex-direction: column;
         align-items: center;
         gap: 1rem;
-        width: 100%;
-        padding-top: 1rem;
+        width: 90% !important;
+        padding: 1rem !important;
+        border-radius: 16px !important;
         border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 }

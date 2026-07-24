@@ -881,8 +881,15 @@ window.generarCertificadoPDF = async function (username, examId, score, codigoVe
     doc.save(`certificado_${examId}_${username}.pdf`);
 };
 
-// Manejadores de eventos para formularios
 runOnDOMReady(() => {
+    // Formatear el logo dinámicamente en todas las páginas para aplicar los colores del tema
+    const logoEls = document.querySelectorAll('.logo');
+    logoEls.forEach(logo => {
+        if (logo && logo.textContent.trim() === 'CertiWebs') {
+            logo.innerHTML = 'Certi<span>Webs</span>';
+        }
+    });
+
     // Formulario de contacto: enviar a /api/contact
     const contactoForm = document.getElementById('contacto-form');
     if (contactoForm) {
