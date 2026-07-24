@@ -2,7 +2,7 @@
   "name": "-certiwebs-unl-proyectofinal-octavioramirez-main",
   "version": "1.0.0",
   "description": "Sitio web educativo sobre informática, inspirado en estudiaencasa.fun. Incluye: - Menú de navegación - Portada - Secciones de recursos - Enlaces a cursos - Diseño moderno",
-  "main": "main.js",
+  "main": "server.js",
   "engines": {
     "node": ">=20.0.0"
   },
