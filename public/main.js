@@ -888,15 +888,6 @@ runOnDOMReady(() => {
     if (contactoForm) {
         console.log('Formulario de contacto encontrado, configurando evento submit');
 
-        // Auto-completar datos si el usuario está logueado (como sugerencia editable)
-        const loggedInUser = sessionStorage.getItem('username');
-        const loggedInEmail = sessionStorage.getItem('email');
-        if (loggedInUser && loggedInEmail) {
-            const nameInput = document.getElementById('contact-name');
-            const emailInput = document.getElementById('contact-email');
-            if (nameInput) nameInput.value = loggedInUser;
-            if (emailInput) emailInput.value = loggedInEmail;
-        }
 
         contactoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -934,15 +925,6 @@ runOnDOMReady(() => {
                 statusEl.className = 'status-message status-success';
                 contactoForm.reset();
 
-                // Si el usuario sigue logueado, restaurar campos protegidos después de resetear el formulario
-                const currentLoggedInUser = sessionStorage.getItem('username');
-                const currentLoggedInEmail = sessionStorage.getItem('email');
-                if (currentLoggedInUser && currentLoggedInEmail) {
-                    const nameInput = document.getElementById('contact-name');
-                    const emailInput = document.getElementById('contact-email');
-                    if (nameInput) nameInput.value = currentLoggedInUser;
-                    if (emailInput) emailInput.value = currentLoggedInEmail;
-                }
 
 
             } catch (error) {
@@ -964,14 +946,6 @@ runOnDOMReady(() => {
     if (newsletterForm) {
         console.log('Formulario de newsletter encontrado');
 
-        // Auto-completar datos si el usuario está logueado
-        const loggedInEmail = sessionStorage.getItem('email');
-        if (loggedInEmail) {
-            const emailInput = document.getElementById('newsletter-email');
-            if (emailInput) {
-                emailInput.value = loggedInEmail;
-            }
-        }
 
         newsletterForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -998,12 +972,7 @@ runOnDOMReady(() => {
                 msgEl.style.color = 'var(--neon-green)';
                 newsletterForm.reset();
 
-                // Si el usuario sigue logueado, restaurar campo después del reset
-                const currentLoggedInEmail = sessionStorage.getItem('email');
-                if (currentLoggedInEmail) {
-                    const emailInput = document.getElementById('newsletter-email');
-                    if (emailInput) emailInput.value = currentLoggedInEmail;
-                }
+
             } catch (error) {
                 console.error('Error en newsletter:', error);
                 msgEl.textContent = error.message || 'Error al conectar con el servidor.';

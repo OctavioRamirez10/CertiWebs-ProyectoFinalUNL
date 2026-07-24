@@ -249,7 +249,19 @@
 
 <script src="main.js"></script>
 <script>
-    // --- Funciones de modales ---
+    // --- Funciones de modales y sesión ---
+    function cerrarSesion() {
+        if (typeof utils !== 'undefined' && utils.cerrarSesion) {
+            utils.cerrarSesion();
+        } else {
+            sessionStorage.removeItem('userId');
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('rol');
+            sessionStorage.removeItem('email');
+            window.location.href = 'index.html';
+        }
+    }
     function showLoginModal() {
         document.getElementById('loginModal').style.display = 'block';
         // Limpiar el mensaje si se abre manualmente y no por redirección
