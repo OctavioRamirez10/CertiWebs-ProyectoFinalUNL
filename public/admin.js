@@ -55,7 +55,16 @@
         fetchJson('/contactos').catch(e=>({error:e.message}))
       ]);
 
-      document.getElementById('overview').textContent = overview.error ? overview.error : JSON.stringify(overview, null, 2);
+      const overviewEl = document.getElementById('overview');
+      if (overview.error) {
+        overviewEl.textContent = overview.error;
+      } else {
+        overviewEl.innerHTML = `• Usuarios Registrados: <strong>${overview.usuarios}</strong><br/>` +
+                               `• Exámenes Completados: <strong>${overview.examenes}</strong><br/>` +
+                               `• Certificados Emitidos: <strong>${overview.certificados}</strong><br/>` +
+                               `• Suscripciones al Boletín: <strong>${overview.boletin}</strong><br/>` +
+                               `• Formularios de Contacto Recibidos: <strong>${overview.contactos}</strong>`;
+      }
 
       if (Array.isArray(users)) renderTable('users', users); else document.getElementById('users').textContent = users.error || String(users);
       if (Array.isArray(exams)) renderTable('exams', exams); else document.getElementById('exams').textContent = exams.error || String(exams);
